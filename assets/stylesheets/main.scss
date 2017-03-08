@@ -5,6 +5,15 @@
   font-family: 'Nunito', 'Lato', 'Open Sans';
 }
 
+article {
+    padding: 1.66em;
+    background: white;
+    color: #333;
+    width: 90vw;
+    min-width: 480px;
+    margin: 100px auto 2em auto;
+}
+
 .navbar {
   color: black;
   position: fixed;
