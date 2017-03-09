@@ -17,11 +17,13 @@ article {
 .navbar {
   color: black;
   position: fixed;
+  z-index: 10;
   top: 0px;
   width: 100%;
-  padding: 40px 0 0 40px;
+  padding: 20px 0 10px 20px;
   transition: all 0.4s;
   background-color: transparent;
+  white-space: nowrap;
 
   .logo {
     float: left;
@@ -32,7 +34,7 @@ article {
   .navbar-brand {
     color: black;
     font-size: 26px;
-    line-height: 34px;
+    line-height: 1.33em;
     margin-right: 30px;
     padding: 0;
 
@@ -69,9 +71,6 @@ article {
   &.sticky {
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    height: 74px;
-    padding-top: 20px;
-    z-index: 10;
 
     .navbar-brand {
       color: black;
@@ -93,8 +92,8 @@ article {
   background-size: cover;
   display: flex;
   height: 100vh;
+  min-height: 600px;
   justify-content: center;
-  padding-bottom: 120px;
 }
 
 .jumbotron {
@@ -115,8 +114,27 @@ article {
 }
 
 @media (max-width: 767px) {
+  .navbar {
+      .navbar-brand {
+          font-size: 12pt;
+          line-height: 2.33em;
+      }
+      .navbar-nav {
+        padding: 0;
+        margin: -8px 0 0 0;
+
+        .nav-link {
+          font-size: 10pt;
+        }
+      }
+  }
   .header-dark {
-    padding-bottom: 80px;
+      h1 {
+          font-size: 18pt;
+      }
+      p {
+          font-size: 14pt;
+      }
   }
 }
 
