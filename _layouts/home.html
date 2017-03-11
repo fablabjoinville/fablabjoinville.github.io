@@ -15,24 +15,15 @@ layout: default
       <h2 class="text-center">PRÓXIMOS EVENTOS</h2>
     </div>
 
+
     <div class="row articles">
-      <div class="col-sm-4 item">
-        <a href="#"><img class="img-responsive" src="http://placehold.it/360x360"></a>
-        <h3 class="name"><a href="#">Evento</a></h3>
-        <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida. Aliquam varius finibus est, interdum justo suscipit id.</p>
-      </div>
-
-      <div class="col-sm-4 item">
-        <a href="#"><img class="img-responsive" src="http://placehold.it/360x360"></a>
-        <h3 class="name"><a href="#">Evento</a></h3>
-        <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida. Aliquam varius finibus est, interdum justo suscipit id.</p>
-      </div>
-
-      <div class="col-sm-4 item">
-        <a href="#"><img class="img-responsive" src="http://placehold.it/360x360"></a>
-        <h3 class="name"><a href="#">Evento</a></h3>
-        <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida. Aliquam varius finibus est, interdum justo suscipit id.</p>
-      </div>
+      {% for post in site.categories.Eventos limit:3 %}
+        <div class="col-sm-4 item">
+          <a href="{{site.baseurl}}{{post.url}}"><img class="img-responsive" src="{{site.baseurl}}{{post.image | default: "http://placehold.it/150x150"}}"></a>
+          <h3 class="name"><a href="{{site.baseurl}}{{post.url}}">{{post.title}}</a></h3>
+          <p class="description">{{post.excerpt}}</p>
+        </div>
+      {% endfor %}
     </div>
   </div>
 </div>
@@ -44,23 +35,13 @@ layout: default
     </div>
 
     <div class="row articles">
-      <div class="col-sm-4 item">
-        <a href="#"><img class="img-responsive" src="http://placehold.it/360x360"></a>
-        <h3 class="name"><a href="#">Notícia</a></h3>
-        <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida. Aliquam varius finibus est, interdum justo suscipit id.</p>
-      </div>
-
-      <div class="col-sm-4 item">
-        <a href="#"><img class="img-responsive" src="http://placehold.it/360x360"></a>
-        <h3 class="name"><a href="#">Notícia</a></h3>
-        <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida. Aliquam varius finibus est, interdum justo suscipit id.</p>
-      </div>
-
-      <div class="col-sm-4 item">
-        <a href="#"><img class="img-responsive" src="http://placehold.it/360x360"></a>
-        <h3 class="name"><a href="#">Notícia</a></h3>
-        <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida. Aliquam varius finibus est, interdum justo suscipit id.</p>
-      </div>
+      {% for post in site.categories.Clipping limit:3 %}
+        <div class="col-sm-4 item">
+          <a href="{{site.baseurl}}{{post.url}}"><img class="img-responsive" src="{{site.baseurl}}{{post.image | default: "http://placehold.it/150x150"}}"></a>
+          <h3 class="name"><a href="{{site.baseurl}}{{post.url}}">{{post.title}}</a></h3>
+          <p class="description">{{post.excerpt}}</p>
+        </div>
+      {% endfor %}
     </div>
   </div>
 </div>

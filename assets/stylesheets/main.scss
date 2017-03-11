@@ -178,14 +178,12 @@ article {
   margin-bottom: 0;
 }
 
-.article-list .articles {
-  padding-bottom: 60px;
-}
-
 .article-list .item {
   padding-top: 50px;
-  min-height: 425px;
   text-align: center;
+  img {
+    margin: 0 auto;
+  }
 }
 
 .article-list .item .name {
