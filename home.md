@@ -14,10 +14,10 @@ Participe também do nosso [Clube Semanal]({{site.baseurl}}{% link clubes-maker.
 ## Nossos parceiros
 
 ![Softville]({{site.baseurl}}/uploads/2016/04/softville-novo-1-300x162.jpeg)
-[Site](https://www.softville.org.br)
+[Site](http://www.softville.org.br)
 
 ![UDESC]({{site.baseurl}}/uploads/2016/04/udesc-300x65.jpg)
-[Site](https://www.cct.udesc.br/)
+[Site](http://www.cct.udesc.br/)
 
 ![HKohn Design]({{site.baseurl}}/uploads/2016/04/Arte-Final-Logo-PB-300x97.jpg)
 [Site](https://www.hkohndesign.com/)

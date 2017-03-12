@@ -11,8 +11,8 @@ Notícia sobre a criação da Associação Fab Lab Joinville publicada no Diári
 
 https://www.joinville.sc.gov.br/noticias-avisos-e-eventos-indisponiveis-no-periodo-eleitoral/
 
-[Baguete](https://www.baguete.com.br/noticias/08/06/2016/joinville-tera-fab-lab)
+[Baguete](http://www.baguete.com.br/noticias/08/06/2016/joinville-tera-fab-lab)
 
-[Diario Caterinense](https://dc.clicrbs.com.br/sc/colunistas/estela-benetti/noticia/2016/06/fab-lab-de-joinville-avanca-5987534.html)
+[Diario Caterinense](http://dc.clicrbs.com.br/sc/colunistas/estela-benetti/noticia/2016/06/fab-lab-de-joinville-avanca-5987534.html)
 
 ![](https://www.fablabjoinville.com.br/uploads/2016/10/20160608-prefeitura-web-1-766x1024.png)

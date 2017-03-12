@@ -55,7 +55,7 @@ _Quarta-feira das 19hrs às 21hrs_
 Neste clube realizamos pesquisas aplicadas em áreas da computação como
 inteligência artificial, aprendizado de máquina, linguagens de programação
 e sistemas distribuídos. Saiba mais pelo [site da comunidade Joinville
-ML](https://joinville.ml).
+ML](http://joinville.ml).
 
 ---
 
