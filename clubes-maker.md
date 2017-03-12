@@ -1,42 +1,8 @@
 ---
-id: 3235
 title: Clubes Maker
 date: 2016-10-30T17:39:26+00:00
 author: fablabjoinville
 layout: page
-guid: http://www.fablabjoinville.com.br/?page_id=3235
-oi_ps:
-  - standard
-oi_ps_w:
-  - boxed
-oi_tag:
-  - All
-port_page:
-  - Top
-port_layout:
-  - Random Thumbnails With Spaces
-port_load_more:
-  - 'Yes'
-port_filters:
-  - 'Yes'
-sidebarss:
-  - qoon_blog_sidebar
-sidebarss_position:
-  - Right Sidebar
-page_title:
-  - 'Yes'
-cont_lay:
-  - With Paddings
-feat_h:
-  - Do Not Show
-feat_h_pos:
-  - center bottom
-port-count:
-  - ""
-port-load_count:
-  - ""
-page-d:
-  - ""
 images:
   - thumb: /uploads/2016/10/IMG_2048-150x150.jpg
     full: /uploads/2016/10/IMG_2048.jpg
@@ -89,7 +55,7 @@ _Quarta-feira das 19hrs às 21hrs_
 Neste clube realizamos pesquisas aplicadas em áreas da computação como
 inteligência artificial, aprendizado de máquina, linguagens de programação
 e sistemas distribuídos. Saiba mais pelo [site da comunidade Joinville
-ML](http://joinville.ml).
+ML](https://joinville.ml).
 
 ---
 

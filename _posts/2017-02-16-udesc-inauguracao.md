@@ -1,11 +1,8 @@
 ---
-id: 3358
 title: 'UDESC: Inauguração'
 date: 2017-02-16T20:55:17+00:00
 author: Alan Fachini
 layout: post
-guid: http://www.fablabjoinville.com.br/?p=3358
-permalink: /2017/02/16/udesc-inauguracao/
 image: /uploads/2017/02/Fab_Lab_Joinville_editada-150x100.jpg
 categories:
   - Clipping
@@ -23,7 +20,7 @@ projeto e foram abertas as inscrições para novos membros.
 ![]({{site.baseurl}}/uploads/2017/02/Fab_Lab_Joinville_editada-300x200.jpg)
 ![]({{site.baseurl}}/uploads/2017/02/16730591_1851931081740963_2980657419860111070_n-300x300.jpg)
 
-[Notícia](http://www.cct.udesc.br/?idNoticia=17377)
+[Notícia](https://www.cct.udesc.br/?idNoticia=17377)
 
 Vinte pessoas já se associaram ao laboratório nas duas modalidades existentes
 do Fab Lab; a Maker, que tem valor mensal de R$ 25 e o associado ganha

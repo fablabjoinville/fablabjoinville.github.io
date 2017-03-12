@@ -1,5 +1,4 @@
 ---
-id: 2702
 title: Home
 date: 2016-04-23T05:32:58+00:00
 author: fablabjoinville
@@ -15,16 +14,16 @@ Participe também do nosso [Clube Semanal]({{site.baseurl}}{% link clubes-maker.
 ## Nossos parceiros
 
 ![Softville]({{site.baseurl}}/uploads/2016/04/softville-novo-1-300x162.jpeg)
-[Site](http://www.softville.org.br)
+[Site](https://www.softville.org.br)
 
 ![UDESC]({{site.baseurl}}/uploads/2016/04/udesc-300x65.jpg)
-[Site](http://www.cct.udesc.br/)
+[Site](https://www.cct.udesc.br/)
 
 ![HKohn Design]({{site.baseurl}}/uploads/2016/04/Arte-Final-Logo-PB-300x97.jpg)
 [Site](https://www.hkohndesign.com/)
 
 ![Fliperama EC]({{site.baseurl}}/uploads/2016/04/fliperama-300x103.png)
-[Site](http://fliperamaec.com.br)
+[Site](https://fliperamaec.com.br)
 
 {% capture footer %}
 <i class="fa fa-envelope fa-3x" /><br>

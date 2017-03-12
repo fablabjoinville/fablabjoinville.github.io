@@ -1,11 +1,8 @@
 ---
-id: 3268
 title: Fab Lab Joinville na Expoinovação
 date: 2016-11-08T15:06:41+00:00
 author: fablabjoinville
 layout: post
-guid: http://www.fablabjoinville.com.br/?p=3268
-permalink: /2016/11/08/fab-lab-joinville-na-expoinovacao/
 categories:
   - Eventos
 tags:

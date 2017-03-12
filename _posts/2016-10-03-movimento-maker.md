@@ -1,11 +1,8 @@
 ---
-id: 3026
 title: Movimento Maker
 date: 2016-10-03T22:35:24+00:00
 author: Alan Fachini
 layout: post
-guid: http://www.fablabjoinville.com.br/?p=3026
-permalink: /2016/10/03/movimento-maker/
 categories:
   - Informativo
 ---

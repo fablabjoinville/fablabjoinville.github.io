@@ -1,5 +1,4 @@
 ---
-id: 3094
 title: Media Center
 date: 2016-10-04T18:50:04+00:00
 author: Alan Fachini

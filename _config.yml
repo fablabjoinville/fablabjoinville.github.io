@@ -17,7 +17,7 @@ title: Fab Lab Joinville
 email: contato@fablabjoinville.com.br
 description: "Um laboratório onde você pode fazer quase qualquer coisa."
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://www.fablabjoinville.com.br"
+url: "https://www.fablabjoinville.com.br"
 
 # Build settings
 markdown: kramdown

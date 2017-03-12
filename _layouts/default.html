@@ -8,5 +8,28 @@
     {{ content }}
 
     {% include footer.html %}
+    <script>
+        function relDate(str) {
+            var components = (str.match(/^(\d{4})-(\d{2})-(\d{2})/) || []).map(Number);
+            if (components.length === 0) {
+                return str;
+            }
+            var delta = Date.now() - Date.UTC(components[1], components[2] - 1, components[3]);
+            var days = Math.floor(delta / (1000 * 60 * 60 * 24));
+            if (days === 0) {
+                return 'Hoje';
+            }
+            if (days === 1) {
+                return 'Ontem';
+            }
+            return 'Há ' + days + ' dias';
+        }
+
+        [].forEach.call(document.querySelectorAll('.ts'), function(el) {
+            var text = el.innerText.trim();
+            el.innerHTML = relDate(text);
+            el.title = text;
+        });
+    </script>
   </body>
 </html>

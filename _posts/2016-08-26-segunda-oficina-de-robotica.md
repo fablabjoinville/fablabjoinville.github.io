@@ -1,5 +1,4 @@
 ---
-id: 3151
 title: Segunda Oficina de Robótica
 date: 2016-08-26T14:52:16+00:00
 author: Alan Fachini
