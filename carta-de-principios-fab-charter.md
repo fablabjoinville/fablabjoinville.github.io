@@ -1,47 +1,13 @@
 ---
-id: 3286
 title: Carta de Princípios (Fab Charter)
 date: 2016-11-22T17:30:32+00:00
 author: Rogers Pereira
 layout: page
-guid: http://www.fablabjoinville.com.br/?page_id=3286
-oi_ps:
-  - standard
-oi_ps_w:
-  - boxed
-oi_tag:
-  - All
-port_page:
-  - Top
-port_layout:
-  - Random Thumbnails With Spaces
-port_load_more:
-  - 'Yes'
-port_filters:
-  - 'Yes'
-sidebarss:
-  - qoon_blog_sidebar
-sidebarss_position:
-  - Right Sidebar
-page_title:
-  - 'Yes'
-cont_lay:
-  - With Paddings
-feat_h:
-  - Do Not Show
-feat_h_pos:
-  - center bottom
-port-count:
-  - ""
-port-load_count:
-  - ""
-page-d:
-  - ""
 ---
 Como integrante da [Rede Internacional de Fab
-Labs](http://fabfoundation.org/index.html), o Fab Lab Joinville apoia e se
+Labs](https://fabfoundation.org/index.html), o Fab Lab Joinville apoia e se
 submete ao [Fab
-Charter](http://fabfoundation.org/index.php/the-fab-charter/index.html), que
+Charter](https://fabfoundation.org/index.php/the-fab-charter/index.html), que
 nada mais é do que uma carta de princípios bastante objetiva e que estabelece
 as regras de funcionamento de um Fab Lab.
 

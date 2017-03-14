@@ -1,5 +1,4 @@
 ---
-id: 3042
 title: Conselho
 date: 2016-10-03T23:10:12+00:00
 author: Alan Fachini
@@ -39,14 +38,14 @@ Verifique nosso calendário de eventos para saber as datas e horários das nossa
 reuniões. Caso queria enviar sugestões ou tirar dúvidas com o conselho, nos
 envie um email para <contato@fablabjoinville.com.br>.
 
-<a href="//bit.ly/fablabjoinville-atas" class="btn btn-primary">Arquivo de Atas</a>
-<a href="mailto:contato@fablabjoinville" class="btn btn-primary">Seja um Voluntário!</a>
+[Arquivo de Atas](//bit.ly/fablabjoinville-atas){:.btn.btn-primary}
+[Seja um Voluntário!](mailto:contato@fablabjoinville){:.btn.btn-primary}
 
-<div class="conselho-membros" style="display: flex; flex-wrap: wrap; max-width: 800px">
+<div class="conselho-membros" style="display: flex; flex-wrap: wrap; max-width: 100%; margin-top: 40px">
 {% for membro in page.conselho %}
-    <div style="flex: 1">
+    <div style="width: 20%; padding: 0 10px; margin-bottom: 20px">
         <img style="border-radius: 50%" src="{{site.baseurl}}{{membro.pic}}"><br>
-        {{membro.nome}}
+        <center>{{membro.nome}}</center>
     </div>
 {% endfor %}
 </div>

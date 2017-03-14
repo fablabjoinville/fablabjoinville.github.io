@@ -1,11 +1,8 @@
 ---
-id: 3260
 title: 'A Notícia &#8211; Oficina de IoT'
 date: 2016-10-28T15:00:45+00:00
 author: fablabjoinville
 layout: post
-guid: http://www.fablabjoinville.com.br/?p=3260
-permalink: /2016/10/28/a-noticia-oficina-de-iot/
 categories:
   - Clipping
 tags:

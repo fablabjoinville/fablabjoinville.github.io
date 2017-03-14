@@ -5,7 +5,7 @@ layout: default
   <div class="jumbotron">
     <h1>FAÇA (QUASE)<br>QUALQUER COISA!</h1>
     <p>O Fab Lab Joinville é um lugar muito massa, venha conhecer!</p>
-    <p><a href="https://docs.google.com/forms/d/e/1FAIpQLScMh7dfalxdxlgM1xEFVmHrOsC0MIIoqhr8IuA5sMH3-qHSjA/viewform" target="_blank" class="members-button btn">ASSOCIE-SE</a></p>
+    <p><a href="https://docs.google.com/forms/d/e/1FAIpQLScMh7dfalxdxlgM1xEFVmHrOsC0MIIoqhr8IuA5sMH3-qHSjA/viewform" target="_blank" rel="noopener" class="members-button btn">ASSOCIE-SE</a></p>
   </div>
 </div>
 
@@ -15,24 +15,15 @@ layout: default
       <h2 class="text-center">PRÓXIMOS EVENTOS</h2>
     </div>
 
+
     <div class="row articles">
-      <div class="col-sm-4 item">
-        <a href="#"><img class="img-responsive" src="http://placehold.it/360x360"></a>
-        <h3 class="name"><a href="#">Evento</a></h3>
-        <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida. Aliquam varius finibus est, interdum justo suscipit id.</p>
-      </div>
-
-      <div class="col-sm-4 item">
-        <a href="#"><img class="img-responsive" src="http://placehold.it/360x360"></a>
-        <h3 class="name"><a href="#">Evento</a></h3>
-        <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida. Aliquam varius finibus est, interdum justo suscipit id.</p>
-      </div>
-
-      <div class="col-sm-4 item">
-        <a href="#"><img class="img-responsive" src="http://placehold.it/360x360"></a>
-        <h3 class="name"><a href="#">Evento</a></h3>
-        <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida. Aliquam varius finibus est, interdum justo suscipit id.</p>
-      </div>
+      {% for post in site.categories.Eventos limit:3 %}
+        <div class="col-sm-4 item">
+          <a href="{{site.baseurl}}{{post.url}}"><img class="img-responsive" src="{{site.baseurl}}{{post.image | default: "//placehold.it/150x150"}}"></a>
+          <h3 class="name"><a href="{{site.baseurl}}{{post.url}}">{{post.title}}</a></h3>
+          <p class="description">{{post.excerpt}}</p>
+        </div>
+      {% endfor %}
     </div>
   </div>
 </div>
@@ -44,23 +35,13 @@ layout: default
     </div>
 
     <div class="row articles">
-      <div class="col-sm-4 item">
-        <a href="#"><img class="img-responsive" src="http://placehold.it/360x360"></a>
-        <h3 class="name"><a href="#">Notícia</a></h3>
-        <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida. Aliquam varius finibus est, interdum justo suscipit id.</p>
-      </div>
-
-      <div class="col-sm-4 item">
-        <a href="#"><img class="img-responsive" src="http://placehold.it/360x360"></a>
-        <h3 class="name"><a href="#">Notícia</a></h3>
-        <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida. Aliquam varius finibus est, interdum justo suscipit id.</p>
-      </div>
-
-      <div class="col-sm-4 item">
-        <a href="#"><img class="img-responsive" src="http://placehold.it/360x360"></a>
-        <h3 class="name"><a href="#">Notícia</a></h3>
-        <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida. Aliquam varius finibus est, interdum justo suscipit id.</p>
-      </div>
+      {% for post in site.categories.Clipping limit:3 %}
+        <div class="col-sm-4 item">
+          <a href="{{site.baseurl}}{{post.url}}"><img class="img-responsive" src="{{site.baseurl}}{{post.image | default: "//placehold.it/150x150"}}"></a>
+          <h3 class="name"><a href="{{site.baseurl}}{{post.url}}">{{post.title}}</a></h3>
+          <p class="description">{{post.excerpt}}</p>
+        </div>
+      {% endfor %}
     </div>
   </div>
 </div>
@@ -78,7 +59,7 @@ layout: default
           <h3 class="name">MAKER</h3>
           <p class="description">Ganhe acesso total ao laboratório e desconto em eventos.</p>
           <h3 class="name">R$ 25,00</h3>
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLScMh7dfalxdxlgM1xEFVmHrOsC0MIIoqhr8IuA5sMH3-qHSjA/viewform" target="_blank" class="learn-more">ASSOCIE-SE</a>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLScMh7dfalxdxlgM1xEFVmHrOsC0MIIoqhr8IuA5sMH3-qHSjA/viewform" target="_blank" rel="noopener" class="learn-more">ASSOCIE-SE</a>
         </div>
       </div>
 
@@ -88,7 +69,7 @@ layout: default
           <h3 class="name">FABER</h3>
           <p class="description">Além dos benefícios do Maker, você também participa da administração.</p>
           <h3 class="name">R$ 50,00</h3>
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLScMh7dfalxdxlgM1xEFVmHrOsC0MIIoqhr8IuA5sMH3-qHSjA/viewform" target="_blank" class="learn-more">ASSOCIE-SE</a>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLScMh7dfalxdxlgM1xEFVmHrOsC0MIIoqhr8IuA5sMH3-qHSjA/viewform" target="_blank" rel="noopener" class="learn-more">ASSOCIE-SE</a>
         </div>
       </div>
     </div>
@@ -99,25 +80,25 @@ layout: default
   <div class="container">
     <div class="row brands-row">
       <div class="col-md-3">
-        <a href="http://www.softville.org.br/" target="_blank">
+        <a href="http://www.softville.org.br/" target="_blank" rel="noopener">
           <img src="/assets/images/parceiro-softville.jpg" class="brand-logo">
         </a>
       </div>
 
       <div class="col-md-3">
-        <a href="http://www.cct.udesc.br/" target="_blank">
+        <a href="http://www.cct.udesc.br/" target="_blank" rel="noopener">
           <img src="/assets/images/parceiro-udesc.jpg" class="brand-logo">
         </a>
       </div>
 
       <div class="col-md-3">
-        <a href="http://www.fliperamaec.com.br/" target="_blank">
+        <a href="https://www.fliperamaec.com.br/" target="_blank" rel="noopener">
           <img src="/assets/images/parceiro-fliperama.png" class="brand-logo">
         </a>
       </div>
 
       <div class="col-md-3">
-        <a href="https://www.hkohndesign.com/" target="_blank">
+        <a href="https://www.hkohndesign.com/" target="_blank" rel="noopener">
           <img src="/assets/images/parceiro-hkohn.jpg" class="brand-logo">
         </a>
       </div>

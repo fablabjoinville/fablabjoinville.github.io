@@ -1,5 +1,4 @@
 ---
-id: 3149
 title: Primeira Oficina de Robótica
 date: 2016-06-25T14:51:19+00:00
 author: Alan Fachini

@@ -1,5 +1,4 @@
 ---
-id: 2947
 title: Sobre
 date: 2016-10-02T16:52:58+00:00
 author: Felipe Nunes Silveira
@@ -44,13 +43,26 @@ utilizadores.
 realização de projetos e na troca de experiências; neste contexto de partilha
 cada um deve contribuir com documentação e tutoriais.
 
-<div style="clear: both"></div>
-<div style="float: left; width: 300px; margin-right: 1em">
-<img src="{{site.baseurl}}/uploads/2016/10/conselho-300x185.jpg">
-<img src="{{site.baseurl}}/uploads/2016/10/centroXV-300x214.jpg">
-</div>
+<style>
+.img {
+  float: left;
+  width: 300px;
+  margin-right: 20px;
+  margin-top: -36px;
+}
+.img + .img {
+  margin-top: 20px;
+}
+article h3 {
+    margin-left: 320px;
+    margin-top: 60px;
+}
+</style>
 
 ### Nossa história
+
+![]({{site.baseurl}}/uploads/2016/10/conselho-300x185.jpg){:.img}
+![]({{site.baseurl}}/uploads/2016/10/centroXV-300x214.jpg){:.img}
 
 O Fab Lab Joinville foi fundado no dia 04 de julho de 2016. Nosso propósito é
 aproximar a comunidade na cultura Maker e das novas tecnologias de produção,
@@ -73,44 +85,35 @@ Interno, que contém nossos objetivos, atividades e  principalmente nossa form
 de
 organização.
 
-[Estatuto Social](http://bit.ly/fablabjoinville-estatuto)
-[Regimento Interno](http://bit.ly/fablabjoinville-regimento)
+[Estatuto Social](https://bit.ly/fablabjoinville-estatuto){:.btn.btn-primary}
+[Regimento Interno](https://bit.ly/fablabjoinville-regimento){:.btn.btn-primary}
 
-
-<div style="clear: both"></div>
-<div style="float: left; width: 300px; margin-right: 1em">
-<img src="{{site.baseurl}}/uploads/2016/10/reuniao-300x225.jpg">
-</div>
 
 ### Equipe
+
+![]({{site.baseurl}}/uploads/2016/10/reuniao-300x225.jpg){:.img}
 
 O Fab Lab Joinville é administrado por um conselho de diretores e o trabalho do
 dia-a-dia é realizado por um time de voluntários. Conheça mais sobre nosso time
 e como você pode se envolver no laboratório.
 
-[Conselho]({{site.baseurl}}{% link conselho.md %})
-[Associe-se!]({{site.baseurl}}{% link associe-se.md %})
-
-<div style="clear: both"></div>
-<div style="float: left; width: 300px; margin-right: 1em">
-<img src="{{site.baseurl}}/uploads/2017/02/Fab_Lab_Joinville_editada-300x200.jpg">
-</div>
+[Conselho]({{site.baseurl}}{% link conselho.md %}){:.btn.btn-primary}
+[Associe-se!]({{site.baseurl}}{% link associe-se.md %}){:.btn.btn-primary}
 
 ### Mídia
+
+![]({{site.baseurl}}/uploads/2017/02/Fab_Lab_Joinville_editada-300x200.jpg){:.img}
 
 Visite nossa página de mídia para ver as últimas citações sobre o laboratório
 na mídia, nossos releases, imagens em alta resolução e outros materiais. Entre
 em contato através do email <contato@fablabjoinville.com.br>.
 
-[MEDIA CENTER]({{site.baseurl}}{% link media-center.md %})
+[MEDIA CENTER]({{site.baseurl}}{% link media-center.md %}){:.btn.btn-primary}
 
-
-<div style="clear: both"></div>
-<div style="float: left; width: 300px; margin-right: 1em">
-<img src="{{site.baseurl}}/uploads/2016/06/13438934_10206395825190043_624591755915248593_n-300x224.jpg">
-</div>
 
 ### Planejamento
+
+![]({{site.baseurl}}/uploads/2016/06/13438934_10206395825190043_624591755915248593_n-300x224.jpg){:.img}
 
 Com o apoio dos nossos associados, nós criamos um plano estratégico para guiar
 nosso trabalho. Faça o download do para para entender melhor quais são os
@@ -118,19 +121,19 @@ nossos objetivos para os próximos anos. Veja também nosso relatório anual de
 atividades onde discutimos onde fomos bem sucedidos e quais foram nossos
 desafios.
 
-[ATAS DO CONSELHO](http://bit.ly/fablabjoinville-atas)
-[PLANEJAMENTO ESTRATÉGICO](http://bit.ly/fablabjoinville-projeto)
+[ATAS DO CONSELHO](https://bit.ly/fablabjoinville-atas){:.btn.btn-primary}
+[PLANEJAMENTO ESTRATÉGICO](https://bit.ly/fablabjoinville-projeto){:.btn.btn-primary}
 
-<div style="clear: both"></div>
+* * *
 
 #### Quero me associar!
 
 Associe-se ao Fab Lab Joinville e ganhe descontos em nossas atividades.
 
-[Associar-se!]({{site.baseurl}}{% link associe-se.md %})
+[Associar-se!]({{site.baseurl}}{% link associe-se.md %}){:.btn.btn-primary}
 
 #### Faça uma doacão
 
 Doe uma única vez e contribua com o desenvolvimento de projetos do laboratório.
 
-[Doe!]({{site.baseurl}}{% link doe.md %})
+[Doe!]({{site.baseurl}}{% link doe.md %}){:.btn.btn-primary}

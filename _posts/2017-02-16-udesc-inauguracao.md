@@ -1,11 +1,8 @@
 ---
-id: 3358
 title: 'UDESC: Inauguração'
 date: 2017-02-16T20:55:17+00:00
 author: Alan Fachini
 layout: post
-guid: http://www.fablabjoinville.com.br/?p=3358
-permalink: /2017/02/16/udesc-inauguracao/
 image: /uploads/2017/02/Fab_Lab_Joinville_editada-150x100.jpg
 categories:
   - Clipping

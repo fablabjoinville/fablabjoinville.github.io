@@ -1,13 +1,18 @@
 {% for post in include.posts %}
-<div>
-    <a href="{{site.baseurl}}{{post.url}}">
-        {% if post.image %}
-            <img src="{{site.baseurl}}{{post.image}}" alt="{{post.title}}">
-            <br>
-        {% endif %}
-        {{post.title}}
+<div class="post clearfix">
+    <a href="{{site.baseurl}}{{post.url}}" class="post-link">
+        <img src="{{site.baseurl}}{{post.image | default: "//placehold.it/150x150"}}" alt="{{post.title}}">
+        <span class="post-title">
+            {{post.title}}
+        </span>
     </a>
+    <span class="post-date ts">
+        {{post.date}}
+    </span>
+    <span class="post-author">
+        {{post.author}}
+    </span>
     {{post.excerpt}}
+    <a href="{{site.baseurl}}{{post.url}}">Leia mais</a>
 </div>
-
 {% endfor %}

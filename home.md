@@ -1,5 +1,4 @@
 ---
-id: 2702
 title: Home
 date: 2016-04-23T05:32:58+00:00
 author: fablabjoinville
@@ -24,7 +23,7 @@ Participe também do nosso [Clube Semanal]({{site.baseurl}}{% link clubes-maker.
 [Site](https://www.hkohndesign.com/)
 
 ![Fliperama EC]({{site.baseurl}}/uploads/2016/04/fliperama-300x103.png)
-[Site](http://fliperamaec.com.br)
+[Site](https://fliperamaec.com.br)
 
 {% capture footer %}
 <i class="fa fa-envelope fa-3x" /><br>
