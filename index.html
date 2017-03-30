@@ -21,7 +21,7 @@ layout: default
         <div class="col-sm-4 item">
           <a href="{{site.baseurl}}{{post.url}}"><img class="img-responsive" src="{{site.baseurl}}{{post.image | default: "//placehold.it/150x150"}}"></a>
           <h3 class="name"><a href="{{site.baseurl}}{{post.url}}">{{post.title}}</a></h3>
-          <p class="description">{{post.excerpt | remove: '<p>' | remove: '</p>' }}</p>
+          <p class="description">{{post.excerpt | strip_html}}</p>
         </div>
       {% endfor %}
     </div>
@@ -39,7 +39,7 @@ layout: default
         <div class="col-sm-4 item">
           <a href="{{site.baseurl}}{{post.url}}"><img class="img-responsive" src="{{site.baseurl}}{{post.image | default: "//placehold.it/150x150"}}"></a>
           <h3 class="name"><a href="{{site.baseurl}}{{post.url}}">{{post.title}}</a></h3>
-          <p class="description">{{post.excerpt | remove: '<p>' | remove: '</p>' }}</p>
+          <p class="description">{{post.excerpt | strip_html}}</p>
         </div>
       {% endfor %}
     </div>
