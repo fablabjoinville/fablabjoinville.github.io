@@ -15,4 +15,4 @@ https://www.joinville.sc.gov.br/noticias-avisos-e-eventos-indisponiveis-no-perio
 
 [Diario Caterinense](http://dc.clicrbs.com.br/sc/colunistas/estela-benetti/noticia/2016/06/fab-lab-de-joinville-avanca-5987534.html)
 
-![](https://www.fablabjoinville.com.br/uploads/2016/10/20160608-prefeitura-web-1-766x1024.png)
+![]({{site.baseurl}}/uploads/2016/10/20160608-prefeitura-web-1-766x1024.png)

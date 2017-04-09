@@ -3,8 +3,9 @@ title: Fab Lab Joinville na Expoinovação
 date: 2016-11-08T15:06:41+00:00
 author: fablabjoinville
 layout: post
+image: /uploads/2016/11/expoinovacao-360x360.jpeg
 categories:
-  - Eventos
+  - Clipping
 tags:
   - eventos
   - expoinovacao
@@ -34,6 +35,6 @@ há mais Makers do que se imaginava.
 Esperamos muito em breve poder reunir essa comunidade de
 _fazedores_ no Fab Lab Joinville.
 
-i![](/uploads/2016/11/WhatsApp-Image-2016-11-09-at-15.17.41-300x200.jpeg)
+![](/uploads/2016/11/expoinovacao-360x240.jpeg)
 
 <iframe style="border: none; overflow: hidden;" src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Ffablabjoinville%2Fposts%2F1801167096817362&amp;width=500" width="500" height="494" frameborder="0" scrolling="no"></iframe>

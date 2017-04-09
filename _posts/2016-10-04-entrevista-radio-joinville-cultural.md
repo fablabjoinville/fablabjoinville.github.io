@@ -13,4 +13,4 @@ Entrevista realizada na Rádio Joinville Cultural 105.1 FM.
 
 [Escute no site da Rádio Joinville Cultural.](https://radio.joinville.sc.gov.br/radio?filtrar=&keyword=fab+lab&filtro=Escolha+o+Per%C3%ADodo&categoria=)
 
-![Radio Joinville Cultural](https://www.fablabjoinville.com.br/uploads/2016/10/Logo-Joinville-Cultural-264x300.jpg)
+![Radio Joinville Cultural]({{site.baseurl}}/uploads/2016/10/Logo-Joinville-Cultural-264x300.jpg)

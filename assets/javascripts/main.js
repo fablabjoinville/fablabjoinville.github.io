@@ -29,7 +29,7 @@ function initMap() {
   }];
 
   var MAP_OPTIONS = {
-    center: {lat: -26.3011608, lng: -48.8512935},
+    center: {lat: -26.3012302, lng: -48.8511812},
     zoom: 17,
     disableDefaultUI: true,
     scrollwheel: false,
