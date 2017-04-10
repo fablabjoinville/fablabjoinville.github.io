@@ -435,8 +435,9 @@ article {
 
       .price-area {
         bottom: 30px;
+        left: 0;
         position: absolute;
-        width:calc(100% - 60px);
+        right: 0;
       }
     }
   }
@@ -595,7 +596,7 @@ article {
   margin: 0 0 40px 0;
 
   .post-title {
-      display: block;
+    display: block;
   }
 
   .post-description {
@@ -603,19 +604,19 @@ article {
   }
 
   .post-date {
-      color: #999;
-      margin-right: 1em;
+    color: #999;
+    margin-right: 1em;
   }
 
   .post-author {
-      color: #999;
+    color: #999;
   }
 
   img {
-      float: left;
-      margin: 0 10px 10px 0;
-      width: 150px;
-      height: auto;
+    float: left;
+    margin: 0 10px 10px 0;
+    width: 150px;
+    height: auto;
   }
 }
 
