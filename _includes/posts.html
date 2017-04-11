@@ -1,18 +1,16 @@
 {% for post in include.posts %}
 <div class="post clearfix">
+  <a href="{{site.baseurl}}{{post.url}}" class="post-link">
+    <img src="{{site.baseurl}}{{post.image | default: "/assets/images/logo.svg"}}" alt="{{post.title}}">
+  </a>
+  <div class="post-description">
     <a href="{{site.baseurl}}{{post.url}}" class="post-link">
-        <img src="{{site.baseurl}}{{post.image | default: "//placehold.it/150x150"}}" alt="{{post.title}}">
-        <span class="post-title">
-            {{post.title}}
-        </span>
+      <span class="post-title">{{post.title}}</span>
     </a>
-    <span class="post-date ts">
-        {{post.date}}
-    </span>
-    <span class="post-author">
-        {{post.author}}
-    </span>
+    <span class="post-date ts">{{post.date | date: '%d/%m/%Y'}}</span>
+    <span class="post-author">{{post.author}}</span>
     {{post.excerpt}}
     <a href="{{site.baseurl}}{{post.url}}">Leia mais</a>
+  </div>
 </div>
 {% endfor %}

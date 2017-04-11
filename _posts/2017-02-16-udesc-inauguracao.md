@@ -3,7 +3,7 @@ title: 'UDESC: Inauguração'
 date: 2017-02-16T20:55:17+00:00
 author: Alan Fachini
 layout: post
-image: /uploads/2017/02/Fab_Lab_Joinville_editada-150x100.jpg
+image: /uploads/2017/02/Fab_Lab_Joinville_editada-360x240.jpg
 categories:
   - Clipping
 tags:
