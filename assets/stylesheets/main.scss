@@ -40,7 +40,7 @@ article {
   z-index: 10;
   top: 0px;
   width: 100%;
-  padding: 20px 0 10px 20px;
+  padding: 20px 0 10px 50px;
   transition: all 0.4s;
   background-color: transparent;
   white-space: nowrap;
@@ -73,6 +73,10 @@ article {
       color: black;
       letter-spacing: 2px;
       padding: 0 8px 0 30px;
+
+      &.nav-link-with-icon {
+        font-size: 21pt;
+      }
 
       &:last-child {
         padding-right: 0
@@ -539,7 +543,6 @@ article {
   display: inline-block;
   text-align: center;
   border-radius: 50%;
-  border: 1px solid #ccc;
   margin-left: 10px;
   color: inherit;
   opacity: 0.75;
