@@ -165,18 +165,27 @@ article {
 
 @media (max-width: 767px) {
   .navbar {
+    padding-left: 20px;
+
     .navbar-brand {
       font-size: 12pt;
       line-height: 2.33em;
     }
 
+    .nav > li {
+      display: inline-block;
+    }
+
     .navbar-nav {
       float: right;
-      padding: 0 20px 0 0;
-      margin: -8px 0 0 0;
+      padding: 0 30px 0 0;
 
       .nav-link {
         font-size: 10pt;
+      }
+
+      .nav-link-with-icon {
+        display: none;
       }
     }
   }
