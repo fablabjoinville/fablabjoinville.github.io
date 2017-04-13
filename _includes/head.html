@@ -2,6 +2,10 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:title" content="{{ page.title | default: site.title | escape }}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="{{ site.url }}/assets/images/logo.png" />
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
 
   <title>{{ page.title | default: site.title | escape }}</title>
   <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
