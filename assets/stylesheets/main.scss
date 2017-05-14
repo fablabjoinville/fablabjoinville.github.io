@@ -6,25 +6,25 @@
 }
 
 body pre, body code {
-    font-family: monospace;
+  font-family: monospace;
 }
 
 body {
-    background-color: white;
+  background-color: white;
 }
 
 article {
-    padding: 1.66em;
-    background: white;
-    color: #333;
-    width: 680px;
-    min-width: 480px;
-    margin: 100px auto 2em auto;
-    line-height: 1.66em;
+  padding: 1.66em;
+  background: white;
+  color: #333;
+  width: 680px;
+  min-width: 480px;
+  margin: 100px auto 2em auto;
+  line-height: 1.66em;
 
-    img {
-        max-width: 100%;
-    }
+  img {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 767px) {
