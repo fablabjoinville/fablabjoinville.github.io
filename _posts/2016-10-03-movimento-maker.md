@@ -1,11 +1,14 @@
 ---
-title: Movimento Maker
+title: Cultura Maker
 date: 2016-10-03T22:35:24+00:00
-author: Alan Fachini
+author: Fab Lab Joinville
 layout: post
 image: /uploads/2016/10/video-movimento-maker.webp
 categories:
   - Informativo
+tags:
+  - maker
+  - fablab
 ---
 **Será que você é um MAKER?**
 

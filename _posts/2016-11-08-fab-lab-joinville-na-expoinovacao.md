@@ -1,7 +1,7 @@
 ---
-title: Fab Lab Joinville na Expoinovação
+title: 'Evento: Fab Lab Joinville na Expoinovação'
 date: 2016-11-08T15:06:41+00:00
-author: fablabjoinville
+author: Fab Lab Joinville
 layout: post
 image: /uploads/2016/11/expoinovacao-360x360.jpeg
 categories:

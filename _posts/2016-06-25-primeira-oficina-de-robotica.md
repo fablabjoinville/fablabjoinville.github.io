@@ -1,7 +1,7 @@
 ---
 title: Primeira Oficina de Robótica
 date: 2016-06-25T14:51:19+00:00
-author: Alan Fachini
+author: Fab Lab Joinville
 layout: post
 image: /uploads/2016/06/IMG_2240-150x113.jpg
 categories:

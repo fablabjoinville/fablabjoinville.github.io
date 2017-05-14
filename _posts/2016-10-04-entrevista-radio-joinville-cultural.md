@@ -1,7 +1,7 @@
 ---
-title: Entrevista Rádio Joinville Cultural
+title: 'Clipping: Entrevista Rádio Joinville Cultural'
 date: 2016-10-04T19:41:00+00:00
-author: Alan Fachini
+author: Fab Lab Joinville
 layout: post
 image: /uploads/2016/10/Logo-Joinville-Cultural-132x150.jpg
 categories:

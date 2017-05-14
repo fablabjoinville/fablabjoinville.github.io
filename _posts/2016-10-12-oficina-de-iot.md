@@ -1,7 +1,7 @@
 ---
-title: Oficina de IoT
+title: 'Oficina: Internet das Coisas'
 date: 2016-10-12T14:44:35+00:00
-author: Alan Fachini
+author: Fab Lab Joinville
 layout: post
 image: /uploads/2016/10/1a-Oficina-de-IoT2-150x52.png
 categories:
