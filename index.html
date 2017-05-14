@@ -39,11 +39,11 @@ layout: default
 <div class="article-list white">
   <div class="container">
     <div class="intro">
-      <h2 class="text-center">ÚLTIMAS NOTÍCIAS</h2>
+      <h2 class="text-center">ÚLTIMAS ATIVIDADES</h2>
     </div>
 
     <div class="row">
-      {% for post in site.categories.Clipping limit:3 %}
+      {% for post in site.categories.JaFoi limit:3 %}
         <div class="col-sm-4 item">
           <div class="post-thumbnail">
             <a href="{{site.baseurl}}{{post.url}}">
