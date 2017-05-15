@@ -1,7 +1,7 @@
 ---
 title: Segunda Oficina de Robótica
 date: 2016-08-26T14:52:16+00:00
-author: Alan Fachini
+author: Fab Lab Joinville
 layout: post
 image: /uploads/2016/08/cartaz-150x150.png
 categories:

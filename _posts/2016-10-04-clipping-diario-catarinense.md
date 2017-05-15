@@ -1,7 +1,7 @@
 ---
-title: Polo Digital de Joinville Avança
+title: 'Clipping: Polo Digital de Joinville Avança'
 date: 2016-10-04T19:28:46+00:00
-author: Alan Fachini
+author: Fab Lab Joinville
 layout: post
 image: /uploads/2016/10/20160614-diario-catarinense-1.jpeg
 categories:

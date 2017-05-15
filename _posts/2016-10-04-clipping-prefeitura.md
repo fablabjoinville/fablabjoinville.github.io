@@ -1,7 +1,7 @@
 ---
-title: Definida a Associação Fab Lab Joinville
+title: 'Clipping: Definida a Associação Fab Lab Joinville'
 date: 2016-10-04T19:31:57+00:00
-author: Alan Fachini
+author: Fab Lab Joinville
 layout: post
 image: /uploads/2016/10/20160608-prefeitura-web-1-112x150.png
 categories:
