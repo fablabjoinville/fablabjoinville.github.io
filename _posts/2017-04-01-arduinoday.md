@@ -1,17 +1,17 @@
 ---
 title: Arduino Day
-date: 2017-04-01T12:00:00+00:00
+date: 2017-04-01 12:00:00 Z
+categories:
+- Eventos
+- JaFoi
+- ArduinoDay
+tags:
+- arduino
+- workshop
+- arduinoday
 author: Fab Lab Joinville
 layout: post
-image: /uploads/2017/04/arduinoday/banner.jpg
-categories:
-  - Eventos
-  - JaFoi
-  - ArduinoDay
-tags:
-  - arduino
-  - workshop
-  - arduinoday
+image: "/uploads/2017/04/arduinoday/banner.jpg"
 ---
 
 No dia 1 de Abril o Fab Lab Joinville realizou em Joinville o Arduino Day, evento que aconteceu no mesmo dia em diversas cidades pelo mundo.  Mais um evento e duas oficinas realizadas com sucesso!

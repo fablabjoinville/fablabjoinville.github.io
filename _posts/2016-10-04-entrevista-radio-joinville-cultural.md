@@ -1,12 +1,13 @@
 ---
 title: 'Clipping: Entrevista Rádio Joinville Cultural'
-date: 2016-10-04T19:41:00+00:00
+date: 2016-10-04 19:41:00 Z
+categories:
+- Clipping
 author: Fab Lab Joinville
 layout: post
-image: /uploads/2016/10/Logo-Joinville-Cultural-132x150.jpg
-categories:
-  - Clipping
+image: "/uploads/2016/10/Logo-Joinville-Cultural-132x150.jpg"
 ---
+
 Entrevista realizada na Rádio Joinville Cultural 105.1 FM.
 
 [Faça o download do áudio.](https://drive.google.com/open?id=0B-eZUi1eLioIcVhDY1RCdzkzQUE)

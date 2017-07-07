@@ -1,16 +1,16 @@
 ---
 title: 'Oficina: Monte sua Composteira'
-date: 2017-05-06T14:44:35+00:00
+date: 2017-05-06 14:44:35 Z
+categories:
+- Eventos
+- JaFoi
+- Workshop
+tags:
+- compostagem
+- rastro
 author: Fab Lab Joinville
 layout: post
-image: /uploads/2017/05/oficina-composteira-banner.png
-categories:
-  - Eventos
-  - JaFoi
-  - Workshop
-tags:
-  - compostagem
-  - rastro
+image: "/uploads/2017/05/oficina-composteira-banner.png"
 ---
 
 Veja como foi a oficina para aprender a montar uma composteira no Fab Lab Joinville!

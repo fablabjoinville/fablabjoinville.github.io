@@ -1,15 +1,16 @@
 ---
 title: Cultura Maker
-date: 2016-10-03T22:35:24+00:00
+date: 2016-10-03 22:35:24 Z
+categories:
+- Informativo
+tags:
+- maker
+- fablab
 author: Fab Lab Joinville
 layout: post
-image: /uploads/2016/10/video-movimento-maker.webp
-categories:
-  - Informativo
-tags:
-  - maker
-  - fablab
+image: "/uploads/2016/10/video-movimento-maker.webp"
 ---
+
 **Será que você é um MAKER?**
 
 Se você é uma pessoa curiosa, que gosta de fazer as coisas com as próprias

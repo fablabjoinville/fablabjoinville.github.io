@@ -1,6 +1,7 @@
 ---
 layout: default
 ---
+
 <article>
   <h1>{{ page.title }}</h1>
   <p><span class="post-date ts">{{page.date | date: '%d/%m/%Y'}}</span> - {{page.author}} - tags: {% for tag in page.tags %}#{{tag}} {% endfor %}</p>

@@ -1,16 +1,16 @@
 ---
 title: Primeiro Encontro de Impressão 3D
-date: 2017-03-18T12:00:00+00:00
+date: 2017-03-18 12:00:00 Z
+categories:
+- Eventos
+- JaFoi
+- Encontro
+tags:
+- impressora-3d
+- encontro
 author: Fab Lab Joinville
 layout: post
-image: /uploads/2017/03/encontro-impressao-3d/banner.jpg
-categories:
-  - Eventos
-  - JaFoi
-  - Encontro
-tags:
-  - impressora-3d
-  - encontro
+image: "/uploads/2017/03/encontro-impressao-3d/banner.jpg"
 ---
 
 No dia 18 de Março realizamos o primeiro encontro de impressão 3D de Joinville. Contamos com 5 palestras e a exposição do trabalho de pessoas de Joinville, Blumenau, Balneário Camboriú, Curitiba e outras cidades da região.

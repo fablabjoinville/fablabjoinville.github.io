@@ -1,30 +1,31 @@
 ---
 title: Primeira Oficina de Robótica
-date: 2016-06-25T14:51:19+00:00
+date: 2016-06-25 14:51:19 Z
+categories:
+- Eventos
+- JaFoi
+- Workshop
+tags:
+- arduino
+- robotica
 author: Fab Lab Joinville
 layout: post
-image: /uploads/2016/06/IMG_2240-150x113.jpg
-categories:
-  - Eventos
-  - JaFoi
-  - Workshop
-tags:
-  - arduino
-  - robotica
+image: "/uploads/2016/06/IMG_2240-150x113.jpg"
 images:
-  - thumb: /uploads/2016/06/IMG_2240-150x150.jpg
-    full: /uploads/2016/06/IMG_2240.jpg
-  - thumb: /uploads/2016/06/13438934_10206395825190043_624591755915248593_n-150x150.jpg
-    full: /uploads/2016/06/13438934_10206395825190043_624591755915248593_n.jpg
-  - thumb: /uploads/2016/06/13452994_10155080088903538_669838957_o-150x150.jpg
-    full: /uploads/2016/06/13452994_10155080088903538_669838957_o.jpg
-  - thumb: /uploads/2016/06/IMG_2238-150x150.jpg
-    full: /uploads/2016/06/IMG_2238.jpg
-  - thumb: /uploads/2016/06/13497813_925814750880230_1735597692287094414_o-150x150.jpg
-    full: /uploads/2016/06/13497813_925814750880230_1735597692287094414_o.jpg
-  - thumb: /uploads/2016/06/IMG_2226-150x150.jpg
-    full: /uploads/2016/06/IMG_2226.jpg
+- thumb: "/uploads/2016/06/IMG_2240-150x150.jpg"
+  full: "/uploads/2016/06/IMG_2240.jpg"
+- thumb: "/uploads/2016/06/13438934_10206395825190043_624591755915248593_n-150x150.jpg"
+  full: "/uploads/2016/06/13438934_10206395825190043_624591755915248593_n.jpg"
+- thumb: "/uploads/2016/06/13452994_10155080088903538_669838957_o-150x150.jpg"
+  full: "/uploads/2016/06/13452994_10155080088903538_669838957_o.jpg"
+- thumb: "/uploads/2016/06/IMG_2238-150x150.jpg"
+  full: "/uploads/2016/06/IMG_2238.jpg"
+- thumb: "/uploads/2016/06/13497813_925814750880230_1735597692287094414_o-150x150.jpg"
+  full: "/uploads/2016/06/13497813_925814750880230_1735597692287094414_o.jpg"
+- thumb: "/uploads/2016/06/IMG_2226-150x150.jpg"
+  full: "/uploads/2016/06/IMG_2226.jpg"
 ---
+
 Gostaria de mais uma edição dessa oficina? Entre em contato com a gente!
 <contato@fablabjoinville.com.br>
 

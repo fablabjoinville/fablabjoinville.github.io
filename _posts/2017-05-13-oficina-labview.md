@@ -1,16 +1,16 @@
 ---
 title: 'Oficina: Labview com Arduino'
-date: 2017-05-13T14:44:35+00:00
+date: 2017-05-13 14:44:35 Z
+categories:
+- Eventos
+- JaFoi
+- Workshop
+tags:
+- labview
+- arduino
 author: Fab Lab Joinville
 layout: post
-image: /uploads/2017/05/oficina-labview/banner.png
-categories:
-  - Eventos
-  - JaFoi
-  - Workshop
-tags:
-  - labview
-  - arduino
+image: "/uploads/2017/05/oficina-labview/banner.png"
 ---
 
 O Erick ministrou no dia 6 de Maio a oficina Labview com Arduino. A galera se reuniu no laboratório para aprender a usar o Labview para ler sensores e controlar atuadores através do Arduino.

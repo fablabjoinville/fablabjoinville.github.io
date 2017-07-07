@@ -1,16 +1,16 @@
 ---
 title: 'Evento: Fab Lab Joinville na Expoinovação'
-date: 2016-11-08T15:06:41+00:00
+date: 2016-11-08 15:06:41 Z
+categories:
+- Clipping
+tags:
+- eventos
+- expoinovacao
+- feiras
+- makers
 author: Fab Lab Joinville
 layout: post
-image: /uploads/2016/11/expoinovacao-360x360.jpeg
-categories:
-  - Clipping
-tags:
-  - eventos
-  - expoinovacao
-  - feiras
-  - makers
+image: "/uploads/2016/11/expoinovacao-360x360.jpeg"
 ---
 
 Estivemos presentes na Expoinovação que ocorreu de 8 a 10 de Novembro em

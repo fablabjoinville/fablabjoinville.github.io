@@ -1,16 +1,16 @@
 ---
 title: 'Clipping: Inauguração do Fab Lab Joinville'
-date: 2017-02-16T20:55:17+00:00
+date: 2017-02-16 20:55:17 Z
+categories:
+- Clipping
+- JaFoi
+tags:
+- laboratório
+- softville
+- udesc
 author: Fab Lab Joinville
 layout: post
-image: /uploads/2017/02/inauguracao/inauguracao-1.jpg
-categories:
-  - Clipping
-  - JaFoi
-tags:
-  - laboratório
-  - softville
-  - udesc
+image: "/uploads/2017/02/inauguracao/inauguracao-1.jpg"
 ---
 
 No sábado, 11, foi inaugurado nas dependências do prédio do Centro de Ciências

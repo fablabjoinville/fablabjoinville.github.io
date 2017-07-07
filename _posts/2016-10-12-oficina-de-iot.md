@@ -1,37 +1,37 @@
 ---
 title: 'Oficina: Internet das Coisas'
-date: 2016-10-12T14:44:35+00:00
+date: 2016-10-12 14:44:35 Z
+categories:
+- Eventos
+- JaFoi
+- Workshop
+tags:
+- arduino
+- esp8266
+- iot
+- nodemcu
 author: Fab Lab Joinville
 layout: post
-image: /uploads/2016/10/1a-Oficina-de-IoT2-150x52.png
-categories:
-  - Eventos
-  - JaFoi
-  - Workshop
-tags:
-  - arduino
-  - esp8266
-  - iot
-  - nodemcu
-
+image: "/uploads/2016/10/1a-Oficina-de-IoT2-150x52.png"
 images:
-  - thumb: /uploads/2016/10/IMG_3159-150x150.jpg
-    full: /uploads/2016/10/IMG_3159.jpg
-  - thumb: /uploads/2016/10/IMG_3172-150x150.jpg
-    full: /uploads/2016/10/IMG_3172.jpg
-  - thumb: /uploads/2016/10/IMG_3174-150x150.jpg
-    full: /uploads/2016/10/IMG_3174.jpg
-  - thumb: /uploads/2016/10/IMG_3176-150x150.jpg
-    full: /uploads/2016/10/IMG_3176.jpg
-  - thumb: /uploads/2016/10/IMG_3178-150x150.jpg
-    full: /uploads/2016/10/IMG_3178.jpg
-  - thumb: /uploads/2016/10/IMG_3179-150x150.jpg
-    full: /uploads/2016/10/IMG_3179.jpg
-  - thumb: /uploads/2016/10/IMG_3181-150x150.jpg
-    full: /uploads/2016/10/IMG_3181.jpg
-  - thumb: /uploads/2016/10/IMG_3196-150x150.jpg
-    full: /uploads/2016/10/IMG_3196.jpg
+- thumb: "/uploads/2016/10/IMG_3159-150x150.jpg"
+  full: "/uploads/2016/10/IMG_3159.jpg"
+- thumb: "/uploads/2016/10/IMG_3172-150x150.jpg"
+  full: "/uploads/2016/10/IMG_3172.jpg"
+- thumb: "/uploads/2016/10/IMG_3174-150x150.jpg"
+  full: "/uploads/2016/10/IMG_3174.jpg"
+- thumb: "/uploads/2016/10/IMG_3176-150x150.jpg"
+  full: "/uploads/2016/10/IMG_3176.jpg"
+- thumb: "/uploads/2016/10/IMG_3178-150x150.jpg"
+  full: "/uploads/2016/10/IMG_3178.jpg"
+- thumb: "/uploads/2016/10/IMG_3179-150x150.jpg"
+  full: "/uploads/2016/10/IMG_3179.jpg"
+- thumb: "/uploads/2016/10/IMG_3181-150x150.jpg"
+  full: "/uploads/2016/10/IMG_3181.jpg"
+- thumb: "/uploads/2016/10/IMG_3196-150x150.jpg"
+  full: "/uploads/2016/10/IMG_3196.jpg"
 ---
+
 Veja como foi!
 
 Gostaria de mais uma edição dessa oficina? Entre em contato com a gente! <contato@fablabjoinville.com.br>

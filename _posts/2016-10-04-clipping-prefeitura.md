@@ -1,12 +1,13 @@
 ---
 title: 'Clipping: Definida a Associação Fab Lab Joinville'
-date: 2016-10-04T19:31:57+00:00
+date: 2016-10-04 19:31:57 Z
+categories:
+- Clipping
 author: Fab Lab Joinville
 layout: post
-image: /uploads/2016/10/20160608-prefeitura-web-1-112x150.png
-categories:
-  - Clipping
+image: "/uploads/2016/10/20160608-prefeitura-web-1-112x150.png"
 ---
+
 Notícia sobre a criação da Associação Fab Lab Joinville publicada no Diário Catariense.
 
 https://www.joinville.sc.gov.br/noticias-avisos-e-eventos-indisponiveis-no-periodo-eleitoral/

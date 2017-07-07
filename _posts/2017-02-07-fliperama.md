@@ -1,14 +1,14 @@
 ---
 title: 'Projeto: Fliperama'
-date: 2017-02-07T09:46:24+00:00
+date: 2017-02-07 09:46:24 Z
+categories:
+- Eventos
+- JaFoi
+tags:
+- fliperama
 author: Fab Lab Joinville
 layout: post
-image: /uploads/2017/02/fliperama/fliperama-1.jpg
-categories:
-  - Eventos
-  - JaFoi
-tags:
-  - fliperama
+image: "/uploads/2017/02/fliperama/fliperama-1.jpg"
 ---
 
 Durante as férias de dezembro montamos um Fliperama em parceria com o pessoal

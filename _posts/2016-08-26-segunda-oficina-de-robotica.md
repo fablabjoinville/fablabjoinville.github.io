@@ -1,31 +1,31 @@
 ---
 title: Segunda Oficina de Robótica
-date: 2016-08-26T14:52:16+00:00
+date: 2016-08-26 14:52:16 Z
+categories:
+- Eventos
+- JaFoi
+- Workshop
+tags:
+- arduino
+- robotica
 author: Fab Lab Joinville
 layout: post
-image: /uploads/2016/08/cartaz-150x150.png
-categories:
-  - Eventos
-  - JaFoi
-  - Workshop
-tags:
-  - arduino
-  - robotica
+image: "/uploads/2016/08/cartaz-150x150.png"
 images:
-  - thumb: /uploads/2016/08/13873066_10155213740038538_9182556829784889404_n-150x150.jpg
-    full: /uploads/2016/08/13873066_10155213740038538_9182556829784889404_n.jpg
-  - thumb: /uploads/2016/08/13892086_10155213740233538_6824574883508683948_n-150x150.jpg
-    full: /uploads/2016/08/13892086_10155213740233538_6824574883508683948_n.jpg
-  - thumb: /uploads/2016/08/13901497_10155213739853538_1749535485997276895_n-150x150.jpg
-    full: /uploads/2016/08/13901497_10155213739853538_1749535485997276895_n.jpg
-  - thumb: /uploads/2016/08/IMG_2423-150x150.jpg
-    full: /uploads/2016/08/IMG_2423.jpg
-  - thumb: /uploads/2016/08/IMG_2424-150x150.jpg
-    full: /uploads/2016/08/IMG_2424.jpg
-  - thumb: /uploads/2016/08/IMG_2430-150x150.jpg
-    full: /uploads/2016/08/IMG_2430.jpg
-  - thumb: /uploads/2016/08/IMG_2432-150x150.jpg
-    full: /uploads/2016/08/IMG_2432.jpg
+- thumb: "/uploads/2016/08/13873066_10155213740038538_9182556829784889404_n-150x150.jpg"
+  full: "/uploads/2016/08/13873066_10155213740038538_9182556829784889404_n.jpg"
+- thumb: "/uploads/2016/08/13892086_10155213740233538_6824574883508683948_n-150x150.jpg"
+  full: "/uploads/2016/08/13892086_10155213740233538_6824574883508683948_n.jpg"
+- thumb: "/uploads/2016/08/13901497_10155213739853538_1749535485997276895_n-150x150.jpg"
+  full: "/uploads/2016/08/13901497_10155213739853538_1749535485997276895_n.jpg"
+- thumb: "/uploads/2016/08/IMG_2423-150x150.jpg"
+  full: "/uploads/2016/08/IMG_2423.jpg"
+- thumb: "/uploads/2016/08/IMG_2424-150x150.jpg"
+  full: "/uploads/2016/08/IMG_2424.jpg"
+- thumb: "/uploads/2016/08/IMG_2430-150x150.jpg"
+  full: "/uploads/2016/08/IMG_2430.jpg"
+- thumb: "/uploads/2016/08/IMG_2432-150x150.jpg"
+  full: "/uploads/2016/08/IMG_2432.jpg"
 ---
 
 Gostaria de mais uma edição dessa oficina? Entre em contato com a gente!

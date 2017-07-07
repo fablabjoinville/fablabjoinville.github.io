@@ -1,16 +1,16 @@
 ---
 title: 'Palestra: Desenvolvendo um microcontrolador com VHDL'
-date: 2017-03-25T14:44:35+00:00
+date: 2017-03-25 14:44:35 Z
+categories:
+- Eventos
+- JaFoi
+- Palestra
+tags:
+- vhdl
+- microcontrolador
 author: Fab Lab Joinville
 layout: post
-image: /uploads/2017/03/palestra-vhdl/banner.jpg
-categories:
-  - Eventos
-  - JaFoi
-  - Palestra
-tags:
-  - vhdl
-  - microcontrolador
+image: "/uploads/2017/03/palestra-vhdl/banner.jpg"
 ---
 
 O Fabio Pereira desenvolveu seu próprio microcontrolador usando VHDL e nos apresentou seu trabalho no dia 6 de Maio.
