@@ -1,5 +1,5 @@
 ---
-title: 'Mutirão Tecnológico Solidário'
+title: Mutirão Tecnológico Solidário
 date: 2017-07-22 14:44:35 Z
 categories:
 - Eventos

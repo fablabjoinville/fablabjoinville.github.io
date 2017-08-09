@@ -1,5 +1,5 @@
 ---
-title: 'Encontro de Dados Abertos de Joinville'
+title: Encontro de Dados Abertos de Joinville
 date: 2017-08-08 01:00:00 Z
 categories:
 - Eventos

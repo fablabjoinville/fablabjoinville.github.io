@@ -1,5 +1,5 @@
 ---
-title: 'Assembleia Geral Ordinária'
+title: Assembleia Geral Ordinária
 date: 2017-07-31 00:00:00 Z
 categories:
 - Eventos

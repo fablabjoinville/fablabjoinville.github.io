@@ -1,5 +1,5 @@
 ---
-title: 'Oficina de Compostagem Rastro'
+title: Oficina de Compostagem Rastro
 date: 2017-08-08 00:00:00 Z
 categories:
 - Eventos
