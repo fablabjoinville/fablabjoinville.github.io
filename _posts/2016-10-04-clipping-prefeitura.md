@@ -1,16 +1,19 @@
 ---
-title: 'Clipping: Internet das Coisas no Jornal do Almoço'
-date: 2017-09-30 19:31:57 Z
+title: 'Clipping: Definida a Associação Fab Lab Joinville'
+date: 2016-10-04 19:31:57 Z
 categories:
 - Clipping
-tags:
-- IoT
 author: Fab Lab Joinville
 layout: post
+image: "/uploads/2016/10/20160608-prefeitura-web-1-112x150.png"
 ---
 
-Notícia sobre Internet das Coisas no Jornal do Almoço onde o Fab Lab Joinville fez uma participação sobre o projeto Flood Mapping.
+Notícia sobre a criação da Associação Fab Lab Joinville publicada no Diário Catariense.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/BDimDy-CWCw?ecver=1" frameborder="0" allowfullscreen></iframe>
+https://www.joinville.sc.gov.br/noticias-avisos-e-eventos-indisponiveis-no-periodo-eleitoral/
 
-Veja a [Matéria](http://g1.globo.com/sc/santa-catarina/jornal-do-almoco/videos/t/edicoes/v/internet-das-coisas-esta-sendo-testado-em-duas-cidades-de-sc/6185151/).
+[Baguete](http://www.baguete.com.br/noticias/08/06/2016/joinville-tera-fab-lab)
+
+[Diario Caterinense](http://dc.clicrbs.com.br/sc/colunistas/estela-benetti/noticia/2016/06/fab-lab-de-joinville-avanca-5987534.html)
+
+![]({{site.baseurl}}/uploads/2016/10/20160608-prefeitura-web-1-766x1024.png)
