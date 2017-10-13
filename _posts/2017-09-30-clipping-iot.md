@@ -3,6 +3,7 @@ title: 'Clipping: Internet das Coisas no Jornal do Almoço'
 date: 2017-09-30 19:31:57 Z
 categories:
 - Clipping
+- JaFoi
 tags:
 - IoT
 author: Fab Lab Joinville
