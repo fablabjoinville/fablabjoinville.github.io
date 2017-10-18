@@ -2,7 +2,7 @@
 ---
 
 * {
-  font-family: 'Oxygen', 'Open Sans', Helvetica, Arial;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 body pre, body code {
@@ -32,6 +32,10 @@ article {
     min-width: initial;
     width: initial;
   }
+}
+
+h4 {
+  line-height: 24px;
 }
 
 .navbar {
@@ -268,7 +272,7 @@ article {
 
 .article-clean {
   color: #313437;
-  font-size: 12pt;
+  font-size: 14pt;
 
   .text {
     padding-top: 30px;
@@ -289,7 +293,7 @@ article {
     }
 
     .description {
-      font-size: 12pt;
+      font-size: 14pt;
       margin-top: 15px;
       margin-bottom: 0;
     }
@@ -371,7 +375,7 @@ article {
     }
 
     .description {
-      font-size: 15px;
+      font-size: 14px;
       margin-top: 10px;
       margin-bottom: 10px;
     }
@@ -417,8 +421,10 @@ article {
 
   h2 {
     font-weight: bold;
-    margin-bottom: 40px;
-    padding-top: 40px;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding-top: 70px;
+    padding-bottom: 70px;
     color: inherit;
   }
 
