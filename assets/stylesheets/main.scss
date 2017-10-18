@@ -88,9 +88,9 @@ h4 {
 
       &:hover,
       &:focus {
+        text-decoration: underline;
         color: black;
         background-color: transparent;
-        font-weight: 600;
       }
     }
   }
@@ -558,7 +558,7 @@ h4 {
   display: inline-block;
   text-align: center;
   border-radius: 50%;
-  margin-left: 10px;
+  margin-left: 0px;
   color: inherit;
   opacity: 0.75;
 }
