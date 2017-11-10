@@ -1,12 +1,28 @@
 (function($) {
   'use strict';
 
-  function animateNavbar() {
-    var isWindowScrolled = $(window).scrollTop() > 1;
-    $('.js-navbar').toggleClass('sticky', isWindowScrolled);
+  var isNavbarCollapsed = false;
+  var isWindowScrolled = false;
+
+  function animateNavbar(){
+    $('.js-navbar').toggleClass('sticky', isWindowScrolled || isNavbarCollapsed);
   }
 
-  $(window).scroll(animateNavbar);
+  function onScroll() {
+    isWindowScrolled = $(window).scrollTop() > 1;
+    animateNavbar();
+  }
+
+  function onNavbarToggleClick() {
+    isNavbarCollapsed = !isNavbarCollapsed;
+    animateNavbar();
+  }
+
+  $(document).ready(function() {
+    $('#navbar-toggle').click(onNavbarToggleClick);
+    $(window).scroll(onScroll);
+  });
+
 })(jQuery);
 
 function initMap() {
