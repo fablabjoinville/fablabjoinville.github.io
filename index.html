@@ -12,31 +12,6 @@ layout: default
   </div>
 </div>
 
-{% if site.categories.NaoFoi != null %}
-  <div class="article-list">
-    <div class="container">
-      <div class="intro">
-        <h2 class="text-center">PRÓXIMOS EVENTOS</h2>
-      </div>
-
-      <div class="row">
-        {% for post in site.categories.NaoFoi limit:3 %}
-          <div class="col-sm-4 item">
-            <div class="post-thumbnail">
-              <a href="{{site.baseurl}}{{post.url}}">
-                <img class="img-responsive" src="{{site.baseurl}}{{post.image | default: "/assets/images/logo.svg"}}">
-              </a>
-            </div>
-            <h3 class="name"><a href="{{site.baseurl}}{{post.url}}">{{post.title}}</a></h3>
-            <p>{{post.date | date: '%d/%m/%Y'}}</p>
-            <p class="description">{{post.excerpt | strip_html}}</p>
-          </div>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-{% endif %}
-
 <div class="article-list white">
   <div class="container">
     <div class="intro">
