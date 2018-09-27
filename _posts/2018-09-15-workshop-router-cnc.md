@@ -3,6 +3,7 @@ title: Workshop de Router CNC
 date: 2018-09-04 00:00:00 Z
 categories:
 - Eventos
+- JaFoi
 tags:
 - workshop
 - router cnc
