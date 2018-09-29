@@ -253,6 +253,16 @@ h4 {
     }
   }
 
+  .bottom {
+    font-size: 16px;
+    max-width: 500px;
+    margin: 0 auto;
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+
   .post-thumbnail {
     align-items: center;
     display: flex;

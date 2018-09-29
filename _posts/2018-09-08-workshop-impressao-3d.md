@@ -3,6 +3,7 @@ title: Workshop de Impressão 3D
 date: 2018-09-02 00:00:00 Z
 categories:
 - Eventos
+- JaFoi
 tags:
 - workshop
 - impressão 3d
