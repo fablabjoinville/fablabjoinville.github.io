@@ -11,8 +11,6 @@ layout: post
 image: "/uploads/2019/12/assembleia.png"
 ---
 
-Olá Makers!
-
 A Associação Fab Lab Joinville convoca todas as pessoas ligadas a sua comunidade, em especial seus associados, para participar da Assembleia Geral Ordinária a ser realizada no dia 29 de Janeiro de 2020 - quarta-feira, às 19h. A reunião se dará na sede da Associação, junto ao prédio da Softville, na Rua Otto Bohem, 48 – Centro.
 
 O objetivo será tratarmos da seguinte ordem do dia:
