@@ -686,3 +686,28 @@ h4 {
     margin-left: 0;
   }
 }
+
+#loadMore {
+  padding: 15px;
+  text-align: center;
+  background-color: #0DACBA;
+  color: #fff;
+  border-width: 0 1px 1px 0;
+  border-style: solid;
+  border-color: #fff;
+  box-shadow: 0 1px 1px #ccc;
+  transition: all 600ms ease-in-out;
+  -webkit-transition: all 600ms ease-in-out;
+  -moz-transition: all 600ms ease-in-out;
+  -o-transition: all 600ms ease-in-out;
+  font-size: large;
+}
+
+#loadMore:hover {
+  background-color: #fff;
+  color: #0DACBA;
+}
+
+.moreBox {
+  display: none;
+}

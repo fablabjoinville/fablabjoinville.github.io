@@ -43,6 +43,30 @@ layout: default
   {{content}}
 </article>
 
+<div class="container">
+  <div class="row" style="margin-bottom: 60px; margin-top: -40px;">
+    <div class="col-sm-12">
+      <p class="text-center"><a href="#" id="loadMore">Carregar Mais</a></p>
+    </div>
+  </div>
+</div>
+
+<script>
+$( document ).ready(function () {
+  $(".moreBox").slice(0, 5).show();
+    if ($(".blogBox:hidden").length != 0) {
+      $("#loadMore").show();
+    }   
+    $("#loadMore").on('click', function (e) {
+      e.preventDefault();
+      $(".moreBox:hidden").slice(0, 5).slideDown();
+      if ($(".moreBox:hidden").length == 0) {
+        $("#loadMore").fadeOut('slow');
+    }
+  });
+});
+</script>
+
 <div class="article-clean">
   <div class="container">
     <div class="intro">
