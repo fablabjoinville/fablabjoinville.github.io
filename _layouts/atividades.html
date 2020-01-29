@@ -46,7 +46,7 @@ layout: default
 <div class="container">
   <div class="row" style="margin-bottom: 60px; margin-top: -40px;">
     <div class="col-sm-12">
-      <p class="text-center"><a href="#" id="loadMore">Carregar Mais</a></p>
+      <p class="text-center"><a href="#" id="animatedButtom">Carregar Mais</a></p>
     </div>
   </div>
 </div>
@@ -55,13 +55,13 @@ layout: default
 $( document ).ready(function () {
   $(".moreBox").slice(0, 5).show();
     if ($(".blogBox:hidden").length != 0) {
-      $("#loadMore").show();
+      $("#animatedButtom").show();
     }   
-    $("#loadMore").on('click', function (e) {
+    $("#animatedButtom").on('click', function (e) {
       e.preventDefault();
       $(".moreBox:hidden").slice(0, 5).slideDown();
       if ($(".moreBox:hidden").length == 0) {
-        $("#loadMore").fadeOut('slow');
+        $("#animatedButtom").fadeOut('slow');
     }
   });
 });
