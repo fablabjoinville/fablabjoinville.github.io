@@ -1,6 +1,6 @@
 ---
 title: Palestra sobre Visão Artificial
-date: 2020-01-21
+date: 2020-01-23
 categories:
 - Eventos
 tags:
