@@ -16,7 +16,7 @@ Palestra sobre visão artificial aplicada na indústria, com foco em reconhecime
 
 Palestra sobre visão artificial na indústria com foco em reconhecimento de código de barras com Natan Simões.
 
-INSCRIÇÕES [AQUI](https://www.sympla.com.br/braco-robotico-com-arduino__768886)
+INSCRIÇÕES [AQUI](https://www.sympla.com.br/palestra-sobre-visao-artificial-aplicada-na-industria__771346)
 
 Você não vai perder esta oportunidade né!?
 
