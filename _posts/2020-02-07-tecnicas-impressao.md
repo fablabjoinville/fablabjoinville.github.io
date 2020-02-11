@@ -20,6 +20,8 @@ No dia 19 de Fevereiro temos um encontro marcado aqui no Fab Lab Joinville para 
 
 Aproveite essa oportunidade e venha conhecer mais sobre impressão 3D e as novas tecnologias dessa área.
 
+INSCRIÇÕES [AQUI](https://www.sympla.com.br/palestra-novas-tecnicas-de-impressao-3d__785986)
+
 Aguardamos você!
 
 Você pode encontrar esse post no nosso Facebook [aqui](https://www.facebook.com/events/1250345375355590/).
