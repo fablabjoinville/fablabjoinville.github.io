@@ -711,3 +711,17 @@ h4 {
 .moreBox {
   display: none;
 }
+
+.calendar {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 50px;
+}
+
+.calendar-section {
+  background-color: white;
+}
+
+.color-background {
+  background-color: #eef4f7;
+}
