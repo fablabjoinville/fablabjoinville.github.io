@@ -166,7 +166,7 @@ h4 {
   color:white;
   padding: 0 40px;
 
-  h1 {
+  h1,h3 {
     margin-bottom: 30px;
     text-align: center;
   }
@@ -729,4 +729,12 @@ h4 {
 .images {
   text-align-last: center;
   margin-bottom: 10px;
+}
+
+#covid {
+  color: white;
+}
+
+#covid-laranja {
+  color: red;
 }
