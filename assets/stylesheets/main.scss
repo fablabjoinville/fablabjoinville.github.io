@@ -708,13 +708,22 @@ h4 {
   color: #df691a;
 }
 
-#text-schools{
-  margin-top: 2cm;
+#div-center-pai {
+  display: block;
+  height: 350px;
+  line-height: 350px;
 }
 
-#photos-eschools{
-  margin-top: 1cm;
-  margin-bottom: 1cm;
+#div-center-filho {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1.5;
+  text-align: center;
+}
+
+#photos-schools {
+  margin-top: 25px;
+  margin-bottom: 25px;
 }
 
 .moreBox {
