@@ -708,6 +708,24 @@ h4 {
   color: #df691a;
 }
 
+#div-center-pai {
+  display: block;
+  height: 350px;
+  line-height: 350px;
+}
+
+#div-center-filho {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1.5;
+  text-align: center;
+}
+
+#photos-schools {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
 .moreBox {
   display: none;
 }
