@@ -166,7 +166,7 @@ h4 {
   color:white;
   padding: 0 40px;
 
-  h1 {
+  h1,h3 {
     margin-bottom: 30px;
     text-align: center;
   }
@@ -708,6 +708,24 @@ h4 {
   color: #df691a;
 }
 
+#div-center-pai {
+  display: block;
+  height: 350px;
+  line-height: 350px;
+}
+
+#div-center-filho {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1.5;
+  text-align: center;
+}
+
+#photos-schools {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
 .moreBox {
   display: none;
 }
@@ -724,4 +742,17 @@ h4 {
 
 .color-background {
   background-color: #eef4f7;
+}
+
+.images {
+  text-align-last: center;
+  margin-bottom: 10px;
+}
+
+#covid {
+  color: white;
+}
+
+#covid-laranja {
+  color: red;
 }
