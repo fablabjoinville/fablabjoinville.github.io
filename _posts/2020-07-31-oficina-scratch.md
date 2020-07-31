@@ -10,7 +10,7 @@ layout: post
 image: /uploads/2020/07/2020.07.31 - Oficina Scratch.png
 ---
 
-Oficina: Aprenda a programar comm Scratch.
+Oficina: Aprenda a programar com Scratch.
 
 ![/uploads/2020/07/2020.07.31 - Oficina Scratch.png](/uploads/2020/07/2020.07.31 - Oficina Scratch.png)
 
