@@ -5,10 +5,11 @@ layout: default
 <div class="header-dark">
   <div class="container">
     <div class="jumbotron">
-      <br/>
-      <br/>
+      <br />
+      <br />
       <h1>FAÇA (QUASE)<br>QUALQUER COISA!</h1>
-      <p>O Fab Lab Joinville é um laboratório aberto onde você pode aprender, ensinar e desenvolver os seus próprios projetos!</p>
+      <p>O Fab Lab Joinville é um laboratório aberto onde você pode aprender, ensinar e desenvolver os seus próprios
+        projetos!</p>
       <div class="row buttons">
         <div class="col-sm-6 button">
           <p><a href="#associe-se" class="members-button btn">ASSOCIE-SE AO FAB LAB</a></p>
@@ -29,14 +30,14 @@ layout: default
 
     <div class="row">
       {% for post in site.categories.Eventos limit:3 %}
-        <div class="col-sm-4 item">
-          <div class="post-thumbnail">
-            <a href="{{site.baseurl}}{{post.url}}">
-              <img class="img-responsive" src="{{site.baseurl}}{{post.image | default: "/assets/images/logo.svg"}}">
-            </a>
-          </div>
-          <h3 class="name"><a href="{{site.baseurl}}{{post.url}}">{{post.title}}</a></h3>
+      <div class="col-sm-4 item">
+        <div class="post-thumbnail">
+          <a href="{{site.baseurl}}{{post.url}}">
+            <img class="img-responsive" src="{{site.baseurl}}{{post.image | default: "/assets/images/logo.svg"}}">
+          </a>
         </div>
+        <h3 class="name"><a href="{{site.baseurl}}{{post.url}}">{{post.title}}</a></h3>
+      </div>
       {% endfor %}
     </div>
 
@@ -74,7 +75,9 @@ layout: default
           <p class="price-description">por mês</p>
           <h3 class="price">R$ 275,00</h3>
           <p class="price-description">por ano</p>
-          <h4><a href="https://docs.google.com/forms/d/e/1FAIpQLScMh7dfalxdxlgM1xEFVmHrOsC0MIIoqhr8IuA5sMH3-qHSjA/viewform" target="_blank" rel="noopener" id="animatedButtom" class="learn-more">ASSOCIE-SE</a></h4>
+          <h4><a
+              href="https://docs.google.com/forms/d/e/1FAIpQLScMh7dfalxdxlgM1xEFVmHrOsC0MIIoqhr8IuA5sMH3-qHSjA/viewform"
+              target="_blank" rel="noopener" id="animatedButtom" class="learn-more">ASSOCIE-SE</a></h4>
         </div>
       </div>
 
@@ -95,7 +98,9 @@ layout: default
             <p class="price-description">por mês</p>
             <h3 class="price">R$ 550,00</h3>
             <p class="price-description">por ano</p>
-            <h4><a href="https://docs.google.com/forms/d/e/1FAIpQLScMh7dfalxdxlgM1xEFVmHrOsC0MIIoqhr8IuA5sMH3-qHSjA/viewform" target="_blank" rel="noopener" id="animatedButtom" class="learn-more">ASSOCIE-SE</a></h4>
+            <h4><a
+                href="https://docs.google.com/forms/d/e/1FAIpQLScMh7dfalxdxlgM1xEFVmHrOsC0MIIoqhr8IuA5sMH3-qHSjA/viewform"
+                target="_blank" rel="noopener" id="animatedButtom" class="learn-more">ASSOCIE-SE</a></h4>
           </div>
         </div>
       </div>
@@ -108,19 +113,106 @@ layout: default
     <h2 class="text-center">CALENDÁRIO</h2>
   </div>
   <div class="col-11 calendar">
-    <iframe src="https://calendar.google.com/calendar/b/2/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=America%2FSao_Paulo&amp;src=ZmFibGFiam9pbnZpbGxlLmNvbS5icl9mOXZ2djVrMWN1NG5qdWg5bHBuMjI3cDR0NEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&amp;color=%23795548&amp;showTz=0&amp;showNav=1&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTitle=0" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+    <iframe
+      src="https://calendar.google.com/calendar/b/2/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=America%2FSao_Paulo&amp;src=ZmFibGFiam9pbnZpbGxlLmNvbS5icl9mOXZ2djVrMWN1NG5qdWg5bHBuMjI3cDR0NEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&amp;color=%23795548&amp;showTz=0&amp;showNav=1&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTitle=0"
+      style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
   </div>
 </div>
 
 <div class="js-map map"></div>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCd-eLAgCTKoKwCrqZ_L0qkRwdVQlSjYSU&callback=initMap"
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCd-eLAgCTKoKwCrqZ_L0qkRwdVQlSjYSU&callback=initMap"
   type="text/javascript"></script>
 
 <div class="content brands features-boxed">
   <div class="container">
     <div class="intro">
       <h2 class="text-center">PARCEIROS</h2>
+    </div>
+    <div class="row brands-row">
+      <div class="col-md-2">
+      </div>
+      <div class="col-md-2">
+        <a href="https://www.linkedin.com/in/fachini/" target="_blank" rel="noopener">
+          <img src="/assets/images/equipe-2020/alan.jpeg" class="brand-logo" style="border-radius: 50%">
+        </a>
+      </div>
+      <div class="col-md-2">
+        <a href="https://www.instagram.com/alissaffelipe/" target="_blank" rel="noopener">
+          <img src="/assets/images/equipe-2020/alissa.jpeg" class="brand-logo" style="border-radius: 50%">
+        </a>
+      </div>
+      <div class="col-md-2">
+        <a href="https://www.linkedin.com/in/muriloon/" target="_blank" rel="noopener">
+          <img src="/assets/images/equipe-2020/murilo.jpg" class="brand-logo" style="border-radius: 50%">
+        </a>
+      </div>
+      <div class="col-md-2">
+        <a href="https://www.linkedin.com/in/leticia-maximiano-5b2061171/" target="_blank" rel="noopener">
+          <img src="/assets/images/equipe-2020/leticia.jpg" class="brand-logo" style="border-radius: 50%">
+        </a>
+      </div>
+      <div class="col-md-2">
+      </div>
+    </div>
+    <div class="row brands-row">
+      <div class="col-md-2">
+      </div>
+      <div class="col-md-2">
+        <a href="https://www.linkedin.com/in/mendersoncosta/" target="_blank" rel="noopener">
+          <img src="/assets/images/equipe-2020/menderson.jpeg" class="brand-logo" style="border-radius: 50%">
+        </a>
+      </div>
+      <div class="col-md-2">
+        <a href="https://www.linkedin.com/in/kamila-camargo/" target="_blank" rel="noopener">
+          <img src="/assets/images/equipe-2020/kamila.jpeg" class="brand-logo" style="border-radius: 50%">
+        </a>
+      </div>
+      <div class="col-md-2">
+        <a href="https://www.linkedin.com/in/paulora/" target="_blank" rel="noopener">
+          <img src="/assets/images/equipe-2020/paulo.jpg" class="brand-logo" style="border-radius: 50%">
+        </a>
+      </div>
+      <div class="col-md-2">
+        <a href="https://www.instagram.com/pedroschulzzz/" target="_blank" rel="noopener">
+          <img src="/assets/images/equipe-2020/pedro.jpeg" class="brand-logo" style="border-radius: 50%">
+        </a>
+      </div>
+      <div class="col-md-2">
+      </div>
+    </div>
+    <div class="row brands-row">
+      <div class="col-md-2">
+      </div>
+      <div class="col-md-2">
+        <a href="https://www.linkedin.com/in/laurindo-vilonga-dumba-45b214102/" target="_blank" rel="noopener">
+          <img src="/assets/images/equipe-2020/laurindo.jpeg" class="brand-logo" style="border-radius: 50%">
+        </a>
+      </div>
+      <div class="col-md-2">
+        <a href="https://www.linkedin.com/in/jheneyvilvok/" target="_blank" rel="noopener">
+          <img src="/assets/images/equipe-2020/jhey.jpeg" class="brand-logo" style="border-radius: 50%">
+        </a>
+      </div>
+      <div class="col-md-2">
+        <a href="https://www.linkedin.com/in/fabiano-cardoso-92223b109/" target="_blank" rel="noopener">
+          <img src="/assets/images/equipe-2020/fabiano.jpeg" class="brand-logo" style="border-radius: 50%">
+        </a>
+      </div>
+      <div class="col-md-2">
+        <a href="https://www.linkedin.com/in/laurogripa/" target="_blank" rel="noopener">
+          <img src="/assets/images/equipe-2020/lauro.jpeg" class="brand-logo" style="border-radius: 50%">
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content brands features-boxed">
+  <div class="container">
+    <div class="intro">
+      <h2 class="text-center">COLABORADORES</h2>
     </div>
     <div class="row brands-row">
       <div class="col-md-1">
