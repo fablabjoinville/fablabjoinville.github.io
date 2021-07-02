@@ -7,7 +7,7 @@ tags:
 - newsletter
 author: Fab Lab Joinville
 layout: post
-image: "https://s3-us-west-2.amazonaws.com/secure.notion-static.com/77eb2371-88ad-4efd-bf25-6c0a4410d0ce/Screen_Shot_2021-07-02_at_11.49.11.png"
+image: "/uploads/a.png"
 ---
 
 E aí galera! Essa é a primeira edição da nossa newsletter! Vamos enviar ela para você
@@ -67,9 +67,9 @@ regiões do país ao disponibilizar os
 [modelos e processo utilizados](https://docs.google.com/document/d/1ekYcfKoSvSebCV2IfBh2l3RpRuI_eCn4KyJPxtc-W2Y/edit)!
 Parabéns a todos os envolvidos! 
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/77eb2371-88ad-4efd-bf25-6c0a4410d0ce/Screen_Shot_2021-07-02_at_11.49.11.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/77eb2371-88ad-4efd-bf25-6c0a4410d0ce/Screen_Shot_2021-07-02_at_11.49.11.png)
+![/uploads/a.png](/uploads/a.png)
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1b3273b9-9109-4e0f-89d6-32cf84dcce7c/Screen_Shot_2021-07-02_at_11.49.32.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1b3273b9-9109-4e0f-89d6-32cf84dcce7c/Screen_Shot_2021-07-02_at_11.49.32.png)
+![/uploads/b.png](/uploads/b.png)
 
 ---
 
@@ -104,7 +104,7 @@ Nossa visão para os próximos 5 anos de Fab Lab Joinville e Makers Network:
 Nessa parte da nossa newsletter vamos falar mensalmente de uma ou mais pessoas marcantes na
 nossa comunidade. Para começar, vamos falar do Pedro Schulz!
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f1ac004f-f84f-4605-b5b8-6239d826ab15/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f1ac004f-f84f-4605-b5b8-6239d826ab15/Untitled.png)
+![/uploads/c.png](/uploads/c.png)
 
 O Pedro é o responsável no laboratório do Fab Lab pela manutenção das máquinas e por ensinar as
 pessoas que frequentam o laboratório a usarem nossos equipamentos e ferramentas.
