@@ -10,6 +10,8 @@ layout: post
 image: "/uploads/a.png"
 ---
 
+[Publlicação Original](https://www.notion.so/makersnetwork/202106-619736af24d84fdd81ec8468a63eccde)
+
 E aí galera! Essa é a primeira edição da nossa newsletter! Vamos enviar ela para você
 mensalmente com atualizações sobre o que aconteceu e sobre o que está por vir na nossa comunidade!
 
