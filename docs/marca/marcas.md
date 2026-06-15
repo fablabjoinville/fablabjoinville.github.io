@@ -9,48 +9,82 @@ tags:
 
 # Marcas
 
-Esta página reúne as principais versões da marca Fab Lab Joinville e orientações básicas de uso.
-
-## Uso das versões
-
-- Use versões **positivas** em fundos claros.
-- Use versões **negativas** em fundos escuros ou sobreposição em fotos.
-- Use versões **preto** e **branco** para reprodução a laser, stencil, serigrafia e processos que dependem da lógica positivo/negativo.
-- Nas versões coloridas, a marca usa azul e branco. Nas versões de uma cor, as letras FLJ são vazadas.
+![Title](/img/marca/logos/Title-FabLab-MarcasAsset_252x.png)
 
 ## Símbolo
 
-| Versão | Arquivo |
+Versões "negativo" para fundos escuros e sobreposição em fotos.
+Versões "positivo" para fundos claros.
+Versões "preto" e "branco" para reprodução a laser, stencil, serigrafia e processos que dependem da lógica positivo/negativo.
+
+### PNG
+
+| Positivo cores | Negativo cores |
 | --- | --- |
-| Positivo em cores | [SVG](/img/marca/logos/marca-flj-simbolo-positivo-cor.svg) |
-| Negativo em cores | [SVG](/img/marca/logos/marca-flj-simbolo-negativo-cor.svg) |
-| Positivo preto | [SVG](/img/marca/logos/marca-flj-simbolo-positivo-preto.svg) |
-| Negativo branco | [SVG](/img/marca/logos/marca-flj-simbolo-negativo-branco.svg) |
+| ![positivo-cores](/img/marca/logos/Marca-FLJ-simbolo-positivo-cor.png) | ![negativo-cores](/img/marca/logos/Marca-FLJ-simbolo-negativo-cor.png) |
 
-![Símbolo Fab Lab Joinville positivo em cores](/img/marca/logos/marca-flj-simbolo-positivo-cor.svg)
-
-## Assinatura horizontal Fab Lab Joinville
-
-| Versão | Arquivo |
+| Positivo preto | Negativo branco |
 | --- | --- |
-| Positivo em cores | [SVG](/img/marca/logos/marca-flj-ass-fab-lab-horizontal-positivo-cor.svg) |
-| Negativo em cores | [SVG](/img/marca/logos/marca-flj-ass-fab-lab-horizontal-negativo-cor.svg) |
-| Positivo preto | [SVG](/img/marca/logos/marca-flj-ass-fab-lab-horizontal-positivo-preto.svg) |
-| Negativo branco | [SVG](/img/marca/logos/marca-flj-ass-fab-lab-horizontal-negativo-branco.svg) |
+| ![positivo-preto](/img/marca/logos/Marca-FLJ-simbolo-positivo-preto.png) | ![negativo-branco](/img/marca/logos/Marca-FLJ-simbolo-negativo-branco.png) |
 
-![Assinatura horizontal Fab Lab Joinville](/img/marca/logos/marca-flj-ass-fab-lab-horizontal-positivo-cor.svg)
+### SVG
 
-## Assinatura horizontal Fab Lab Ágora
-
-| Versão | Arquivo |
+| Positivo cores | Negativo cores |
 | --- | --- |
-| Positivo em cores | [SVG](/img/marca/logos/marca-flj-agora-horizontal-positivo-cor.svg) |
-| Negativo em cores | [SVG](/img/marca/logos/marca-flj-agora-horizontal-negativo-cor.svg) |
-| Positivo preto | [SVG](/img/marca/logos/marca-flj-agora-horizontal-positivo-preto.svg) |
-| Negativo branco | [SVG](/img/marca/logos/marca-flj-agora-horizontal-negativo-branco.svg) |
+| ![positivo-cores](/img/marca/logos/Marca-FLJ-simbolo-positivo-cor.svg) | ![negativo-cores](/img/marca/logos/Marca-FLJ-simbolo-negativo-cor.svg) |
 
-![Assinatura horizontal Fab Lab Ágora](/img/marca/logos/marca-flj-agora-horizontal-positivo-cor.svg)
+| Positivo preto | Negativo branco |
+| --- | --- |
+| ![positivo-preto](/img/marca/logos/Marca-FLJ-simbolo-positivo-preto.svg) | ![negativo-branco](/img/marca/logos/Marca-FLJ-simbolo-negativo-branco.svg) |
 
-## Observações
+## Horizontal
 
-Os arquivos importados vieram de uma exportação histórica da marca. Antes de usar em materiais externos, confirme se esta é a versão mais recente da identidade visual.
+### Fab Lab Joinville
+
+#### PNG
+
+| Positivo cores | Negativo cores |
+| --- | --- |
+| ![positivo-cores](/img/marca/logos/Marca-FLJ-ass-fab-lab-horizontal-positivo-cor.png) | ![negativo-cores](/img/marca/logos/Marca-FLJ-ass-fab-lab-horizontal-negativo-cor.png) |
+
+| Positivo preto | Negativo branco |
+| --- | --- |
+| ![positivo-preto](/img/marca/logos/Marca-FLJ-ass-fab-lab-horizontal-positivo-preto.png) | ![negativo-branco](/img/marca/logos/Marca-FLJ-ass-fab-lab-horizontal-negativo-branco.png) |
+
+#### SVG
+
+| Positivo cores | Negativo cores |
+| --- | --- |
+| ![positivo-cores](/img/marca/logos/Marca-FLJ-ass-fab-lab-horizontal-positivo-cor.svg) | ![negativo-cores](/img/marca/logos/Marca-FLJ-ass-fab-lab-horizontal-negativo-cor.svg) |
+
+| Positivo preto | Negativo branco |
+| --- | --- |
+| ![positivo-preto](/img/marca/logos/Marca-FLJ-ass-fab-lab-horizontal-positivo-preto.svg) | ![negativo-branco](/img/marca/logos/Marca-FLJ-ass-fab-lab-horizontal-negativo-branco.svg) |
+
+### Fab Lab Ágora
+
+#### PNG
+
+| Positivo cores | Negativo cores |
+| --- | --- |
+| ![positivo-cores](/img/marca/logos/Marca-FLJ-agora-horizontal-positivo-cor.png) | ![negativo-cores](/img/marca/logos/Marca-FLJ-agora-horizontal-negativo-cor.png) |
+
+| Positivo preto | Negativo branco |
+| --- | --- |
+| ![positivo-preto](/img/marca/logos/Marca-FLJ-agora-horizontal-positivo-preto.png) | ![negativo-branco](/img/marca/logos/Marca-FLJ-agora-horizontal-negativo-branco.png) |
+
+#### SVG
+
+| Positivo cores | Negativo cores |
+| --- | --- |
+| ![positivo-cores](/img/marca/logos/Marca-FLJ-agora-horizontal-positivo-cor.svg) | ![negativo-cores](/img/marca/logos/Marca-FLJ-agora-horizontal-negativo-cor.svg) |
+
+| Positivo preto | Negativo branco |
+| --- | --- |
+| ![positivo-preto](/img/marca/logos/Marca-FLJ-agora-horizontal-positivo-preto.svg) | ![negativo-branco](/img/marca/logos/Marca-FLJ-agora-horizontal-negativo-branco.svg) |
+
+## Makers Network
+
+![Makers Network](/img/marca/Makers_Network-transparent.png)
+
+Logotipo da rede Makers Network, utilizada em materiais de divulgação da comunidade maker local.

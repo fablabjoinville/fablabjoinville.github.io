@@ -9,19 +9,19 @@ tags:
 
 # Ícones
 
-A maior parte dos ícones de interface pode usar a biblioteca Material Design Icons, mantendo consistência visual e rapidez na produção.
+> 💡 We source the majority of our UI icons from Google's Material Design. This helps us move quickly and maintain visual consistency.
 
 ## Material Design Icons
 
-Referência: [Material Symbols and Icons](https://fonts.google.com/icons)
+Referência: [Material Symbols and Icons — Google Fonts](https://fonts.google.com/icons)
 
-![Exemplo de ícones Material Design](/img/marca/icones/google-material-icons.png)
+![google-material-icons.png](/img/marca/icones/google-material-icons.png)
 
-## Diretrizes
+## Guidelines
 
-- Use preferencialmente a variação preenchida (`filled`).
-- Use SVG em vez de imagem raster quando o ícone fizer parte da interface.
+- Always use the "filled" theme
+- Use SVGs instead of raster images
 - Mantenha escala, espessura e alinhamento consistentes.
 - Evite misturar famílias de ícones diferentes na mesma peça.
 
-![Exemplo de ícones em interface](/img/marca/icones/google-material-icons-ui.png)
+![google-material-icons-ui.png](/img/marca/icones/google-material-icons-ui.png)

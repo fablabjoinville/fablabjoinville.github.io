@@ -9,31 +9,61 @@ tags:
 
 # Tipografia
 
-Usamos duas famílias de fontes, com finalidades diferentes: Aglet para a identidade oficial e Roboto para documentos e aplicações web.
+Usamos 2 família de fontes. Atentar-se ao uso específico para cada uma: Projetos com a Identidade oficial vs. Projetos/aplicações web.
 
 ## Aglet
 
-**Aglet é a fonte oficial da identidade da marca.** Ela deve ser usada em projetos institucionais, layouts gráficos, material publicitário, sinalização e outras extensões da marca.
+A Aglet é a fonte oficial da identidade da marca, usada para projetos institucionais, layouts gráficos, material publicitário, sinalização e outras extensões da marca.
 
 ### Aglet Slab
 
-Uso recomendado: títulos e chamadas de destaque (`H1` a `H6`).
+Para Título e Chamada de destaque (H1~H6)
 
-Orientação: usar em caixa alta quando for aplicada como título ou chamada principal.
+Usar no formato ALL-CAPS (Maiúsculas)
+
+<div class="font-preview">
+  <div class="font-preview-title">Aglet Slab — All Caps</div>
+  <div class="font-preview-text font-preview-aglet">Fab Lab Joinville</div>
+</div>
 
 ### Aglet Sans
 
-Uso recomendado: subtítulos, texto, parágrafos e legendas.
+Para Subtítulo, Texto/Parágrafo (P) e Legenda.
+
+<div class="font-preview">
+  <div class="font-preview-title">Aglet Sans</div>
+  <div class="font-preview-text font-preview-aglet-sans">O Fab Lab é um ambiente aberto e acolhedor para grupos de conhecimento diversos.</div>
+</div>
 
 ### Aglet Mono
 
-Uso recomendado: textos especiais e destaques. Não é obrigatória em todos os layouts.
+Fonte "coringa", para Textos Especiais e Destaques. Não é de uso obrigatório em layouts.
+
+<div class="font-preview">
+  <div class="font-preview-title">Aglet Mono</div>
+  <div class="font-preview-text font-preview-aglet-mono">print("hello, world!")</div>
+</div>
 
 ## Roboto
 
-Roboto é usada como reforço para documentos e aplicações, como Google Apps e site, por ser uma fonte nativa do ecossistema Google e fácil de aplicar em ferramentas online.
+A Roboto é usada como reforço, para aplicar em documentos e aplicações como GApps e Site, por exemplo, por já ser uma fonte nativa Google e facilmente aplicada em diferentes ferramentas online.
 
-Todos os pesos podem ser usados: de `100` (light) a `900` (extra-bold).
+Todos os pesos da fonte podem ser usados: do 100 (light) ao 900 (extra-bold).
+
+<div class="font-preview">
+  <div class="font-preview-title">Roboto — Light (100)</div>
+  <div class="font-preview-text font-preview-roboto-light">Fab Lab Joinville</div>
+</div>
+
+<div class="font-preview">
+  <div class="font-preview-title">Roboto — Regular (400)</div>
+  <div class="font-preview-text font-preview-roboto">Fab Lab Joinville</div>
+</div>
+
+<div class="font-preview">
+  <div class="font-preview-title">Roboto — Bold (700)</div>
+  <div class="font-preview-text font-preview-roboto-bold">Fab Lab Joinville</div>
+</div>
 
 ### Web embed
 
@@ -49,9 +79,14 @@ Todos os pesos podem ser usados: de `100` (light) a `900` (extra-bold).
 font-family: 'Roboto', sans-serif;
 ```
 
+Por ser uma fonte web, estará disponível na maioria das aplicações/ferramentas online, não sendo necessário baixá-la para uso.
+
 ## Roboto Mono
 
-Roboto Mono pode ser usada em exemplos técnicos, trechos de código e conteúdos que se beneficiem de uma fonte monoespaçada.
+<div class="font-preview">
+  <div class="font-preview-title">Roboto Mono</div>
+  <div class="font-preview-text font-preview-roboto-mono">console.log("Fab Lab Joinville");</div>
+</div>
 
 ### Web embed
 
@@ -66,7 +101,3 @@ Roboto Mono pode ser usada em exemplos técnicos, trechos de código e conteúdo
 ```css
 font-family: 'Roboto Mono', monospace;
 ```
-
-## Observação
-
-Os arquivos de fonte exportados foram preservados na fonte original, mas não foram publicados nesta primeira importação. Antes de redistribuir fontes, confirme as licenças aplicáveis.

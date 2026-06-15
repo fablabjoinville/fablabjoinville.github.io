@@ -15,6 +15,7 @@ const config = {
     mermaid: true,
     hooks: {
       onBrokenMarkdownLinks: 'warn',
+      onBrokenMarkdownImages: 'warn',
     },
   },
 
@@ -51,9 +52,24 @@ const config = {
         title: 'Fab Lab Joinville',
         items: [
           {
+            to: '/sobre',
+            position: 'left',
+            label: 'Sobre',
+          },
+          {
             to: '/guias',
             position: 'left',
             label: 'Guias',
+          },
+          {
+            to: '/equipes',
+            position: 'left',
+            label: 'Equipes',
+          },
+          {
+            to: '/portfolio',
+            position: 'left',
+            label: 'Portfolio',
           },
           {
             to: '/marca',
