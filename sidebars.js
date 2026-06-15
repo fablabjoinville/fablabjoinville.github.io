@@ -20,15 +20,9 @@ const sidebars = {
       ],
     },
     {
-      type: 'category',
+      type: 'doc',
+      id: 'guias/guias',
       label: 'Guias',
-      link: {
-        type: 'doc',
-        id: 'guias/guias',
-      },
-      items: [
-        'guias/impressao-3d',
-      ],
     },
     {
       type: 'category',

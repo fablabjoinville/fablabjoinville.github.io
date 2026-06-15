@@ -67,11 +67,6 @@ const config = {
             label: 'Equipes',
           },
           {
-            to: '/portfolio',
-            position: 'left',
-            label: 'Portfolio',
-          },
-          {
             to: '/marca',
             position: 'left',
             label: 'Marca',
