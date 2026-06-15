@@ -56,6 +56,11 @@ const config = {
             label: 'Guias',
           },
           {
+            to: '/marca',
+            position: 'left',
+            label: 'Marca',
+          },
+          {
             to: '/contato',
             position: 'left',
             label: 'Contato',
