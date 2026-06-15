@@ -1,0 +1,15 @@
+{
+  "promptDelete": false,
+  "showUnsupportedFiles": true,
+  "alwaysUpdateLinks": true,
+  "trashOption": "local",
+  "uriCallbacks": true,
+  "readableLineLength": true,
+  "attachmentFolderPath": "./_attachments",
+  "pdfExportSettings": {
+    "pageSize": "A4",
+    "landscape": false,
+    "margin": "0",
+    "downscalePercent": 100
+  }
+}
