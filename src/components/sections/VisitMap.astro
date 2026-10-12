@@ -3,8 +3,8 @@
  * <VisitMap /> — home "Visite o Fab Lab" section ("Mapa com cartão", chosen from
  * /lab/contato, variant 1). Replaces ContactBlock on the home page.
  *
- * Concept: the map is the section. A tall, full-container-width OpenStreetMap
- * embed carries the "where", and a single white info card (2px navy frame,
+ * Concept: the map is the section. A tall, full-container-width vector map
+ * carries the "where", and a single white info card (2px navy frame,
  * hard navy offset shadow, chamfered top-right corner, the extruded-symbol
  * motif) overlaps its left side and carries everything else: eyebrow, title,
  * the migrated invitation sentence, the one accent CTA and a compact ruled
@@ -21,11 +21,16 @@
  * Layout: mobile-first. Below 64em the map sits on top (4:3, then 16:9) and the
  * card stacks directly under it. From 64em the map is 28rem tall and the card
  * overlaps its left side, hanging below the map if its content is taller. The
- * card is capped at half the map minus its inset, so the centred OSM marker
- * stays visible; its inset also keeps the OSM zoom controls (top-left) and
+ * card is capped at half the map minus its inset, and the map is padded on the
+ * left so the pin sits in the free area to the right of the card (about 78% of
+ * the map width); the inset also keeps the zoom controls (top-right) and
  * attribution (bottom-right) uncovered.
  *
- * Static: the iframe is rendered directly (loading="lazy"), no island.
+ * The map is MapLibre GL with OpenFreeMap's "Positron" vector style (free, no API
+ * key) recoloured at runtime from the design-system tokens ("Natural" palette:
+ * paper land, green-100 parks, blue-100 water), our brand-orange pin and two
+ * place labels (Ágora Tech Park, UFSC) the tiles do not carry. It loads lazily
+ * when the section nears the viewport; <noscript> keeps the plain OSM embed.
  */
 import { Button, Icon } from '@/components/ui';
 import { linkAttrs } from './utils';
@@ -39,36 +44,32 @@ interface Props {
 const { id = 'contato' } = Astro.props;
 const titleId = `${id}-titulo`;
 
-// OSM embed framed so the marker sits in the RIGHT part of the map (≈75% across),
-// clear of the info card that overlaps the left side. The bbox is wide and short,
-// so Leaflet fits it by width and the marker keeps its horizontal position.
+// Marker position (the Fab Lab, Ágora Tech Park); the script centres the map so the
+// pin sits clear of the info card that overlaps the left side on desktop.
 const MARKER = { lat: -26.2347, lng: -48.88307 };
-const SPAN_LNG = 0.012;
-const SPAN_LAT = 0.003;
-// Leaflet rounds the zoom down to fit, which pulls the marker toward the centre,
-// so it is placed at 90% of the bbox to land at roughly 75–80% on screen.
-const MARKER_X = 0.9;
-const bbox = [
-  MARKER.lng - SPAN_LNG * MARKER_X,
-  MARKER.lat - SPAN_LAT / 2,
-  MARKER.lng + SPAN_LNG * (1 - MARKER_X),
-  MARKER.lat + SPAN_LAT / 2,
-]
-  .map((n) => n.toFixed(5))
-  .join('%2C');
-const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${MARKER.lat}%2C${MARKER.lng}`;
 ---
 
 <section id={id} class="visitmap" aria-labelledby={titleId}>
   <div class="flj-container">
     <div class="visitmap-stage">
       <div class="visitmap-map">
-        <iframe
-          class="visitmap-map__frame"
-          src={mapSrc}
-          title="Mapa de Localização Ágora Tech Park"
-          loading="lazy"
-          referrerpolicy="no-referrer"></iframe>
+        <div
+          class="visitmap-map__canvas"
+          role="region"
+          aria-label="Mapa de localização do Fab Lab Joinville"
+          data-lat={MARKER.lat}
+          data-lng={MARKER.lng}
+          data-title="Fab Lab Joinville"
+        >
+        </div>
+        <noscript>
+          <iframe
+            class="visitmap-map__frame"
+            src={site.links.mapEmbed}
+            title="Mapa de Localização Ágora Tech Park"
+            loading="lazy"
+            referrerpolicy="no-referrer"></iframe>
+        </noscript>
       </div>
 
       <div class="visitmap-card">
@@ -146,6 +147,132 @@ const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&lay
   </div>
 </section>
 
+<script>
+  // Lazy-load MapLibre when the map is about to be seen.
+  const canvas = document.querySelector<HTMLElement>('.visitmap-map__canvas');
+
+  const STYLE_URL = 'https://tiles.openfreemap.org/styles/positron';
+  /** Wider on mobile, where the map is narrow and the card stacks below it. */
+  const ZOOM_MOBILE = 15.5;
+  const ZOOM_DESKTOP = 16.5;
+  /** Where the pin sits on desktop, as a fraction of the map (the card covers the left part). */
+  const PIN_X = 0.785;
+  const PIN_Y = 0.335;
+
+  // Place names the vector tiles do not carry (coordinates from OpenStreetMap).
+  const PLACES = [
+    { name: 'Ágora Tech Park', lngLat: [-48.8824, -26.2359] as [number, number], strong: true },
+    { name: 'UFSC', lngLat: [-48.88496, -26.23535] as [number, number], strong: false },
+  ];
+
+  // "Natural" palette: role -> design-system token (src/styles/tokens/colors.css).
+  const PALETTE = {
+    land: '--flj-paper',
+    landuse: '--flj-gray-100',
+    park: '--flj-green-100',
+    water: '--flj-blue-100',
+    building: '--flj-gray-200',
+    buildingEdge: '--flj-gray-400',
+    road: '--flj-white',
+    roadCasing: '--flj-gray-200',
+    roadMajorCasing: '--flj-gray-400',
+    rail: '--flj-gray-400',
+    boundary: '--flj-gray-400',
+    text: '--flj-navy-800',
+    halo: '--flj-paper',
+  } as const;
+
+  async function initMap(el: HTMLElement) {
+    const [{ default: maplibregl }] = await Promise.all([
+      import('maplibre-gl'),
+      import('maplibre-gl/dist/maplibre-gl.css'),
+    ]);
+    const css = getComputedStyle(document.documentElement);
+    const c = Object.fromEntries(
+      Object.entries(PALETTE).map(([role, token]) => [role, css.getPropertyValue(token).trim()]),
+    ) as Record<keyof typeof PALETTE, string>;
+
+    // Recolour the Positron layers in place, by layer id / type.
+    const style = await fetch(STYLE_URL).then((r) => r.json());
+    for (const layer of style.layers) {
+      const paint = (layer.paint ??= {});
+      const id: string = layer.id;
+      if (layer.type === 'background') paint['background-color'] = c.land;
+      else if (layer.type === 'symbol') {
+        paint['text-color'] = c.text;
+        paint['text-halo-color'] = c.halo;
+      } else if (layer.type === 'fill') {
+        if (id === 'water') paint['fill-color'] = c.water;
+        else if (id === 'building') {
+          paint['fill-color'] = c.building;
+          paint['fill-outline-color'] = c.buildingEdge;
+        } else if (id === 'park' || id === 'landcover_wood') paint['fill-color'] = c.park;
+        else if (id === 'landuse_residential') paint['fill-color'] = c.landuse;
+        else paint['fill-color'] = c.land;
+      } else if (layer.type === 'line') {
+        if (id.startsWith('waterway')) paint['line-color'] = c.water;
+        else if (id.startsWith('boundary')) paint['line-color'] = c.boundary;
+        else if (id.startsWith('railway')) paint['line-color'] = c.rail;
+        else if (id.includes('casing')) paint['line-color'] = /motorway|major/.test(id) ? c.roadMajorCasing : c.roadCasing;
+        else paint['line-color'] = c.road;
+      }
+    }
+
+    const marker: [number, number] = [Number(el.dataset.lng), Number(el.dataset.lat)];
+    // On desktop the card covers the left of the map: pad the left (and bottom) so the pin sits at PIN_X / PIN_Y.
+    const card = el.closest('.visitmap-stage')?.querySelector<HTMLElement>('.visitmap-card');
+    const desktop = window.matchMedia('(min-width: 64em)').matches;
+    const padding = { top: 0, right: 0, bottom: 0, left: 0 };
+    if (card && desktop) {
+      const overlap = card.getBoundingClientRect().right - el.getBoundingClientRect().left;
+      padding.left = Math.max(overlap, (2 * PIN_X - 1) * el.clientWidth);
+      padding.bottom = (1 - 2 * PIN_Y) * el.clientHeight;
+    }
+
+    const map = new maplibregl.Map({
+      container: el,
+      style,
+      attributionControl: { compact: true },
+    });
+    map.jumpTo({ center: marker, zoom: desktop ? ZOOM_DESKTOP : ZOOM_MOBILE, padding });
+    map.scrollZoom.disable();
+    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+
+    const pin = document.createElement('div');
+    pin.className = 'visitmap-pin';
+    pin.title = el.dataset.title ?? '';
+    pin.innerHTML = `<svg viewBox="0 0 40 52" width="40" height="52" aria-hidden="true">
+      <path class="visitmap-pin__body" d="M20 50C20 50 3 31 3 19a17 17 0 0 1 34 0c0 12-17 31-17 31Z" />
+      <circle class="visitmap-pin__dot" cx="20" cy="19" r="6.5" />
+    </svg>`;
+    new maplibregl.Marker({ element: pin, anchor: 'bottom', offset: [0, 2] }).setLngLat(marker).addTo(map);
+
+    const addLabel = (text: string, lngLat: [number, number], strong: boolean, anchor: 'center' | 'top' = 'center') => {
+      const label = document.createElement('div');
+      label.className = strong ? 'visitmap-place visitmap-place--strong' : 'visitmap-place';
+      label.textContent = text;
+      new maplibregl.Marker({ element: label, anchor, offset: anchor === 'top' ? [0, 6] : [0, 0] })
+        .setLngLat(lngLat)
+        .addTo(map);
+    };
+    // "Fab Lab" sits right under the pin tip.
+    addLabel('Fab Lab', marker, true, 'top');
+    for (const place of PLACES) addLabel(place.name, place.lngLat, place.strong);
+  }
+
+  if (canvas) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        io.disconnect();
+        void initMap(canvas);
+      },
+      { rootMargin: '200px' },
+    );
+    io.observe(canvas);
+  }
+</script>
+
 <style>
   .visitmap {
     /* Local knobs (all derived from tokens). */
@@ -164,6 +291,8 @@ const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&lay
   /* ---------- Map ---------- */
   .visitmap-map {
     position: relative;
+    /* Own stacking context: map panes and controls use their own z-index and must stay below the card. */
+    z-index: 0;
     aspect-ratio: 4 / 3;
     overflow: hidden;
     background: var(--surface-muted);
@@ -171,6 +300,7 @@ const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&lay
     border-radius: var(--radius-0);
   }
 
+  .visitmap-map__canvas,
   .visitmap-map__frame {
     position: absolute;
     inset: 0;
@@ -178,6 +308,58 @@ const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&lay
     width: 100%;
     height: 100%;
     border: 0;
+  }
+
+  /* MapLibre chrome, restyled to the system (square corners, navy frame). */
+  .visitmap-map__canvas :global(.maplibregl-map) {
+    font: var(--type-small);
+  }
+
+  .visitmap-map__canvas :global(.maplibregl-ctrl-group) {
+    border: var(--border-w) solid var(--border-default);
+    border-radius: var(--radius-0);
+    box-shadow: none;
+  }
+
+  .visitmap-map__canvas :global(.maplibregl-ctrl-attrib) {
+    color: var(--text-body);
+  }
+
+  /* Place labels: mono label type with a paper halo so they read over roads. */
+  .visitmap-map__canvas :global(.visitmap-place) {
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    white-space: nowrap;
+    pointer-events: none;
+    color: var(--text-body);
+    -webkit-text-stroke: 3px var(--surface-paper);
+    paint-order: stroke fill;
+  }
+
+  .visitmap-map__canvas :global(.visitmap-place--strong) {
+    font-weight: var(--fw-bold);
+  }
+
+  /* The pin: brand accent fill, navy outline, soft ground shadow. */
+  .visitmap-map__canvas :global(.visitmap-pin) {
+    filter: drop-shadow(0 3px 2px rgb(0 0 0 / 0.3));
+  }
+
+  .visitmap-map__canvas :global(.visitmap-pin svg) {
+    display: block;
+    overflow: visible;
+  }
+
+  .visitmap-map__canvas :global(.visitmap-pin__body) {
+    fill: var(--brand-accent);
+    stroke: var(--brand-primary);
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+  }
+
+  .visitmap-map__canvas :global(.visitmap-pin__dot) {
+    fill: var(--surface-card);
   }
 
   /* ---------- Card ---------- */
