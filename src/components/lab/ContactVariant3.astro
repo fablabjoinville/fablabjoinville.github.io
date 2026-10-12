@@ -1,0 +1,360 @@
+---
+/**
+ * ContactVariant3 — "Duas colunas enxutas"
+ *
+ * Concept: two tight columns. Left: a navy inverse panel (the lab "speaking")
+ * with eyebrow, h2 "Agende a sua visita", the migrated old-site sentence, the
+ * section's single accent CTA and — under a thin rule — the e-mail as a white
+ * link. Right: the OpenStreetMap embed (square-ish, hard offset shadow) with
+ * one compact caption bar: the address on a single line + "Abrir no Google
+ * Maps" on the right, and the three opening-hours rows as inline mono chips.
+ *
+ * How it removes the repetition: every fact appears exactly once. The address
+ * lives only in the map caption (no separate "Localização" block); hours are
+ * compressed into chips under the map instead of a dl list; the e-mail sits
+ * inside the visit panel instead of its own item; the old navy "Agende a sua
+ * Visita" card *is* the left column, so there is no stacked list + card + map.
+ *
+ * Static (no island): the iframe loads lazily. All data from src/data/site.ts.
+ * Keeps id="contato" (FAQ links to /#contato). Mobile-first: one column
+ * (panel, then map) below 56em; side by side above it.
+ */
+import { Button, Icon } from '@/components/ui';
+import { site, fullAddress } from '@/data/site';
+
+interface Props {
+  /** Section id; defaults to "contato" (FAQ links to /#contato). */
+  id?: string;
+}
+
+const { id = 'contato' } = Astro.props;
+---
+
+<section id={id} class="cv3" aria-labelledby="cv3-title">
+  <div class="flj-container cv3-grid">
+    <div class="flj-visit cv3-panel">
+      <p class="flj-eyebrow cv3-eyebrow">Contato · Visite o Fab Lab</p>
+      <h2 id="cv3-title" class="cv3-title">Agende a sua visita</h2>
+      <p class="cv3-text">
+        Quer conhecer as nossas tecnologias, desenvolver um projeto ou fazer uma visita guiada? Agende um horário com a
+        nossa equipe.
+      </p>
+      <div class="cv3-cta">
+        <Button
+          variant="accent"
+          size="lg"
+          href={site.links.visitBooking}
+          target="_blank"
+          iconRight="arrow-right"
+          data-track="visit-booking"
+        >
+          Escolher data e horário
+        </Button>
+      </div>
+      <p class="cv3-mail">
+        <span class="cv3-mail__label">
+          <Icon name="mail" size={16} />
+          E-mail
+        </span>
+        <a class="cv3-mail__link" href={`mailto:${site.email}`} data-track="mailto-contact">{site.email}</a>
+      </p>
+    </div>
+
+    <figure class="cv3-map">
+      <div class="cv3-map__viewport">
+        <iframe
+          class="cv3-map__frame"
+          src={site.links.mapEmbed}
+          title="Mapa de Localização Ágora Tech Park"
+          loading="lazy"
+          referrerpolicy="no-referrer"></iframe>
+      </div>
+      <figcaption class="cv3-caption">
+        <div class="cv3-caption__row">
+          <address class="cv3-address">
+            <Icon name="map-pin" size={16} className="cv3-address__pin" />
+            <span>{fullAddress}</span>
+          </address>
+          <a
+            class="cv3-maplink"
+            href={site.links.mapLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-track="map-open"
+          >
+            Abrir no Google Maps
+            <Icon name="arrow-up-right" size={16} />
+          </a>
+        </div>
+        <div class="cv3-hours">
+          <span class="cv3-hours__label" id="cv3-hours-label">
+            <Icon name="clock" size={16} />
+            Horários
+          </span>
+          <ul class="cv3-chips" role="list" aria-labelledby="cv3-hours-label">
+            {
+              site.hours.map((h) => (
+                <li class="cv3-chip">
+                  <span class="cv3-chip__days">{h.days}</span>
+                  <span class="cv3-chip__time">{h.time}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .cv3 {
+    padding-block: var(--space-8);
+    background: var(--surface-paper);
+    color: var(--text-body);
+  }
+
+  .cv3-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+    align-items: stretch;
+  }
+
+  /* ---------- Left: navy visit panel ---------- */
+  /* Overrides the generic .flj-visit card layout; the class stays for the
+     white hover shadow of the accent button on navy (core.css). */
+  .cv3-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+    margin: 0;
+    padding: var(--space-6) var(--space-5);
+    background: var(--surface-inverse);
+    color: var(--text-inverse);
+    border: var(--border-w) solid var(--border-default);
+    border-radius: var(--radius-1);
+  }
+
+  .cv3-eyebrow {
+    color: var(--brand-accent);
+  }
+
+  .cv3-title {
+    margin: 0;
+    font: var(--fw-bold) var(--fs-32) / var(--lh-snug) var(--font-display);
+    letter-spacing: var(--ls-display);
+    text-transform: uppercase;
+    text-wrap: balance;
+    color: var(--text-inverse);
+  }
+
+  .cv3-text {
+    max-width: 44ch;
+    margin: 0;
+    font: var(--type-body-lg);
+    color: var(--flj-navy-100);
+  }
+
+  .cv3-cta {
+    width: 100%;
+    margin-top: var(--space-2);
+  }
+
+  /* Narrow phones: let the large CTA span the panel and wrap instead of overflowing. */
+  @media (max-width: 29.99em) {
+    .cv3-cta :global(.flj-btn) {
+      width: 100%;
+      height: auto;
+      min-height: calc(var(--space-1) * 14);
+      padding: var(--space-3) var(--space-4);
+      line-height: var(--lh-snug);
+      white-space: normal;
+      text-align: center;
+    }
+  }
+
+  .cv3-mail {
+    display: grid;
+    gap: var(--space-2);
+    width: 100%;
+    margin: auto 0 0;
+    padding-top: var(--space-5);
+    border-top: var(--border-w-thin) solid var(--flj-navy-600);
+  }
+
+  .cv3-mail__label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--flj-navy-300);
+  }
+
+  .cv3-mail__link {
+    justify-self: start;
+    font: var(--fw-semibold) var(--fs-18) / var(--lh-snug) var(--font-body);
+    color: var(--text-inverse);
+    text-decoration: underline;
+    text-decoration-thickness: var(--border-w-thin);
+    text-underline-offset: 3px;
+    overflow-wrap: anywhere;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .cv3-mail__link:hover {
+    color: var(--brand-accent);
+  }
+
+  .cv3-mail__link:focus-visible,
+  .cv3-maplink:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: var(--border-w);
+  }
+
+  /* ---------- Right: map + caption ---------- */
+  .cv3-map {
+    display: flex;
+    flex-direction: column;
+    margin: 0 calc(var(--space-1) + var(--space-1) / 2) calc(var(--space-1) + var(--space-1) / 2) 0;
+    border: var(--border-w) solid var(--border-default);
+    border-radius: var(--radius-1);
+    background: var(--surface-card);
+    box-shadow: var(--shadow-offset);
+  }
+
+  .cv3-map__viewport {
+    flex: 1 1 auto;
+    aspect-ratio: 4 / 3;
+    background: var(--surface-muted);
+  }
+
+  .cv3-map__frame {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .cv3-caption {
+    display: grid;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-top: var(--border-w) solid var(--border-default);
+  }
+
+  .cv3-caption__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-4);
+  }
+
+  .cv3-address {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    min-width: 0;
+    font: var(--type-small);
+    font-style: normal;
+    color: var(--text-body);
+  }
+
+  .cv3-address :global(.cv3-address__pin) {
+    margin-top: 2px;
+    color: var(--brand-accent);
+  }
+
+  .cv3-maplink {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    flex: none;
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--text-body);
+    text-decoration: underline;
+    text-decoration-thickness: var(--border-w-thin);
+    text-underline-offset: 3px;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .cv3-maplink:hover {
+    color: var(--text-accent);
+  }
+
+  .cv3-hours {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+    padding-top: var(--space-3);
+    border-top: var(--border-w-thin) solid var(--border-subtle);
+  }
+
+  .cv3-hours__label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .cv3-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cv3-chip {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-2);
+    border: var(--border-w-thin) solid var(--border-default);
+    border-radius: var(--radius-1);
+    background: var(--surface-paper);
+    font: var(--fw-regular) var(--fs-12) / var(--lh-snug) var(--font-mono);
+    color: var(--text-body);
+  }
+
+  .cv3-chip__days {
+    font-weight: var(--fw-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* ---------- Desktop: two columns ---------- */
+  @media (min-width: 56em) {
+    .cv3 {
+      padding-block: var(--space-9);
+    }
+
+    .cv3-grid {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      gap: var(--space-7);
+    }
+
+    .cv3-panel {
+      padding: var(--space-7) var(--space-6);
+    }
+
+    .cv3-title {
+      font-size: var(--fs-40);
+    }
+
+    .cv3-map__viewport {
+      aspect-ratio: 5 / 4;
+    }
+  }
+</style>

@@ -1,0 +1,2 @@
+a{color:var(--brand-primary);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:2px}a:hover{color:var(--brand-accent-hover)}
+::selection{background:var(--flj-laser-500);color:var(--flj-white)}

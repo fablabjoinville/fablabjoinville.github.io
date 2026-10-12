@@ -1,0 +1,39 @@
+{
+  "name": "fablabjoinville-website",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "lint": "eslint . --max-warnings 0",
+    "astro": "astro",
+    "parity": "node scripts/migration/verify-parity.mjs"
+  },
+  "dependencies": {
+    "@astrojs/partytown": "^2.1.8",
+    "@astrojs/react": "^7.0.1",
+    "@astrojs/sitemap": "^3.7.4",
+    "@sentry/astro": "11.6.0",
+    "@sentry/react": "11.6.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "astro": "^7.3.8",
+    "lucide-static": "^0.460.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "simple-icons": "^16.35.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "astro-pagefind": "^2.0.1",
+    "eslint": "^10.12.0",
+    "eslint-plugin-astro": "^1.7.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.71.1"
+  }
+}

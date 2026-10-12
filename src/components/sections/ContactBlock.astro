@@ -1,0 +1,66 @@
+---
+/**
+ * <ContactBlock /> — contact / location / hours / visit booking section
+ * (old home "Contato" embed), rebuilt from src/data/site.ts.
+ *
+ * .astro (not TSX) so it can hydrate the map island: <MapEmbed client:visible/>.
+ *
+ * Props
+ *  - showMap?: boolean        (default true) click-to-load Google Map
+ *  - showVisit?: boolean      (default true) "Agende a sua Visita" card with the
+ *                             accent CTA — set false if the view already has an accent CTA
+ *  - id?: string              (default "contato")
+ *  - eyebrow?: string         (default "Visite o Fab Lab")
+ *  - title?: string           (default "Contato")
+ *  - tone?: 'page' | 'paper' | 'inverse' | 'muted'   (default 'paper')
+ *  - headingLevel?: 2 | 3     (default 2; sub-blocks use headingLevel + 1)
+ */
+import { Section } from './Section';
+import { ContactDetails, VisitCard } from './ContactDetails';
+import { MapEmbed } from '@/components/islands/MapEmbed';
+import { site, fullAddress } from '@/data/site';
+import type { HeadingLevel } from './utils';
+
+export interface Props {
+  showMap?: boolean;
+  showVisit?: boolean;
+  id?: string;
+  eyebrow?: string;
+  title?: string;
+  tone?: 'page' | 'paper' | 'inverse' | 'muted';
+  headingLevel?: 2 | 3;
+}
+
+const {
+  showMap = true,
+  showVisit = true,
+  id = 'contato',
+  eyebrow = 'Visite o Fab Lab',
+  title = 'Contato',
+  tone = 'paper',
+  headingLevel = 2,
+} = Astro.props;
+const subLevel = (headingLevel + 1) as HeadingLevel;
+---
+
+<Section id={id} eyebrow={eyebrow} title={title} tone={tone} headingLevel={headingLevel}>
+  <div class:list={['flj-contactblock', { 'flj-contactblock--no-map': !showMap }]}>
+    <div class="flj-contactblock__info">
+      <ContactDetails headingLevel={subLevel} />
+      {showVisit && <VisitCard headingLevel={subLevel} />}
+    </div>
+    {
+      showMap && (
+        <div class="flj-contactblock__map">
+          <MapEmbed
+            client:visible
+            src={site.links.mapEmbed}
+            title="Mapa de Localização Ágora Tech Park"
+            href={site.links.mapLink}
+            address={fullAddress}
+          />
+        </div>
+      )
+    }
+  </div>
+</Section>

@@ -1,0 +1,1031 @@
+---
+/**
+ * HeaderVariant3 — "Workshop bench grid"
+ *
+ * Concept: the nav bar and the hero are one ruled spec sheet. 2px navy rules
+ * split the page into labelled cells, like a workshop bench or a technical
+ * drawing's title block: headline (A), lab photo (B), opening hours + address (C),
+ * CTAs (D), machines list (E) and social links (F). The nav is the top row of the
+ * same sheet (logo cell · numbered nav cells · Buscar cell).
+ *
+ * Fixes in the current header: the nav and hero no longer read as two unrelated
+ * blocks (one continuous grid); the headline is sized to the cell so it sits on
+ * two lines instead of four; the empty space and the floating illustration are
+ * replaced by real, useful facts (hours, address, machines) and a real lab photo
+ * that fills its cell edge to edge.
+ *
+ * Static: zero JS needed. The mobile menu is a <details> element. A tiny script
+ * only adds the "Aberto agora / Fechado agora" status and marks today's hours row
+ * (America/Sao_Paulo time); without it the hours still render in full.
+ * In production the Buscar cell would host the <SiteSearch> island.
+ */
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import { Button, Icon } from '@/components/ui';
+import { site, isActivePath } from '@/data/site';
+import { brandMark } from '@/data/brand';
+
+export interface Props {
+  /** Path used to mark the active nav item (defaults to the home page). */
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+
+const logo = brandMark('marca-azul.svg');
+const resources = (await getCollection('resources')).map((entry) => entry.data).sort((a, b) => a.order - b.order);
+
+/** Machines / work areas shown in cell E (Ágora UNI is the building, not a machine). */
+const machines = resources.filter((r) => r.id !== 'agora-uni');
+const photo = resources.find((r) => r.id === 'oficina') ?? resources[0];
+if (!photo) throw new Error('HeaderVariant3: the resources collection is empty');
+
+/** Icon + one-line spec per resource id (facts taken from the /estrutura copy and the laser's spec plate). */
+const MACHINE_META: Record<string, { icon: string; spec: string }> = {
+  'corte-a-laser': { icon: 'scissors', spec: 'CO₂ · 1300×900 mm' },
+  'fresa-cnc': { icon: 'layers', spec: 'Madeira · plástico' },
+  'impressoras-3d': { icon: 'printer', spec: 'Filamento + resina' },
+  'laboratorio-de-eletronica': { icon: 'cpu', spec: 'Solda · osciloscópio' },
+  oficina: { icon: 'hammer', spec: 'Manuais + elétricas' },
+};
+
+const pad = (n: number) => String(n).padStart(2, '0');
+const hours = site.hours.map((row, i) => ({ ...row, spec: site.openingHours[i] }));
+---
+
+<section class="hv3" aria-label="Variante 3 — Workshop bench grid">
+  <div class="hv3-sheet">
+    <!-- Ruled nav row: logo · numbered nav cells · Buscar (desktop) / menu (mobile) -->
+    <div class="hv3-nav">
+      <a class="hv3-brand" href="/" aria-label={`${site.name} — página inicial`}>
+        {
+          logo ? (
+            <img class="hv3-logo" src={logo.src} width={logo.width} height={logo.height} alt={site.name} />
+          ) : (
+            <span class="hv3-wordmark">{site.name}</span>
+          )
+        }
+      </a>
+
+      <nav class="hv3-links" aria-label="Principal">
+        <ul role="list">
+          {
+            site.nav.map((item, i) => {
+              const active = isActivePath(currentPath, item.href);
+              return (
+                <li>
+                  <a
+                    class:list={['hv3-link', { 'is-active': active }]}
+                    href={item.href}
+                    aria-current={active ? 'page' : undefined}
+                  >
+                    <span class="hv3-idx" aria-hidden="true">{pad(i + 1)}</span>
+                    <span class="hv3-link__label">{item.label}</span>
+                  </a>
+                </li>
+              );
+            })
+          }
+        </ul>
+      </nav>
+
+      <button type="button" class="hv3-search" aria-label="Buscar no site">
+        <Icon name="search" size={18} />
+        <span class="hv3-search__label">Buscar</span>
+      </button>
+
+      <details class="hv3-menu">
+        <summary class="hv3-menu__toggle">
+          <span class="hv3-menu__open"><Icon name="menu" size={22} /></span>
+          <span class="hv3-menu__close"><Icon name="x" size={22} /></span>
+          <span class="sr-only">Menu</span>
+        </summary>
+        <nav class="hv3-menu__panel" aria-label="Principal (menu)">
+          <ul role="list">
+            {
+              site.nav.map((item, i) => {
+                const active = isActivePath(currentPath, item.href);
+                return (
+                  <li>
+                    <a
+                      class:list={['hv3-menu__link', { 'is-active': active }]}
+                      href={item.href}
+                      aria-current={active ? 'page' : undefined}
+                    >
+                      <span class="hv3-idx" aria-hidden="true">{pad(i + 1)}</span>
+                      <span>{item.label}</span>
+                      <Icon name="arrow-right" size={18} />
+                    </a>
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </nav>
+      </details>
+    </div>
+
+    <!-- Ruled hero grid -->
+    <div class="hv3-grid">
+      <!-- A · headline -->
+      <div class="hv3-cell hv3-a">
+        <p class="hv3-eyebrow">// Makerspace · Joinville/SC</p>
+        <h1 class="hv3-title">
+          <span class="hv3-title__line">Construa <span class="hv3-title__soft">(quase)</span></span>
+          <span class="hv3-title__line">qualquer coisa!</span>
+        </h1>
+        <p class="hv3-lead">
+          O Fab Lab Joinville é um laboratório de inovação aberta onde as pessoas se reúnem para compartilhar
+          conhecimento e ferramentas.
+        </p>
+      </div>
+
+      <!-- B · photo -->
+      <figure class="hv3-cell hv3-b">
+        <Image
+          class="hv3-photo"
+          src={photo.image}
+          alt={photo.imageAlt}
+          widths={[480, 800, 1200]}
+          sizes="(min-width: 64em) 30rem, (min-width: 40em) 50vw, 100vw"
+          loading="eager"
+          fetchpriority="high"
+        />
+        <figcaption class="hv3-fig">
+          <span class="hv3-fig__tag">Fig. 01</span>
+          <span class="hv3-fig__text">{photo.title} · bancada</span>
+        </figcaption>
+      </figure>
+
+      <!-- D · CTAs -->
+      <div class="hv3-cell hv3-d">
+        <p class="hv3-label">// Próximo passo</p>
+        <div class="hv3-ctas">
+          <Button variant="accent" size="lg" iconRight="arrow-right" href="/faca-parte">Faça parte</Button>
+          <Button variant="secondary" size="lg" href="/estrutura">Conheça o espaço</Button>
+        </div>
+        <a class="hv3-textlink" href={site.links.visitBooking} target="_blank" rel="noopener noreferrer">
+          ou agende uma visita <Icon name="arrow-up-right" size={16} />
+        </a>
+      </div>
+
+      <!-- C · hours + address -->
+      <div class="hv3-cell hv3-c" data-hv3-hours>
+        <div class="hv3-c__head">
+          <p class="hv3-label">// Horários</p>
+          <p class="hv3-status" data-hv3-status hidden>
+            <span class="hv3-status__dot" aria-hidden="true"></span>
+            <span data-hv3-status-text></span>
+          </p>
+        </div>
+        <dl class="hv3-hours">
+          {
+            hours.map((row) => (
+              <div
+                class="hv3-hours__row"
+                data-days={row.spec?.dayOfWeek.join(' ')}
+                data-opens={row.spec?.opens}
+                data-closes={row.spec?.closes}
+              >
+                <dt>{row.days}</dt>
+                <dd>{row.time}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        <address class="hv3-address">
+          <Icon name="map-pin" size={18} />
+          <span>
+            {site.address.building}<br />
+            {site.address.street} · {site.address.city}/{site.address.state}
+            <a class="hv3-textlink" href={site.links.mapLink} target="_blank" rel="noopener noreferrer">
+              Como chegar <Icon name="arrow-up-right" size={16} />
+            </a>
+          </span>
+        </address>
+      </div>
+
+      <!-- E · machines -->
+      <div class="hv3-e">
+        <p class="hv3-sub hv3-sub--label hv3-label">// Máquinas</p>
+        <ul class="hv3-machines" role="list">
+          {
+            machines.map((m, i) => {
+              const meta = MACHINE_META[m.id];
+              return (
+                <li>
+                  <a class="hv3-sub hv3-machine" href="/estrutura#recursos">
+                    <span class="hv3-idx" aria-hidden="true">{pad(i + 1)}</span>
+                    {meta && (
+                      <span class="hv3-machine__icon">
+                        <Icon name={meta.icon} size={20} />
+                      </span>
+                    )}
+                    <span class="hv3-machine__name">{m.title}</span>
+                    {meta && <span class="hv3-machine__spec">{meta.spec}</span>}
+                  </a>
+                </li>
+              );
+            })
+          }
+        </ul>
+      </div>
+
+      <!-- F · social -->
+      <div class="hv3-f">
+        <p class="hv3-sub hv3-sub--label hv3-label">// Siga</p>
+        <ul class="hv3-social" role="list">
+          {
+            site.social.map((s) => (
+              <li>
+                <a
+                  class="hv3-sub hv3-social__link"
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.label}
+                  title={s.name}
+                >
+                  <Icon name={s.icon} size={22} />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Progressive enhancement for cell C: "Aberto agora / Fechado agora" + today's row,
+  // computed in the lab's time zone. Without JS the full schedule is still shown.
+  const roots = document.querySelectorAll<HTMLElement>('[data-hv3-hours]');
+  if (roots.length > 0) {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/Sao_Paulo',
+      weekday: 'long',
+      hour: '2-digit',
+      minute: '2-digit',
+      hourCycle: 'h23',
+    }).formatToParts(new Date());
+    const part = (type: string) => parts.find((p) => p.type === type)?.value ?? '';
+    const weekday = part('weekday');
+    const now = `${part('hour')}:${part('minute')}`;
+
+    roots.forEach((root) => {
+      let open = false;
+      root.querySelectorAll<HTMLElement>('[data-days]').forEach((row) => {
+        const days = (row.dataset.days ?? '').split(' ');
+        if (!days.includes(weekday)) return;
+        row.dataset.today = '';
+        const { opens, closes } = row.dataset;
+        if (opens && closes && now >= opens && now < closes) open = true;
+      });
+      const status = root.querySelector<HTMLElement>('[data-hv3-status]');
+      const text = status?.querySelector('[data-hv3-status-text]');
+      if (status && text) {
+        status.dataset.state = open ? 'open' : 'closed';
+        text.textContent = open ? 'Aberto agora' : 'Fechado agora';
+        status.hidden = false;
+      }
+    });
+  }
+</script>
+
+<style>
+  /* ---------- Sheet ---------- */
+  .hv3 {
+    --hv3-rule: var(--border-w) solid var(--border-default);
+    --hv3-pad: var(--space-4);
+    position: relative;
+    background: var(--surface-page);
+    color: var(--text-body);
+    border-bottom: var(--hv3-rule);
+  }
+
+  /* Full-bleed rule under the nav row: extends the sheet's grid line to the viewport edges. */
+  .hv3::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: var(--header-h);
+    height: var(--border-w);
+    background: var(--border-default);
+  }
+
+  .hv3-sheet {
+    width: 100%;
+    max-width: calc(var(--container) + 2 * var(--border-w));
+    margin-inline: auto;
+  }
+
+  .hv3 :is(p, h1, ul, dl, dd, figure) {
+    margin: 0;
+  }
+
+  .hv3 ul {
+    padding: 0;
+    list-style: none;
+  }
+
+  .hv3-label,
+  .hv3-eyebrow,
+  .hv3-idx {
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+  }
+
+  .hv3-label {
+    color: var(--text-muted);
+  }
+
+  .hv3-eyebrow {
+    color: var(--text-accent);
+  }
+
+  .hv3-idx {
+    color: var(--text-subtle);
+  }
+
+  .hv3 a:focus-visible,
+  .hv3 button:focus-visible,
+  .hv3 summary:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: calc(-1 * var(--space-1));
+  }
+
+  /* ---------- Nav row (mobile first: logo · search · menu) ---------- */
+  .hv3-nav {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--header-h) var(--header-h);
+    gap: var(--border-w);
+    height: calc(var(--header-h) + var(--border-w));
+    background: var(--border-default);
+    border-bottom: var(--hv3-rule);
+  }
+
+  .hv3-nav > * {
+    background: var(--surface-page);
+  }
+
+  .hv3-brand {
+    display: flex;
+    align-items: center;
+    padding-inline: var(--hv3-pad);
+    text-decoration: none;
+  }
+
+  .hv3-logo {
+    width: auto;
+    height: calc(var(--space-1) * 10);
+  }
+
+  .hv3-wordmark {
+    font: var(--fw-black) var(--fs-16) / 1 var(--font-display);
+    text-transform: uppercase;
+    color: var(--text-body);
+  }
+
+  .hv3-links {
+    display: none;
+  }
+
+  .hv3-search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--text-body);
+    cursor: pointer;
+    transition: background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .hv3-search:hover {
+    background: var(--surface-muted);
+  }
+
+  .hv3-search__label {
+    display: none;
+  }
+
+  /* <details> menu: works without JS */
+  .hv3-menu__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--header-h);
+    list-style: none;
+    cursor: pointer;
+    transition: background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .hv3-menu__toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .hv3-menu__toggle:hover {
+    background: var(--surface-muted);
+  }
+
+  .hv3-menu__close {
+    display: none;
+  }
+
+  .hv3-menu[open] .hv3-menu__toggle {
+    background: var(--brand-primary);
+    color: var(--text-inverse);
+  }
+
+  .hv3-menu[open] .hv3-menu__open {
+    display: none;
+  }
+
+  .hv3-menu[open] .hv3-menu__close {
+    display: inline-flex;
+  }
+
+  .hv3-menu__panel {
+    position: absolute;
+    z-index: 20;
+    inset-inline: 0;
+    top: calc(var(--header-h) + var(--border-w));
+    background: var(--border-default);
+    border-bottom: var(--hv3-rule);
+    box-shadow: var(--shadow-float);
+  }
+
+  .hv3-menu__panel ul {
+    display: grid;
+    gap: var(--border-w);
+  }
+
+  .hv3-menu__link {
+    display: grid;
+    grid-template-columns: calc(var(--space-1) * 8) minmax(0, 1fr) auto;
+    align-items: center;
+    padding: var(--space-4) var(--hv3-pad);
+    background: var(--surface-page);
+    font: var(--fw-bold) var(--fs-16) / 1.2 var(--font-display);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--text-body);
+  }
+
+  .hv3-menu__link:hover {
+    background: var(--surface-muted);
+    color: var(--text-accent);
+  }
+
+  .hv3-menu__link.is-active {
+    background: var(--brand-primary);
+    color: var(--text-inverse);
+  }
+
+  .hv3-menu__link.is-active .hv3-idx {
+    color: var(--flj-laser-500);
+  }
+
+  /* ---------- Hero grid (mobile first: one column) ---------- */
+  .hv3-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'a' 'd' 'b' 'c' 'e' 'f';
+    gap: var(--border-w);
+    background: var(--border-default);
+  }
+
+  .hv3-cell {
+    padding: var(--hv3-pad);
+    background: var(--surface-page);
+  }
+
+  /* A · headline */
+  .hv3-a {
+    grid-area: a;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-4);
+    padding-block: var(--space-7) var(--space-6);
+    container-type: inline-size;
+  }
+
+  .hv3-title {
+    /* Sized to the cell: "Construa (quase)" (16 mono chars) always fits one line. */
+    font: var(--fw-black) clamp(var(--fs-32), 9.4cqi, var(--fs-72)) / var(--lh-tight) var(--font-display);
+    letter-spacing: var(--ls-display);
+    text-transform: uppercase;
+    color: var(--text-strong);
+  }
+
+  .hv3-title__line {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .hv3-title__soft {
+    font-weight: var(--fw-regular);
+    color: var(--text-muted);
+  }
+
+  .hv3-lead {
+    max-width: 46ch;
+    font: var(--type-body-lg);
+    color: var(--text-muted);
+  }
+
+  /* B · photo */
+  .hv3-b {
+    grid-area: b;
+    position: relative;
+    padding: 0;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--brand-primary);
+  }
+
+  .hv3-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hv3-fig {
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-end: 0;
+    display: flex;
+    align-items: stretch;
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+  }
+
+  .hv3-fig__tag {
+    padding: var(--space-2) var(--space-3);
+    background: var(--brand-primary);
+    color: var(--text-inverse);
+  }
+
+  .hv3-fig__text {
+    padding: var(--space-2) var(--space-4) var(--space-2) var(--space-3);
+    background: var(--surface-page);
+    color: var(--text-body);
+    border-top: var(--hv3-rule);
+    border-right: var(--hv3-rule);
+    /* Chamfer motif: the cut corner of the FLJ symbol. */
+    clip-path: polygon(0 0, calc(100% - var(--chamfer)) 0, 100% var(--chamfer), 100% 100%, 0 100%);
+  }
+
+  /* D · CTAs */
+  .hv3-d {
+    grid-area: d;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .hv3-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .hv3-ctas :global(.flj-btn) {
+    flex: 1 1 auto;
+  }
+
+  .hv3-textlink {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font: var(--fw-bold) var(--fs-14) / 1.3 var(--font-mono);
+    color: var(--text-body);
+    text-decoration: underline;
+    text-decoration-thickness: var(--border-w);
+    text-underline-offset: 3px;
+  }
+
+  .hv3-textlink:hover {
+    color: var(--text-accent);
+  }
+
+  /* C · hours + address */
+  .hv3-c {
+    grid-area: c;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .hv3-c__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+
+  .hv3-status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-2);
+    border: var(--hv3-rule);
+    border-radius: var(--radius-1);
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+  }
+
+  .hv3-status[hidden] {
+    display: none;
+  }
+
+  .hv3-status__dot {
+    width: var(--space-2);
+    height: var(--space-2);
+    background: var(--text-subtle);
+  }
+
+  .hv3-status[data-state='open'] {
+    border-color: var(--status-success);
+    background: var(--status-success-bg);
+    color: var(--status-success);
+  }
+
+  .hv3-status[data-state='open'] .hv3-status__dot {
+    background: var(--status-success);
+  }
+
+  .hv3-hours {
+    display: grid;
+    border-top: var(--hv3-rule);
+  }
+
+  .hv3-hours__row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    column-gap: var(--space-4);
+    padding: var(--space-2) var(--space-2);
+    border-bottom: var(--border-w-thin) solid var(--border-subtle);
+    font: var(--type-small);
+  }
+
+  .hv3-hours__row dt {
+    font-weight: var(--fw-semibold);
+  }
+
+  .hv3-hours__row dd {
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+  }
+
+  .hv3-hours__row[data-today] {
+    background: var(--surface-muted);
+    box-shadow: inset var(--border-w) 0 0 var(--brand-primary);
+  }
+
+  .hv3-hours__row[data-today] dd {
+    color: var(--text-body);
+  }
+
+  .hv3-address {
+    display: flex;
+    gap: var(--space-2);
+    font: var(--type-small);
+    font-style: normal;
+    color: var(--text-muted);
+  }
+
+  .hv3-address .hv3-textlink {
+    margin-top: var(--space-1);
+    display: flex;
+    width: fit-content;
+  }
+
+  /* E · machines and F · social: ruled sub-cells */
+  .hv3-e,
+  .hv3-f {
+    display: grid;
+    gap: var(--border-w);
+    background: var(--border-default);
+  }
+
+  .hv3-e {
+    grid-area: e;
+  }
+
+  .hv3-f {
+    grid-area: f;
+  }
+
+  .hv3-sub {
+    background: var(--surface-page);
+  }
+
+  .hv3-sub--label {
+    padding: var(--space-3) var(--hv3-pad);
+  }
+
+  .hv3-machines,
+  .hv3-social {
+    display: grid;
+    gap: var(--border-w);
+  }
+
+  .hv3-machines > li,
+  .hv3-social > li {
+    display: flex;
+  }
+
+  .hv3-machine {
+    flex: 1;
+    display: grid;
+    grid-template-columns: calc(var(--space-1) * 8) auto minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: var(--space-3);
+    padding: var(--space-3) var(--hv3-pad);
+    text-decoration: none;
+    color: var(--text-body);
+    transition: background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .hv3-machine:hover {
+    background: var(--surface-muted);
+  }
+
+  .hv3-machine:hover .hv3-machine__name {
+    color: var(--text-accent);
+  }
+
+  .hv3-machine__icon {
+    display: inline-flex;
+  }
+
+  .hv3-machine__name {
+    font: var(--fw-bold) var(--fs-14) / 1.25 var(--font-display);
+    text-transform: uppercase;
+  }
+
+  .hv3-machine__spec {
+    font: var(--fw-medium) var(--fs-12) / 1.3 var(--font-mono);
+    color: var(--text-muted);
+    text-align: right;
+  }
+
+  .hv3-social {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .hv3-social__link {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(var(--space-1) * 14);
+    color: var(--text-body);
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
+  }
+
+  .hv3-social__link:hover {
+    background: var(--brand-primary);
+    color: var(--text-inverse);
+  }
+
+  /* ---------- ≥ 40em: tablet ---------- */
+  @media (min-width: 40em) {
+    .hv3 {
+      --hv3-pad: var(--space-5);
+      background: var(--surface-paper);
+    }
+
+    .hv3-sheet {
+      padding-inline: var(--gutter);
+    }
+
+    .hv3-nav,
+    .hv3-grid {
+      border-inline: var(--hv3-rule);
+    }
+
+    .hv3-menu__panel {
+      inset-inline: auto var(--gutter);
+      width: min(24rem, calc(100% - 2 * var(--gutter)));
+      border: var(--hv3-rule);
+      border-top: 0;
+      box-shadow: var(--shadow-offset);
+    }
+
+    .hv3-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-areas:
+        'a a'
+        'd d'
+        'b c'
+        'e e'
+        'f f';
+    }
+
+    .hv3-b {
+      aspect-ratio: auto;
+      min-height: 18rem;
+    }
+
+    .hv3-photo {
+      position: absolute;
+      inset: 0;
+    }
+
+    .hv3-d {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-start;
+      column-gap: var(--space-6);
+    }
+
+    .hv3-d .hv3-label {
+      flex-basis: 100%;
+    }
+
+    .hv3-ctas :global(.flj-btn) {
+      flex: 0 0 auto;
+    }
+
+    .hv3-f {
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .hv3-f .hv3-sub--label {
+      display: flex;
+      align-items: center;
+      padding-inline-end: var(--space-8);
+    }
+  }
+
+  /* ---------- ≥ 64em: desktop — full ruled nav + 12-column sheet ---------- */
+  @media (min-width: 64em) {
+    .hv3 {
+      --hv3-pad: var(--space-6);
+    }
+
+    .hv3-nav {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+    }
+
+    .hv3-brand {
+      padding-inline: var(--space-6);
+    }
+
+    .hv3-links {
+      display: block;
+    }
+
+    .hv3-links ul {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: var(--border-w);
+      height: 100%;
+      background: var(--border-default);
+    }
+
+    .hv3-links li {
+      display: flex;
+    }
+
+    .hv3-link {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: var(--space-1);
+      padding-inline: var(--space-3);
+      background: var(--surface-page);
+      font: var(--fw-bold) var(--fs-12) / 1.2 var(--font-display);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--text-body);
+      transition:
+        background-color var(--dur-fast) var(--ease-out),
+        color var(--dur-fast) var(--ease-out);
+    }
+
+    .hv3-link .hv3-idx {
+      font-size: calc(var(--fs-12) * 0.85);
+    }
+
+    .hv3-link:hover {
+      background: var(--surface-muted);
+      color: var(--text-accent);
+    }
+
+    .hv3-link.is-active {
+      background: var(--brand-primary);
+      color: var(--text-inverse);
+    }
+
+    .hv3-link.is-active .hv3-idx {
+      color: var(--flj-laser-500);
+    }
+
+    .hv3-search {
+      padding-inline: var(--space-5);
+    }
+
+    .hv3-search__label {
+      display: inline;
+    }
+
+    .hv3-menu {
+      display: none;
+    }
+
+    .hv3-grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-template-areas:
+        'a a a a a a a b b b b b'
+        'd d d d d d d c c c c c'
+        'e e e e e e e e e f f f';
+    }
+
+    .hv3-a {
+      min-height: 24rem;
+      padding: var(--space-8) var(--space-7) var(--space-7);
+      gap: var(--space-5);
+    }
+
+    .hv3-b {
+      min-height: 0;
+    }
+
+    .hv3-d {
+      padding-inline: var(--space-7);
+    }
+
+    .hv3-e {
+      grid-template-rows: auto 1fr;
+    }
+
+    .hv3-machines {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .hv3-machine {
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas:
+        'idx icon'
+        'name name'
+        'spec spec';
+      align-content: start;
+      row-gap: var(--space-2);
+      padding: var(--space-4) var(--space-5) var(--space-5);
+    }
+
+    .hv3-machine .hv3-idx {
+      grid-area: idx;
+    }
+
+    .hv3-machine__icon {
+      grid-area: icon;
+    }
+
+    .hv3-machine__name {
+      grid-area: name;
+      margin-top: var(--space-3);
+    }
+
+    .hv3-machine__spec {
+      grid-area: spec;
+      text-align: left;
+    }
+
+    .hv3-f {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto 1fr;
+    }
+
+    .hv3-f .hv3-sub--label {
+      padding-inline-end: var(--hv3-pad);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hv3 * {
+      transition: none;
+    }
+  }
+</style>

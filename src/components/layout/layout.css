@@ -1,0 +1,719 @@
+/* Layout shell + islands: header, mobile nav, search, footer, 404.
+   Tokens only (design-system/tokens). Breakpoint: 64em = 1024px (single-row nav ↔ hamburger); em so JS matchMedia/client:media match without raw px. */
+
+/* =========================================================================
+   Header
+   ========================================================================= */
+.flj-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--surface-page);
+  border-bottom: var(--border-w) solid var(--border-default);
+}
+
+.flj-header__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  height: var(--header-h);
+}
+
+.flj-header__brand {
+  display: flex;
+  align-items: center;
+  flex: none;
+  text-decoration: none;
+}
+
+.flj-header__logo {
+  width: auto;
+  height: calc(var(--space-7) - var(--space-1));
+}
+
+.flj-header__actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.flj-header__cta {
+  display: inline-flex;
+}
+
+/* Below the nav breakpoint the CTA moves into the mobile menu. */
+@media (max-width: 64em) {
+  .flj-header__cta {
+    display: none;
+  }
+}
+
+/* Nav: centered between the logo and the search trigger, single row. */
+.flj-header__nav {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  min-width: 0;
+}
+
+.flj-header__list {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.flj-header__link {
+  display: flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
+  font: var(--fw-bold) var(--fs-12) / 1 var(--font-display);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  color: var(--text-body);
+  border-radius: var(--radius-1);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.flj-header__link:hover {
+  color: var(--text-body);
+  background: var(--surface-muted);
+}
+
+.flj-header__link--active,
+.flj-header__link--active:hover {
+  color: var(--text-inverse);
+  background: var(--brand-primary);
+}
+
+.flj-header__link:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: var(--border-w-thin);
+}
+
+/* Anchor jumps must clear the sticky header. */
+html {
+  scroll-padding-top: calc(var(--header-h) + var(--space-5));
+}
+
+@media (min-width: 75em) {
+  .flj-header__link {
+    font-size: var(--fs-14);
+  }
+}
+
+@media (max-width: 64em) {
+  .flj-header__nav {
+    display: none;
+  }
+
+  .flj-header__brand {
+    margin-right: auto;
+  }
+
+  .flj-header__bar {
+    gap: var(--space-3);
+  }
+}
+
+@media (max-width: 30em) {
+  .flj-header__logo {
+    height: var(--space-6);
+  }
+}
+
+/* =========================================================================
+   Mobile nav island (<details> based, works without JS)
+   ========================================================================= */
+.flj-mnav {
+  display: none;
+}
+
+@media (max-width: 64em) {
+  .flj-mnav {
+    display: block;
+  }
+}
+
+.flj-mnav__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--space-1) * 10);
+  height: calc(var(--space-1) * 10);
+  color: var(--brand-primary);
+  background: var(--surface-page);
+  border: var(--border-w) solid var(--border-default);
+  border-radius: var(--radius-1);
+  cursor: pointer;
+  list-style: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.flj-mnav__toggle::-webkit-details-marker,
+.flj-mnav__toggle::marker {
+  display: none;
+  content: '';
+}
+
+.flj-mnav__toggle:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--shadow-offset-sm);
+}
+
+.flj-mnav__toggle:active {
+  transform: translate(1px, 1px);
+  box-shadow: none;
+}
+
+.flj-mnav__toggle:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: var(--border-w);
+}
+
+.flj-mnav[open] > .flj-mnav__toggle {
+  color: var(--text-inverse);
+  background: var(--brand-primary);
+}
+
+/* Show one glyph at a time: ☰ when closed, × when open. Extra specificity beats
+   `.flj-icon { display: inline-flex }` from ui/core/core.css (loaded later). */
+.flj-mnav .flj-mnav__toggle .flj-mnav__icon--close,
+.flj-mnav[open] .flj-mnav__toggle .flj-mnav__icon--open {
+  display: none;
+}
+
+.flj-mnav[open] .flj-mnav__toggle .flj-mnav__icon--close {
+  display: inline-flex;
+}
+
+.flj-mnav__panel {
+  position: fixed;
+  inset: calc(var(--header-h) + var(--border-w)) 0 0 0;
+  z-index: 49;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-6) var(--gutter) var(--space-8);
+  color: var(--text-inverse);
+  background: var(--surface-inverse);
+}
+
+.flj-mnav__eyebrow {
+  margin-bottom: var(--space-4);
+  color: var(--brand-accent);
+}
+
+.flj-mnav__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: var(--border-w-thin) solid var(--flj-navy-600);
+}
+
+.flj-mnav__list > li {
+  border-bottom: var(--border-w-thin) solid var(--flj-navy-600);
+}
+
+.flj-mnav__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-2);
+  font: var(--fw-bold) var(--fs-20) / var(--lh-snug) var(--font-display);
+  letter-spacing: var(--ls-display);
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text-inverse);
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+
+.flj-mnav__link:hover {
+  color: var(--brand-accent);
+}
+
+.flj-mnav__link--active {
+  color: var(--brand-primary);
+  background: var(--flj-white);
+}
+
+.flj-mnav__link--active:hover {
+  color: var(--brand-primary);
+}
+
+.flj-mnav__link:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: calc(var(--border-w) * -1);
+}
+
+.flj-mnav__cta {
+  margin-top: var(--space-6);
+}
+
+/* Set on <html> by MobileNav while the menu is open. */
+.flj-scroll-lock,
+.flj-scroll-lock body {
+  overflow: hidden;
+}
+
+/* =========================================================================
+   Search island
+   ========================================================================= */
+.flj-search-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: calc(var(--space-1) * 9);
+  padding: 0 var(--space-3);
+  font: var(--fw-bold) var(--fs-12) / 1 var(--font-display);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--brand-primary);
+  background: var(--surface-page);
+  border: var(--border-w) solid var(--border-default);
+  border-radius: var(--radius-1);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.flj-search-trigger:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--shadow-offset-sm);
+}
+
+.flj-search-trigger:active {
+  transform: translate(1px, 1px);
+  box-shadow: none;
+}
+
+.flj-search-trigger:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: var(--border-w);
+}
+
+@media (max-width: 60em) {
+  .flj-search-trigger {
+    justify-content: center;
+    width: calc(var(--space-1) * 10);
+    height: calc(var(--space-1) * 10);
+    padding: 0;
+  }
+
+  .flj-search-trigger__label {
+    display: none;
+  }
+}
+
+/* Modal sits near the top so results have room to grow downward. */
+.flj-search.flj-dialog--modal {
+  margin-top: var(--space-8);
+  max-height: calc(100% - var(--space-8) * 2);
+}
+
+.flj-search__status {
+  margin: 0 0 var(--space-4);
+  font: var(--type-small);
+  color: var(--text-muted);
+}
+
+.flj-search__status--warn {
+  padding: var(--space-3) var(--space-4);
+  color: var(--text-body);
+  background: var(--status-warning-bg);
+  border-left: var(--border-w) solid var(--status-warning);
+}
+
+/* Pagefind default UI themed with tokens (its vars are declared on :root). */
+.flj-search {
+  --pagefind-ui-scale: 0.85;
+  --pagefind-ui-primary: var(--brand-primary);
+  --pagefind-ui-text: var(--text-body);
+  --pagefind-ui-background: var(--surface-page);
+  --pagefind-ui-border: var(--border-default);
+  --pagefind-ui-tag: var(--surface-muted);
+  --pagefind-ui-border-width: var(--border-w);
+  --pagefind-ui-border-radius: var(--radius-1);
+  --pagefind-ui-image-border-radius: var(--radius-0);
+  --pagefind-ui-image-box-ratio: 3 / 2;
+  --pagefind-ui-font: var(--font-body);
+}
+
+.flj-search .pagefind-ui__search-input:focus {
+  outline: none;
+  box-shadow: var(--shadow-offset-accent);
+}
+
+.flj-search .pagefind-ui__result-link {
+  color: var(--brand-primary);
+}
+
+.flj-search .pagefind-ui__result-link:hover {
+  color: var(--brand-accent-hover);
+}
+
+.flj-search mark {
+  color: var(--text-strong);
+  background: var(--flj-laser-100);
+}
+
+.flj-search .pagefind-ui__button {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.flj-search .pagefind-ui__search-clear {
+  height: calc(100% - var(--border-w) * 4);
+  margin-right: var(--space-1);
+  padding: 0 var(--space-4);
+  font: var(--fw-bold) var(--fs-12) / 1 var(--font-display);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: var(--surface-page);
+  border: 0;
+  border-left: var(--border-w-thin) solid var(--border-subtle);
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.flj-search .pagefind-ui__search-clear:hover,
+.flj-search .pagefind-ui__search-clear:focus-visible {
+  color: var(--text-accent);
+  background: var(--surface-muted);
+}
+
+.flj-search .pagefind-ui__search-clear:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: calc(var(--border-w-thin) * -3);
+}
+
+/* =========================================================================
+   Island error fallback
+   ========================================================================= */
+.flj-island-fallback {
+  display: inline-block;
+  font: var(--type-small);
+  color: var(--text-muted);
+}
+
+/* =========================================================================
+   Footer
+   ========================================================================= */
+.flj-footer {
+  color: var(--text-inverse);
+  background: var(--surface-inverse);
+}
+
+.flj-footer a {
+  color: var(--text-inverse);
+  text-decoration: none;
+}
+
+.flj-footer a:hover {
+  color: var(--brand-accent);
+}
+
+.flj-footer a:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: var(--border-w);
+}
+
+.flj-footer__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-7) var(--space-6);
+  padding-block: var(--space-8) var(--space-7);
+}
+
+/* Brand column: logo, contact e-mail, then the social links. */
+.flj-footer__brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-5);
+}
+
+/* Tablet: brand on its own row, then address/hours/nav below. */
+@media (min-width: 40em) {
+  .flj-footer__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .flj-footer__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Desktop: one row — brand | endereço | horários | navegação. */
+@media (min-width: 64em) {
+  .flj-footer__grid {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, 0.8fr);
+  }
+
+  .flj-footer__brand {
+    grid-column: auto;
+  }
+}
+
+.flj-footer__logo {
+  width: auto;
+  height: var(--space-8);
+}
+
+/* Text wordmark: stands in for marca-*.svg until the official files are in src/assets/brand/. */
+.flj-wordmark {
+  display: inline-flex;
+  align-items: center;
+  width: auto;
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-20);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--brand-primary);
+}
+
+.flj-footer .flj-wordmark {
+  color: var(--flj-white);
+}
+
+.flj-footer__col {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  font: var(--type-small);
+}
+
+.flj-footer__label {
+  margin: 0 0 var(--space-1);
+  font: var(--type-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--brand-accent);
+}
+
+.flj-footer__label::before {
+  content: '// ';
+}
+
+.flj-footer__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  overflow-wrap: anywhere;
+}
+
+.flj-footer__address {
+  font-style: normal;
+  color: var(--flj-navy-100);
+}
+
+.flj-footer__hours {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.flj-footer__hours-row dt {
+  font: var(--fw-bold) var(--fs-12) / var(--lh-snug) var(--font-mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.flj-footer__hours-row dd {
+  margin: 0;
+  color: var(--flj-navy-100);
+}
+
+.flj-footer__social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Ghost IconButtons on navy: white glyph + outline. Hover = DS "inverse" button:
+   white tile, navy glyph, lift + accent offset shadow. Selectors are deliberately
+   more specific than the generic ghost hover in ui/core/core.css (light fill). */
+.flj-footer .flj-footer__social .flj-footer__social-btn {
+  --flj-btn-shadow: var(--shadow-offset-accent);
+  color: var(--text-inverse);
+  background-color: transparent;
+  border-color: var(--flj-navy-600);
+}
+
+.flj-footer .flj-footer__social .flj-footer__social-btn:hover:not(:disabled, [aria-disabled='true']),
+.flj-footer .flj-footer__social .flj-footer__social-btn:focus-visible {
+  color: var(--brand-primary);
+  background-color: var(--flj-white);
+  border-color: var(--flj-white);
+  transform: translate(-3px, -3px);
+  box-shadow: var(--flj-btn-shadow);
+}
+
+.flj-footer .flj-footer__social .flj-footer__social-btn:active:not(:disabled, [aria-disabled='true']) {
+  transform: translate(1px, 1px);
+  box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flj-footer .flj-footer__social .flj-footer__social-btn:hover:not(:disabled, [aria-disabled='true']),
+  .flj-footer .flj-footer__social .flj-footer__social-btn:active:not(:disabled, [aria-disabled='true']) {
+    transform: none;
+  }
+}
+
+.flj-footer__nav {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.flj-footer__bottom {
+  border-top: var(--border-w-thin) solid var(--flj-navy-600);
+}
+
+.flj-footer__bottom-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-5);
+  padding-block: var(--space-4);
+  font: var(--fw-regular) var(--fs-12) / var(--lh-normal) var(--font-mono);
+  color: var(--flj-navy-300);
+}
+
+.flj-footer__bottom-inner p {
+  margin: 0;
+}
+
+.flj-footer .flj-footer__bottom-inner a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--flj-navy-100);
+}
+
+.flj-footer .flj-footer__bottom-inner a:hover {
+  color: var(--brand-accent);
+}
+
+/* =========================================================================
+   404
+   ========================================================================= */
+.flj-notfound {
+  padding-block: var(--space-9);
+  border-bottom: var(--border-w) solid var(--border-default);
+}
+
+.flj-notfound__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: var(--space-8);
+  align-items: start;
+}
+
+.flj-notfound__title {
+  margin-top: var(--space-4);
+  font: var(--type-display);
+  font-size: clamp(var(--fs-40), 6vw, var(--fs-72));
+  letter-spacing: var(--ls-display);
+  text-transform: uppercase;
+}
+
+.flj-notfound__lead {
+  max-width: 46ch;
+  margin-top: var(--space-5);
+  font: var(--type-body-lg);
+  color: var(--text-muted);
+}
+
+.flj-notfound__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.flj-notfound__links {
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: var(--border-w) solid var(--border-default);
+}
+
+.flj-notfound__links li {
+  border-bottom: var(--border-w-thin) solid var(--border-subtle);
+}
+
+.flj-notfound__links a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-2);
+  font: var(--fw-bold) var(--fs-14) / var(--lh-snug) var(--font-display);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text-body);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.flj-notfound__links a:hover {
+  color: var(--text-accent);
+  background: var(--surface-muted);
+}
+
+@media (max-width: 60em) {
+  .flj-notfound__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-7);
+  }
+}
+
+/* =========================================================================
+   Motion
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .flj-header__link,
+  .flj-mnav__toggle,
+  .flj-mnav__link,
+  .flj-search-trigger,
+  .flj-notfound__links a {
+    transition: none;
+  }
+
+  .flj-mnav__toggle:hover,
+  .flj-mnav__toggle:active,
+  .flj-search-trigger:hover,
+  .flj-search-trigger:active {
+    transform: none;
+  }
+}

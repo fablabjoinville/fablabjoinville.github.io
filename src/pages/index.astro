@@ -1,0 +1,175 @@
+---
+/**
+ * Home "/" — migrated from https://www.fablabjoinville.com.br/ (old Google Sites).
+ *
+ * Old page order: hero ("Construa (quase) qualquer coisa!" + social icons),
+ * contact/location/hours/visit embed, "NOTÍCIAS RECENTES" (Behold Instagram feed).
+ * Additive: hero CTAs and the "Explore o Fab Lab" teaser grid linking to the
+ * inner pages (copy taken from those pages).
+ *
+ * Copy/SEO lives in src/content/pages/home.md; contact data in src/data/site.ts.
+ * Intentional drops/edits: scripts/migration/parity-exclusions/home.json.
+ */
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import { Button } from '@/components/ui';
+import {
+  CardGrid,
+  ContactBlock,
+  FeatureCard,
+  InstagramFeed,
+  MachineStrip,
+  PhotoHero,
+  Section,
+} from '@/components/sections';
+import { imgs } from '@/lib/images';
+import { assertCounts } from '@/lib/content-guard';
+import { site } from '@/data/site';
+import sobreSrc from '@/assets/old-site/sobre/banner.jpg';
+import facaParteSrc from '@/assets/old-site/faca-parte/lab-maker.jpg';
+import estruturaSrc from '@/assets/old-site/estrutura/banner.jpg';
+import charterSrc from '@/assets/old-site/sobre/rede-fablabs-mapa.jpg';
+import portfolioSrc from '@/assets/old-site/portfolio/banner.jpg';
+import lerobotSrc from '@/assets/old-site/portfolio/lerobot-aftermovie.jpg';
+
+// Fails the build when a migrated collection has the wrong number of entries.
+await assertCounts();
+
+const page = await getEntry('pages', 'home');
+if (!page) throw new Error('Missing src/content/pages/home.md');
+const { description, lead, headerImage, headerImageAlt } = page.data;
+if (!lead || !headerImage || !headerImageAlt) {
+  throw new Error('src/content/pages/home.md needs lead, headerImage and headerImageAlt');
+}
+
+const photos = await imgs(
+  {
+    sobre: sobreSrc,
+    facaParte: facaParteSrc,
+    estrutura: estruturaSrc,
+    charter: charterSrc,
+    portfolio: portfolioSrc,
+    lerobot: lerobotSrc,
+  },
+  { widths: [480, 800, 1200] },
+);
+
+const posts = (await getCollection('instagram')).map((entry) => entry.data);
+const instagramHref =
+  site.social.find((s) => s.name === 'Instagram')?.href ?? 'https://www.instagram.com/fablabjoinville';
+
+const explore = [
+  {
+    id: 'sobre',
+    title: 'Sobre',
+    href: '/sobre',
+    image: photos.sobre,
+    imageAlt: 'Pessoas reunidas em uma mesa do Fab Lab Joinville, trabalhando com notebooks e componentes eletrônicos.',
+    text: 'Um lugar onde os chamados makers se reúnem para trabalhar em projetos, participar de oficinas, fazer negócios e principalmente construir coisas.',
+  },
+  {
+    id: 'faca-parte',
+    title: 'Faça parte',
+    href: '/faca-parte',
+    image: photos.facaParte,
+    imageAlt: 'Adultos e crianças montam um carrinho de madeira com rodas e parafusos em uma bancada do laboratório.',
+    text: 'O uso do nosso laboratório funciona no formato de clube, com modalidades para empresas, pessoa física e acadêmicos.',
+  },
+  {
+    id: 'estrutura',
+    title: 'Nossa estrutura',
+    href: '/estrutura',
+    image: photos.estrutura,
+    imageAlt: 'Sala do Fab Lab Joinville com bancadas de eletrônica, mesa de reuniões e um grande mural colorido na parede.',
+    text: 'Nosso laboratório de prototipagem e fabricação digital está equipado para você dar forma às suas ideias.',
+  },
+  {
+    id: 'cultura',
+    title: 'Fab Charter',
+    href: '/cultura',
+    image: photos.charter,
+    imageAlt: 'Mapa-múndi com os marcadores dos Fab Labs da rede mundial.',
+    text: 'Fab Labs são uma rede global de laboratórios locais que fomentam o espírito de inovação e criatividade oferecendo acesso a ferramentas de fabricação digital.',
+  },
+  {
+    id: 'portfolio',
+    title: 'Portfolio',
+    href: '/portfolio',
+    image: photos.portfolio,
+    imageAlt: 'Gabinete de fliperama em construção, com botões, fios e placas expostos e um jogo na tela.',
+    text: 'Tudo começa com a vontade de fazer. Desenvolvemos projetos que promovem uma transformação social positiva, gerando conhecimento ou resolvendo problemas reais.',
+  },
+  {
+    id: 'lerobot',
+    title: 'LeRobot Arm Hackathon',
+    href: '/lerobot',
+    image: photos.lerobot,
+    imageAlt: 'Participante sorri enquanto um braço robótico amarelo segura um pacote durante o LeRobot Arm Hackathon.',
+    text: 'O evento internacional da Hugging Face chegou pela primeira vez ao Brasil em junho de 2025, no Ágora Tech Park, em Joinville (SC).',
+  },
+];
+---
+
+<BaseLayout description={description} image={headerImage} imageAlt={headerImageAlt}>
+  <PhotoHero image={headerImage} imageAlt={headerImageAlt} caption="Festival Maker · 2023" lead={lead}>
+    <Fragment slot="title">
+      Construa <span class="photohero-title__aside">(quase)</span><br />
+      qualquer coisa!
+    </Fragment>
+    <Fragment slot="actions">
+      <Button variant="accent" size="lg" iconRight="arrow-right" href="/faca-parte" data-track="hero-faca-parte">
+        Faça parte
+      </Button>
+      <Button variant="secondary" size="lg" href="/estrutura" data-track="hero-estrutura">
+        Conheça o espaço
+      </Button>
+    </Fragment>
+  </PhotoHero>
+
+  <MachineStrip />
+
+  {/* Old contact embed: Contato / Localização / Horários / Agende a sua Visita (data from site.ts). */}
+  <ContactBlock />
+  {
+    /* TODO(old-site): "Procurando impressão 3D para engenharia?" + CTA "Saiba mais sobre o Print Lab" (/print-lab) — dropped: the page returns 404 on the old site and has no draft. Restore when a Print Lab page exists. */
+  }
+
+  {
+    posts.length > 0 && (
+      <Section id="noticias" eyebrow="Notícias" title="Notícias recentes">
+        <Fragment slot="action">
+          <Button
+            variant="secondary"
+            href={instagramHref}
+            target="_blank"
+            iconRight="arrow-up-right"
+            data-track="instagram"
+          >
+            Ver no Instagram
+          </Button>
+        </Fragment>
+        <InstagramFeed posts={posts} limit={6} />
+      </Section>
+    )
+  }
+
+  <Section id="explore" eyebrow="Explore" title="Conheça o Fab Lab" tone="paper">
+    <CardGrid columns={3} as="ul">
+      {
+        explore.map((card) => (
+          <li>
+            <FeatureCard
+              title={card.title}
+              href={card.href}
+              track={`home-card-${card.id}`}
+              image={card.image}
+              imageAlt={card.imageAlt}
+            >
+              <p>{card.text}</p>
+            </FeatureCard>
+          </li>
+        ))
+      }
+    </CardGrid>
+  </Section>
+</BaseLayout>

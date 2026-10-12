@@ -1,0 +1,98 @@
+page	file	kind	note
+faq	banner.jpg	bg	page banner (Festival Maker / Einstein)
+home	hero.jpg	bg	hero illustration (woman with globes)
+home	-	bg	SKIPPED halftone navy texture behind news (DS: no textures)
+all	-	img	SKIPPED old PNG logo (use DS SVG marca)
+sobre	sobre/banner.jpg	bg	banner:people-at-table
+sobre	sobre/rede-fablabs-mapa.jpg	img	rede:fablabs.io-world-map
+sobre	sobre/equipe-felipe-segui.jpg	img	equipe:1st-portrait
+sobre	sobre/equipe-kevyn-gabriel.jpg	img	equipe:2nd-portrait
+sobre	sobre/equipe-enrico-costa.jpg	img	equipe:3rd-portrait
+sobre	sobre/equipe-felipe-figueiredo.jpg	img	equipe:4th-portrait
+sobre	sobre/associacao-1.jpg	img	associacao:fablab-booth-event
+sobre	sobre/associacao-2.jpg	img	associacao:group-photo-kids
+sobre	sobre/diretivo-alan-fachini.jpg	img	diretivo
+sobre	sobre/diretivo-ellen-pietschmann.jpg	img	diretivo
+sobre	sobre/diretivo-fabiano-dellagnolo.jpg	img	diretivo
+sobre	sobre/diretivo-paulo-haus.jpg	img	diretivo
+sobre	sobre/diretivo-felipe-pires.jpg	img	diretivo
+sobre	sobre/diretivo-douglas-wildgrube.jpg	img	diretivo
+sobre	sobre/diretivo-gabriel-cabral.jpg	img	diretivo(lowres-98px-original)
+sobre	sobre/fiscal-amanda-melchert.jpg	img	fiscal
+sobre	sobre/fiscal-fabiano-cardoso.jpg	img	fiscal
+sobre	sobre/fiscal-leticia-paul.jpg	img	fiscal
+sobre	sobre/patrocinador-agora-tech-park.jpg	img	sponsor:agoratechpark.com.br
+sobre	sobre/patrocinador-colegio-bonja.jpg	img	sponsor:colegiobonja.com.br
+sobre	sobre/patrocinador-joinvalle.jpg	img	sponsor:joinvalle.com.br
+sobre	sobre/patrocinador-avell.jpg	img	sponsor:avell.com.br
+sobre	sobre/patrocinador-perville.jpg	img	sponsor:perville.com.br
+sobre	sobre/patrocinador-slim3d.jpg	img	sponsor:slim3d.com.br
+sobre	sobre/patrocinador-weld-vision.jpg	img	sponsor:weldvision.com
+sobre	sobre/patrocinador-armazem-cloud.jpg	img	sponsor:armazem.cloud
+sobre	sobre/marca-simbolo-3d.png	img	nossa-marca:FLJ-symbol-offset
+faca-parte	faca-parte/banner.jpg	bg	banner:festival-maker-team-photo
+faca-parte	faca-parte/beneficio-1.jpg	bg	carousel:"Impressoras 3D, CNC e Corte a Laser"
+faca-parte	faca-parte/beneficio-2.jpg	bg	carousel:"Acesso ao laboratório com internet"
+faca-parte	faca-parte/beneficio-3.jpg	bg	carousel:"Bancada de Eletrônica"
+faca-parte	faca-parte/beneficio-4.jpg	bg	carousel:"Ferramentas Manuais e Ferramentas Elétricas"
+faca-parte	faca-parte/beneficio-5.jpg	bg	carousel:"Comunidade engajada e disposta a ajudar"
+faca-parte	faca-parte/corporate-maker.jpg	img	modalidade:Corporate-Maker
+faca-parte	faca-parte/lab-maker.jpg	img	modalidade:Lab-Maker
+faca-parte	faca-parte/academy-maker.jpg	img	modalidade:Academy-Maker(GERM)
+faca-parte	-	bg	SKIPPED 2 halftone navy section textures
+estrutura	estrutura/banner.jpg	-	banner:lab-mural-workbenches
+estrutura	estrutura/depoimento-joao-pedro-golynski.jpg	-	depoimento:portrait
+estrutura	estrutura/recurso-corte-a-laser.jpg	-	recurso:Corte-a-laser
+estrutura	estrutura/recurso-fresa-cnc.jpg	-	recurso:Fresa-CNC
+estrutura	-	bg	SKIPPED 2 halftone navy band textures
+estrutura	estrutura/recurso-corte-a-laser.jpg	-	recurso:Corte-a-laser
+estrutura	estrutura/recurso-fresa-cnc.jpg	-	recurso:Fresa-CNC
+estrutura	estrutura/recurso-impressoras-3d.jpg	-	recurso:Impressoras-3D
+estrutura	estrutura/recurso-laboratorio-eletronica.jpg	-	recurso:Laboratorio-de-Eletronica
+estrutura	estrutura/recurso-oficina.jpg	-	recurso:Oficina
+estrutura	estrutura/recurso-agora-uni.jpg	-	recurso:Agora-UNI-building-render
+estrutura	estrutura/cta-criancas-construindo.jpg	-	closing-cta:kids-building-cart
+cultura	cultura/banner.jpg	bg	banner:class-in-agora-room
+portfolio	portfolio/banner.jpg	bg	banner:arcade-cabinet-build
+portfolio	-	bg	SKIPPED halftone intro texture
+portfolio	portfolio/maratona-lab-code-1.jpg	img	project photo
+portfolio	portfolio/maratona-lab-code-2.jpg	img	project photo
+portfolio	portfolio/maratona-lab-code-3.jpg	img	project photo
+portfolio	portfolio/arduino-day-1.jpg	img	project photo
+portfolio	portfolio/arduino-day-2.jpg	img	project photo
+portfolio	portfolio/arduino-day-3.jpg	img	project photo
+portfolio	portfolio/festival-maker-1.jpg	img	project photo
+portfolio	portfolio/festival-maker-2.jpg	img	project photo
+portfolio	portfolio/festival-maker-3.jpg	img	project photo
+portfolio	portfolio/precious-plastic-1.jpg	img	project photo
+portfolio	portfolio/precious-plastic-2.jpg	img	project photo
+portfolio	portfolio/agenda-saude-1.jpg	img	project photo
+portfolio	portfolio/agenda-saude-2.jpg	img	project photo
+portfolio	portfolio/agenda-saude-3.jpg	img	project photo
+portfolio	portfolio/face-shields-1.jpg	img	project photo
+portfolio	portfolio/face-shields-2.jpg	img	project photo
+portfolio	portfolio/face-shields-3.jpg	img	project photo
+portfolio	portfolio/hacktoberfest-2021.jpg	img	project photo
+portfolio	portfolio/archeotech-1.jpg	img	project photo
+portfolio	portfolio/archeotech-2.jpg	img	project photo
+portfolio	portfolio/archeotech-3.jpg	img	project photo
+portfolio	portfolio/archeotech-4.jpg	img	project photo
+portfolio	portfolio/scratch-nas-escolas-1.jpg	img	project photo
+portfolio	portfolio/scratch-nas-escolas-2.jpg	img	project photo
+portfolio	portfolio/scratch-nas-escolas-3.jpg	img	project photo
+portfolio	portfolio/code-like-a-girl-1.jpg	img	project photo
+portfolio	portfolio/code-like-a-girl-2.jpg	img	project photo
+portfolio	portfolio/code-like-a-girl-3.jpg	img	project photo
+portfolio	portfolio/encontro-impressao-3d-1.jpg	img	project photo
+portfolio	portfolio/encontro-impressao-3d-2.jpg	img	project photo
+portfolio	portfolio/encontro-impressao-3d-3.jpg	img	project photo
+portfolio	portfolio/incubada-kosmos-rocketry.jpg	img	project photo
+portfolio	portfolio/incubada-nisus-aerodesign.jpg	img	project photo
+portfolio	portfolio/incubada-botcem.jpg	img	project photo
+lerobot	lerobot/mascote-hero.png	img	hero-mascot(LeRobot-arm-with-flowers)
+lerobot	lerobot/mascote-premiacoes.png	img	premiacoes-mascot(sun-flower)
+lerobot	lerobot/cronograma.png	img	timeline(text-in-image)
+lerobot	lerobot/realizacao-patrocinio.png	img	sponsors-block(text-in-image)
+lerobot	-	bg	SKIPPED yellow/black wave backgrounds (recreate in CSS)
+lerobot	lerobot/video-*.jpg	curl	Drive poster thumbnails (sz=w1280), 7 team videos
+portfolio	portfolio/lerobot-aftermovie.jpg	curl	YouTube D-8BeTLw0Ts maxresdefault

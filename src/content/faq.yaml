@@ -1,0 +1,71 @@
+# Perguntas frequentes (/faq) — migrated verbatim from the old Google Sites page.
+# `answer` is Markdown, rendered at load time to `answerHtml`.
+# `legacyId` keeps the old Google Sites heading anchors (/faq#h.xxxx) working.
+# Placeholders filled in src/pages/faq.astro from src/data/site.ts (single
+# source of truth for hours and address):
+#   {{horarios}}  → list of opening hours (must be alone in its paragraph)
+#   {{endereco}}  → full postal address
+- id: livre-para-todos
+  question: "O Fab Lab Joinville é livre para todos os públicos?"
+  answer: |
+    Sim, nosso laboratório é aberto a todos os públicos. Qualquer pessoa interessada em aprender e criar é bem-vinda, independentemente de idade ou nível de experiência.
+  legacyId: h.pd04zm4v4znq
+  order: 1
+
+- id: como-usar
+  question: "Como faço para usar o laboratório?"
+  answer: |
+    Para usar o laboratório, é só [entrar em contato conosco](/#contato). Para uso recorrente, basta se inscrever na nossa seção [Faça parte](/faca-parte) e fazer o pagamento da mensalidade. Se você não possui conhecimento nas ferramentas que precisa utilizar, oferecemos apoio e treinamentos sobre o uso das máquinas e ferramentas disponíveis. Algumas atividades podem exigir reservas prévias ou o pagamento de uma taxa de uso.
+  legacyId: h.ouro4itxtadc
+  order: 2
+
+- id: horario
+  question: "Qual é o horário de funcionamento do laboratório?"
+  answer: |
+    O Fab Lab Joinville funciona nos seguintes horários:
+
+    {{horarios}}
+
+    Nos fins de semana, o horário pode variar conforme eventos e workshops programados. Recomendamos verificar o [calendário de eventos](/#noticias) no nosso site para informações atualizadas.
+  legacyId: h.k9tujej5oggc
+  order: 3
+
+- id: localizacao
+  question: "Onde o Fab Lab fica localizado?"
+  answer: |
+    Estamos localizados no {{endereco}}. Veja o mapa e como chegar na nossa [seção de contato](/#contato).
+  legacyId: h.golqb0n7pwis
+  order: 4
+
+- id: maquinas
+  question: "Quais máquinas o Fab Lab possui?"
+  answer: |
+    O Fab Lab Joinville possui uma variedade de máquinas e ferramentas, incluindo:
+
+    - Impressoras 3D (de filamento e resina)
+    - Máquina de corte a laser
+    - Router CNC
+    - Laboratório de eletrônica
+    - Bancada de costura
+    - Oficina com diversas ferramentas manuais e elétricas
+  legacyId: h.krcda6p5wz7f
+  order: 5
+
+- id: como-contribuir
+  question: "Como faço para contribuir com o laboratório?"
+  answer: |
+    Você pode contribuir com o Fab Lab Joinville de várias formas:
+
+    - Voluntariando seu tempo e habilidades
+    - Doando materiais e equipamentos
+    - Participando de nossos eventos e workshops
+    - Fazendo uma doação financeira. [Entre em contato conosco](/#contato) para mais informações sobre como contribuir.
+  legacyId: h.n6jcyswe1svd
+  order: 6
+
+- id: projeto-pessoal
+  question: "Posso desenvolver um projeto pessoal no Fab Lab?"
+  answer: |
+    Sim, deve! Você pode desenvolver projetos pessoais, acadêmicos ou profissionais no Fab Lab Joinville. Após passar pela orientação inicial, você terá acesso às máquinas e ferramentas necessárias para transformar suas ideias em realidade.
+  legacyId: h.s9newape6lx8
+  order: 7

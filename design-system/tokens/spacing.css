@@ -1,0 +1,11 @@
+:root{
+--space-0:0;--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:24px;--space-6:32px;--space-7:48px;--space-8:64px;--space-9:96px;--space-10:128px;
+--radius-0:0;--radius-1:2px;--radius-2:4px;--radius-3:8px;--radius-pill:999px;
+--chamfer:10px;
+--border-w:2px;--border-w-thin:1px;
+/* Shadows — hard, unblurred offsets echoing the extruded FLJ symbol */
+--shadow-offset-sm:3px 3px 0 0 var(--flj-navy-800);--shadow-offset:6px 6px 0 0 var(--flj-navy-800);--shadow-offset-lg:10px 10px 0 0 var(--flj-navy-800);--shadow-offset-accent:6px 6px 0 0 var(--flj-laser-500);
+--shadow-float:0 12px 32px -8px rgba(8,44,59,.28);
+--ease-out:cubic-bezier(.2,.7,.2,1);/* @kind other */--ease-in-out:cubic-bezier(.6,0,.3,1);/* @kind other */--dur-fast:120ms;/* @kind other */--dur:200ms;/* @kind other */--dur-slow:360ms;/* @kind other */
+--container:1200px;--gutter:24px;--header-h:72px;
+}

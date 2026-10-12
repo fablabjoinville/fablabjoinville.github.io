@@ -1,0 +1,123 @@
+# Pessoas do Fab Lab Joinville (página /sobre).
+# group: equipe | diretivo | fiscal — ordem = ordem do site antigo.
+# Fonte: scripts/migration/old-site.json (pages[sobre]). Fotos em src/assets/old-site/sobre/.
+
+# --- Nossa equipe
+- id: felipe-segui
+  name: Felipe Segui
+  role: Gerente de Fazer Acontecer
+  group: equipe
+  order: 1
+  photo: ../assets/old-site/sobre/equipe-felipe-segui.jpg
+  photoAlt: "Retrato de Felipe Segui"
+  linkedin: "https://www.linkedin.com/in/felipesegui"
+
+- id: kevyn-gabriel
+  name: Kevyn Gabriel
+  role: Lab Intern
+  group: equipe
+  order: 2
+  photo: ../assets/old-site/sobre/equipe-kevyn-gabriel.jpg
+  photoAlt: "Retrato de Kevyn Gabriel"
+  linkedin: "https://www.linkedin.com/in/kevyn-barros/"
+
+- id: enrico-costa
+  name: Enrico Costa
+  role: Lab Intern - Slim 3D
+  group: equipe
+  order: 3
+  photo: ../assets/old-site/sobre/equipe-enrico-costa.jpg
+  photoAlt: "Retrato de Enrico Costa"
+  linkedin: "https://www.linkedin.com/in/enrico-costa-6773b1323/"
+
+- id: felipe-figueiredo
+  name: Felipe Figueiredo
+  role: Voluntário
+  group: equipe
+  order: 4
+  photo: ../assets/old-site/sobre/equipe-felipe-figueiredo.jpg
+  photoAlt: "Retrato de Felipe Figueiredo"
+  linkedin: "https://www.linkedin.com/in/felipe-figueiredo-0a488923b/"
+
+# --- Conselho diretivo
+- id: alan-fachini
+  name: Alan R. Fachini
+  group: diretivo
+  order: 11
+  photo: ../assets/old-site/sobre/diretivo-alan-fachini.jpg
+  photoAlt: "Retrato de Alan R. Fachini"
+  linkedin: "https://www.linkedin.com/in/alanfachini"
+
+- id: ellen-pietschmann
+  name: Ellen Pietschmann
+  group: diretivo
+  order: 12
+  photo: ../assets/old-site/sobre/diretivo-ellen-pietschmann.jpg
+  photoAlt: "Retrato de Ellen Pietschmann"
+  linkedin: "https://www.linkedin.com/in/ellen-piet/"
+
+- id: fabiano-dellagnolo
+  name: Fabiano Dell'agnolo
+  group: diretivo
+  order: 13
+  photo: ../assets/old-site/sobre/diretivo-fabiano-dellagnolo.jpg
+  photoAlt: "Retrato de Fabiano Dell'agnolo"
+  linkedin: "https://www.linkedin.com/in/fabianodellagnolo/"
+
+- id: paulo-haus
+  name: Paulo Haus
+  group: diretivo
+  order: 14
+  photo: ../assets/old-site/sobre/diretivo-paulo-haus.jpg
+  photoAlt: "Retrato de Paulo Haus"
+  linkedin: "https://www.linkedin.com/in/paulo-haus-31472752/"
+
+- id: felipe-pires
+  name: Felipe Pires
+  group: diretivo
+  order: 15
+  photo: ../assets/old-site/sobre/diretivo-felipe-pires.jpg
+  photoAlt: "Retrato de Felipe Pires"
+  linkedin: "https://www.linkedin.com/in/piresfelipe/"
+
+- id: douglas-wildgrube
+  name: Douglas Wildgrube
+  group: diretivo
+  order: 16
+  photo: ../assets/old-site/sobre/diretivo-douglas-wildgrube.jpg
+  photoAlt: "Retrato de Douglas Wildgrube"
+  linkedin: "https://www.linkedin.com/in/dwbertol/"
+
+- id: gabriel-cabral
+  name: Gabriel Cabral
+  group: diretivo
+  order: 17
+  # Original da foto tem só 98 px (site antigo); pedir versão maior ao dono.
+  photo: ../assets/old-site/sobre/diretivo-gabriel-cabral.jpg
+  photoAlt: "Retrato de Gabriel Cabral"
+  linkedin: "https://www.linkedin.com/in/gabrielcabralgc/"
+
+# --- Conselho fiscal
+- id: amanda-melchert
+  name: Amanda Melchert
+  group: fiscal
+  order: 21
+  photo: ../assets/old-site/sobre/fiscal-amanda-melchert.jpg
+  photoAlt: "Retrato de Amanda Melchert"
+  linkedin: "https://www.linkedin.com/in/melchertamanda/"
+
+- id: fabiano-cardoso
+  name: Fabiano Cardoso
+  group: fiscal
+  order: 22
+  photo: ../assets/old-site/sobre/fiscal-fabiano-cardoso.jpg
+  photoAlt: "Retrato de Fabiano Cardoso"
+  linkedin: "https://www.linkedin.com/in/fabiano-cardoso-92223b109/"
+
+- id: leticia-paul
+  name: Letícia Paul
+  group: fiscal
+  order: 23
+  photo: ../assets/old-site/sobre/fiscal-leticia-paul.jpg
+  photoAlt: "Retrato de Letícia Paul"
+  linkedin: "https://www.linkedin.com/in/let%C3%ADcia-segui-paul-90200721/"

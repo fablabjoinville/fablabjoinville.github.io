@@ -1,0 +1,12 @@
+[
+  {
+    "text": "O Fab Lab Joinville funciona de segunda a sexta, das 10h às 19h.",
+    "reason": "site.ts",
+    "note": "Old FAQ hours contradict the home page. The answer now lists site.hours from src/data/site.ts (Seg. à Quinta 10:30 às 19:00; Sexta-feira 10:30 às 17:00; Sábados somente eventos agendados) via the {{horarios}} placeholder in faq.yaml."
+  },
+  {
+    "text": "Estamos localizados no térreo do prédio Àgora Uni, dentro do Perini Business Park.",
+    "reason": "site.ts",
+    "note": "Old FAQ location ('Àgora' typo, 'Perini Business Park') contradicts the home page. The answer now renders fullAddress from src/data/site.ts via the {{endereco}} placeholder, plus a link to the map at /#contato."
+  }
+]

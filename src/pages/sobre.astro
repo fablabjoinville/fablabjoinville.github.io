@@ -1,0 +1,447 @@
+---
+/**
+ * /sobre — "Sobre o Fab Lab" (migrated from the Google Sites page /sobre).
+ * Source of truth: scripts/migration/old-site.json → pages[slug=sobre].
+ * Copy is verbatim pt-BR (original typos kept on purpose, see the inventory notes).
+ * People and sponsors come from src/content/team.yaml and src/content/sponsors.yaml.
+ * Intentional drops: scripts/migration/parity-exclusions/sobre.json.
+ */
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import { CardGrid, LogoGrid, PageHeader, PersonCard, Photo, Picture, Prose, Section } from '@/components/sections';
+import { Button } from '@/components/ui';
+import { site } from '@/data/site';
+import { getSorted } from '@/lib/content-guard';
+import { img } from '@/lib/images';
+import { getEntry } from 'astro:content';
+import mapaSrc from '@/assets/old-site/sobre/rede-fablabs-mapa.jpg';
+import associacao1Src from '@/assets/old-site/sobre/associacao-1.jpg';
+import associacao2Src from '@/assets/old-site/sobre/associacao-2.jpg';
+import simboloSrc from '@/assets/old-site/sobre/marca-simbolo-3d.png';
+
+const page = await getEntry('pages', 'sobre');
+if (!page) throw new Error('Missing src/content/pages/sobre.md');
+const { title, description, eyebrow, lead, headerImage, headerImageAlt } = page.data;
+
+const PERSON_SIZES = '(min-width: 75em) 17rem, (min-width: 60em) 30vw, (min-width: 40em) 50vw, 100vw';
+const HALF_SIZES = '(min-width: 60em) 36rem, 100vw';
+
+const banner = headerImage ? await img(headerImage, { sizes: HALF_SIZES }) : undefined;
+const mapa = await img(mapaSrc, { sizes: HALF_SIZES });
+const associacao1 = await img(associacao1Src, { sizes: HALF_SIZES });
+const associacao2 = await img(associacao2Src, { sizes: HALF_SIZES });
+const simbolo = await img(simboloSrc, { widths: [240, 480], sizes: '(min-width: 60em) 18rem, 50vw' });
+
+const team = await Promise.all(
+  (await getSorted('team')).map(async ({ data }) => ({
+    ...data,
+    image: await img(data.photo, { widths: [320, 480, 640], sizes: PERSON_SIZES }),
+  })),
+);
+const equipe = team.filter((p) => p.group === 'equipe');
+const diretivo = team.filter((p) => p.group === 'diretivo');
+const fiscal = team.filter((p) => p.group === 'fiscal');
+
+const sponsors = await Promise.all(
+  (await getSorted('sponsors')).map(async ({ data }) => ({
+    name: data.name,
+    href: data.url,
+    image: await img(data.logo, { widths: [240, 480], sizes: '(min-width: 60em) 12rem, 50vw' }),
+  })),
+);
+
+const principios = [
+  'Autonomia (liberdade + responsabilidade)',
+  'Descentralização',
+  'Colaboração (Compartilhamento, Comunidade)',
+  'Transparência',
+  'Respeito',
+  'Melhoria contínua',
+  'Do it yourself (Faça você mesmo)',
+  'Educação horizontal',
+];
+
+const base = Astro.site ?? new URL(site.url);
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: title,
+  description,
+  url: new URL('/sobre', base).href,
+  inLanguage: 'pt-BR',
+  // Same @id as the Organization entity emitted by Seo.astro.
+  about: { '@id': new URL('/#organizacao', base).href },
+};
+---
+
+<BaseLayout title="Sobre" description={description} image={headerImage} imageAlt={headerImageAlt} jsonLd={jsonLd}>
+  <PageHeader eyebrow={eyebrow} title={title} lead={lead} image={banner} imageAlt={headerImageAlt}>
+    <Button
+      variant="inverse"
+      href="https://docs.google.com/document/d/1-KFhX5kGXcbut51uyllyZy3_Y36TT2NzKuSNfs_SIFs/edit"
+      target="_blank"
+      icon="file-text"
+      data-track="doc-projeto-plataforma"
+    >
+      Projeto Plataforma
+    </Button>
+    {/* TODO(old-site): botão "Projeto Joinville Fab Lab" (Google Doc 1Co9vjY1pBjMiAjQ-_GWoRedeoqgRNtLmYtBkqF-ZGSs) — documento excluído (HTTP 410); pedir substituto ao dono. */}
+  </PageHeader>
+
+  <Section id="rede" eyebrow="Rede mundial" title="Uma rede de laboratórios">
+    <div class="sobre-split">
+      <div class="sobre-split__text">
+        <Prose>
+          <p>
+            Fab Lab é uma rede mundial de laboratórios de fabricação digital criada há mais de 10 anos no Centro de
+            Bits e Átomos do MIT (Massachusetts Institute of Technology). É formada por mais 680 laboratórios,
+            distribuídos em 87 países.
+          </p>
+          {/* TODO(old-site): "aqui" era texto sem link no site antigo; alvo sugerido https://www.fablabs.io/labs/map — confirmar com o dono. */}
+          <p>Confira o mapa da rede mundial aqui.</p>
+          {/* TODO(old-site): os dois "aqui" eram texto sem link no site antigo; alvos sugeridos https://fab.cba.mit.edu/about/charter/ (original) e /cultura (tradução) — confirmar com o dono. */}
+          <p>
+            Para ser credenciado à rede mundial é preciso seguir alguns ideais que podem ser encontrados na Carta de
+            Princípios, conhecida como a Fab Charter. A carta original pode ser visualizada aqui e versão traduzida para
+            o português aqui.
+          </p>
+          <p>
+            Além disso, os Fab Labs possuem os mesmos equipamentos e processos. Dessa forma, fica mais fácil dividir
+            todo o conhecimento entre os fabbers de todo o mundo. Este intercâmbio de ideias é muito importante para o
+            crescimento não apenas da rede, mas como de todas as pessoas e projetos que fazem parte dela.
+          </p>
+          {/* TODO(old-site): "este link" era texto sem link no site antigo; alvo sugerido https://fabfoundation.org/ — confirmar com o dono. */}
+          <p>Para saber mais sobre a rede de Fab Labs, acesse este link.</p>
+        </Prose>
+        <div class="sobre-actions">
+          <Button variant="secondary" href="/cultura" iconRight="arrow-right" data-track="fab-charter">
+            Conheça as regras dos Fab Labs
+          </Button>
+        </div>
+      </div>
+      <a
+        class="sobre-split__media sobre-maplink"
+        href={site.links.fablabNetwork}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-track="fablabs-map"
+      >
+        <Photo
+          image={mapa}
+          alt="Mapa-múndi com a localização dos laboratórios da rede mundial de Fab Labs (abre o mapa interativo em fablabs.io)"
+          sizes={HALF_SIZES}
+        />
+      </a>
+    </div>
+  </Section>
+
+  <Section id="equipe" eyebrow="Quem faz acontecer" title="Nossa equipe" tone="paper">
+    <CardGrid columns={4} as="ul">
+      {
+        equipe.map((p) => (
+          <li>
+            <PersonCard name={p.name} role={p.role} image={p.image} imageAlt={p.photoAlt} linkedin={p.linkedin} />
+          </li>
+        ))
+      }
+    </CardGrid>
+  </Section>
+
+  <Section id="associacao" eyebrow="Desde 2016" title="A associação">
+    <div class="sobre-split">
+      <div class="sobre-split__text">
+        <Prose>
+          <p>
+            O Fab Lab Joinville foi fundado no dia 04 de junho de 2016 e hoje faz parte de uma rede de laboratórios da
+            Fab Foundation.
+          </p>
+          <p>
+            Nosso propósito é aproximar a comunidade na cultura Maker e das novas tecnologias de produção, oportunizando
+            o aprendizado e surgimento de inovações, visando o desenvolvimento do aprendizado, da economia criativa e de
+            soluções que contribuem com bem estar social de Joinville. Proporcionamos acesso às ferramentas, ao
+            conhecimento e aos meios para educar, inovar e inventar usando a tecnologia e fabricação digital para
+            permitir que qualquer pessoa possa fazer (quase) qualquer coisa e, assim, criar oportunidades para melhorar
+            a vida e o sustento de todo o mundo.
+          </p>
+          <p>
+            Estamos constituídos como uma associação sem fins lucrativos, que é composta totalmente por voluntários
+            locais e aberta para quem quiser participar. São esses voluntários que colocam a mão na massa e são
+            responsáveis por conduzir todas as atividades da associação. Se você quiser se juntar ao time, será muito
+            bem vindo!
+          </p>
+        </Prose>
+        <div class="sobre-actions">
+          <Button
+            variant="secondary"
+            href="https://docs.google.com/document/d/1fCJmSHgCS61FJPpxjcOvjLdxkmk5W7eA9i1GO7EEg2o/edit?usp=sharing"
+            target="_blank"
+            icon="file-text"
+            data-track="doc-estatuto"
+          >
+            Nosso Estatuto
+          </Button>
+        </div>
+      </div>
+      <div class="sobre-split__media sobre-photos">
+        <Photo
+          image={associacao1}
+          alt="Estande do Fab Lab Joinville em um evento, visto do alto, com visitantes circulando pelo pavilhão."
+          sizes={HALF_SIZES}
+        />
+        <Photo
+          image={associacao2}
+          alt="Voluntários do Fab Lab Joinville reunidos com crianças e famílias, que mostram as peças feitas em uma oficina."
+          frame="plain"
+          sizes={HALF_SIZES}
+        />
+      </div>
+    </div>
+  </Section>
+
+  <Section id="conselho-diretivo" eyebrow="Governança" title="Conselho diretivo" tone="paper">
+    <CardGrid columns={4} as="ul">
+      {
+        diretivo.map((p) => (
+          <li>
+            <PersonCard name={p.name} role={p.role} image={p.image} imageAlt={p.photoAlt} linkedin={p.linkedin} />
+          </li>
+        ))
+      }
+    </CardGrid>
+  </Section>
+
+  <Section id="conselho-fiscal" eyebrow="Governança" title="Conselho fiscal">
+    <CardGrid columns={4} as="ul">
+      {
+        fiscal.map((p) => (
+          <li>
+            <PersonCard name={p.name} role={p.role} image={p.image} imageAlt={p.photoAlt} linkedin={p.linkedin} />
+          </li>
+        ))
+      }
+    </CardGrid>
+  </Section>
+
+  <Section id="patrocinadores" eyebrow="Quem apoia" title="Patrocinadores" tone="paper">
+    <div class="sobre-sponsors">
+      <LogoGrid items={sponsors} label="Patrocinadores" />
+    </div>
+  </Section>
+
+  <Section id="marca" eyebrow="Identidade" title="Nossa marca">
+    <div class="sobre-brand">
+      <div class="sobre-brand__mark">
+        <Picture
+          image={simbolo}
+          alt="Símbolo do Fab Lab Joinville: as letras F, L e J em azul-marinho, sobrepostas em camadas deslocadas com efeito 3D."
+          className="sobre-brand__img"
+        />
+      </div>
+      <div class="sobre-brand__body">
+        <dl class="sobre-brand__list">
+          <div class="sobre-brand__item">
+            <dt>O que somos</dt>
+            <dd>
+              O Fab Lab é um ambiente aberto e acolhedor para grupos de conhecimento diversos se reunirem e trabalharem
+              de forma colaborativa em projetos relevantes para a comunidade.
+            </dd>
+          </div>
+          <div class="sobre-brand__item">
+            <dt>Para quem somos</dt>
+            <dd>
+              O Fab Lab é para todas as pessoas, para pessoas curiosas e insatisfeitas com o ordinário, pessoas que
+              ativamente compartilham conhecimento e resolvem problemas de forma colaborativa e inclusiva.
+            </dd>
+          </div>
+          <div class="sobre-brand__item">
+            <dt>Cultura</dt>
+            <dd>
+              O Fab Lab preza pela atitude e iniciativa individual de fazer, aprender e compartilhar o conhecimento
+              adquirido. Nós não nos rendemos as barreiras encontradas no caminho e acreditamos que todo desafio pode
+              ser uma oportunidade para ir ainda mais longe.
+            </dd>
+          </div>
+        </dl>
+        <p class="sobre-brand__manifesto">Nós somos inevitáveis, nós somos imparáveis, nós somos makers.</p>
+      </div>
+    </div>
+  </Section>
+
+  <Section id="principios" eyebrow="No que acreditamos" title="Nossos princípios!" tone="inverse">
+    <div class="sobre-principles">
+      <div class="sobre-principles__text">
+        <p>
+          As pessoas que fazem parte do Fab Lab acreditam em respeito à diversidade, no método científico como fonte de
+          aprendizado e na colaboração entre diferentes áreas de conhecimento para a construção de uma comunidade
+          forte.
+        </p>
+        <p>
+          As pessoas que fazem parte da nossa organização incentivam e praticam o respeito através da empatia, o
+          comportamento cívico perante a sociedade em que estão inseridos e o humanismo em colaborar ativamente na busca
+          pelo conhecimento e solução de problemas.
+        </p>
+      </div>
+      <ol class="sobre-principles__list" role="list">
+        {principios.map((item) => <li>{item}</li>)}
+      </ol>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  /* Text + media split used by "Uma rede de laboratórios" and "A associação". */
+  .sobre-split {
+    display: grid;
+    gap: var(--space-7);
+    align-items: start;
+  }
+
+  @media (min-width: 60em) {
+    .sobre-split {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: var(--space-8);
+    }
+  }
+
+  .sobre-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+
+  .sobre-maplink {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+
+  .sobre-maplink:hover {
+    transform: translateY(calc(var(--space-1) * -1));
+  }
+
+  .sobre-maplink:focus-visible {
+    outline: var(--border-w) solid var(--focus-ring);
+    outline-offset: var(--space-2);
+  }
+
+  .sobre-photos {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  /* Nossa marca */
+  .sobre-brand {
+    display: grid;
+    gap: var(--space-7);
+    align-items: start;
+  }
+
+  @media (min-width: 60em) {
+    .sobre-brand {
+      grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+      gap: var(--space-9);
+    }
+  }
+
+  .sobre-brand__mark {
+    max-width: 12rem;
+  }
+
+  @media (min-width: 60em) {
+    .sobre-brand__mark {
+      max-width: none;
+    }
+  }
+
+  .sobre-brand__mark :global(.sobre-brand__img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .sobre-brand__list {
+    display: grid;
+    gap: var(--space-6);
+    margin: 0;
+  }
+
+  .sobre-brand__item {
+    padding-top: var(--space-5);
+    border-top: var(--border-w) solid var(--border-default);
+  }
+
+  .sobre-brand__item dt {
+    font: var(--type-h3);
+    color: var(--text-strong);
+  }
+
+  .sobre-brand__item dd {
+    max-width: 62ch;
+    margin: var(--space-3) 0 0;
+    font: var(--type-body-lg);
+    color: var(--text-body);
+  }
+
+  .sobre-brand__manifesto {
+    margin-top: var(--space-7);
+    padding: var(--space-5) var(--space-6);
+    font: var(--type-h2);
+    font-size: var(--fs-24);
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--text-inverse);
+    background: var(--surface-inverse);
+    box-shadow: var(--shadow-offset-accent);
+  }
+
+  /* Nossos princípios (navy band) */
+  .sobre-principles {
+    display: grid;
+    gap: var(--space-7);
+    align-items: start;
+  }
+
+  @media (min-width: 60em) {
+    .sobre-principles {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--space-8);
+    }
+  }
+
+  .sobre-principles__text {
+    display: grid;
+    gap: var(--space-5);
+    font: var(--type-body-lg);
+  }
+
+  .sobre-principles__text p {
+    margin: 0;
+  }
+
+  .sobre-principles__list {
+    counter-reset: principio;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: var(--border-w) solid var(--text-inverse);
+  }
+
+  .sobre-principles__list li {
+    counter-increment: principio;
+    display: flex;
+    gap: var(--space-4);
+    align-items: baseline;
+    padding-block: var(--space-4);
+    font: var(--type-h4);
+    border-bottom: var(--border-w-thin) solid var(--text-inverse);
+  }
+
+  .sobre-principles__list li::before {
+    content: counter(principio, decimal-leading-zero);
+    flex: none;
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    color: var(--brand-accent);
+  }
+</style>

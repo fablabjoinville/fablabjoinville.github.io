@@ -1,0 +1,204 @@
+/* Core primitives: Icon, Button, IconButton.
+   Token values only (design-system/tokens). Sizes are expressed on the 4px
+   spacing base: calc(var(--space-1) * n). */
+
+/* ---------- Icon ---------- */
+.flj-icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  vertical-align: middle;
+}
+.flj-icon > svg {
+  display: block;
+}
+
+/* ---------- Shared control base ---------- */
+.flj-btn,
+.flj-iconbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  margin: 0;
+  border: var(--border-w) solid transparent;
+  border-radius: var(--radius-1);
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+.flj-btn:focus-visible,
+.flj-iconbtn:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: var(--border-w);
+}
+
+/* ---------- Button ---------- */
+.flj-btn {
+  gap: var(--space-2);
+  height: calc(var(--space-1) * 11);
+  padding: 0 calc(var(--space-1) * 5);
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-14);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.flj-btn--sm {
+  height: calc(var(--space-1) * 9);
+  padding: 0 calc(var(--space-1) * 3.5);
+  font-size: calc((var(--fs-12) + var(--fs-14)) / 2);
+}
+.flj-btn--md {
+  height: calc(var(--space-1) * 11);
+  padding: 0 calc(var(--space-1) * 5);
+  font-size: var(--fs-14);
+}
+.flj-btn--lg {
+  height: calc(var(--space-1) * 14);
+  padding: 0 calc(var(--space-1) * 7);
+  font-size: var(--fs-16);
+}
+.flj-btn--full {
+  display: flex;
+  width: 100%;
+}
+
+/* Variants: color, background, border, and the hover shadow (--flj-btn-shadow).
+   Navy surfaces (inverse sections, page header, CTA band, footer, mobile menu,
+   inverse cards) set --flj-btn-shadow-dark so the navy offset shadow of the
+   accent/secondary buttons turns white there instead of disappearing. */
+:where(
+    .flj-section--inverse,
+    .flj-pagehead,
+    .flj-ctaband,
+    .flj-visit,
+    .flj-footer,
+    .flj-mnav__panel,
+    .flj-card--inverse
+  ) {
+  --flj-btn-shadow-dark: 3px 3px 0 0 var(--flj-white);
+  --flj-btn-shadow-dark-alt: 4px 4px 0 0 var(--brand-accent);
+  /* Accent border blends into the fill on navy (no dark gap, no white outline). */
+  --flj-btn-accent-border: var(--brand-accent);
+}
+
+.flj-btn--primary {
+  --flj-btn-shadow: var(--shadow-offset-accent);
+  color: var(--text-inverse);
+  background-color: var(--brand-primary);
+  border-color: var(--brand-primary);
+}
+.flj-btn--accent {
+  --flj-btn-shadow: var(--flj-btn-shadow-dark, var(--shadow-offset-sm));
+  color: var(--flj-white);
+  background-color: var(--brand-accent);
+  border-color: var(--flj-btn-accent-border, var(--flj-navy-800));
+}
+.flj-btn--secondary {
+  --flj-btn-shadow: var(--flj-btn-shadow-dark-alt, var(--shadow-offset-sm));
+  color: var(--brand-primary);
+  background-color: var(--flj-white);
+  border-color: var(--brand-primary);
+}
+.flj-btn--ghost {
+  --flj-btn-shadow: none;
+  color: var(--brand-primary);
+  background-color: transparent;
+  border-color: transparent;
+}
+.flj-btn--inverse {
+  --flj-btn-shadow: var(--space-1) var(--space-1) 0 0 var(--brand-accent);
+  color: var(--brand-primary);
+  background-color: var(--flj-white);
+  border-color: var(--flj-white);
+}
+
+/* Keep link-rendered buttons from picking up global a / a:hover colors. */
+a.flj-btn--primary:hover,
+a.flj-btn--accent:hover {
+  color: var(--text-inverse);
+}
+a.flj-btn--secondary:hover,
+a.flj-btn--ghost:hover,
+a.flj-btn--inverse:hover {
+  color: var(--brand-primary);
+}
+
+/* ---------- IconButton ---------- */
+.flj-iconbtn {
+  --flj-iconbtn-size: calc(var(--space-1) * 10);
+  width: var(--flj-iconbtn-size);
+  height: var(--flj-iconbtn-size);
+  padding: 0;
+}
+.flj-iconbtn--primary {
+  --flj-btn-shadow: var(--shadow-offset-sm);
+  color: var(--flj-white);
+  background-color: var(--brand-primary);
+  border-color: var(--brand-primary);
+}
+.flj-iconbtn--secondary {
+  --flj-btn-shadow: var(--shadow-offset-sm);
+  color: var(--brand-primary);
+  background-color: var(--flj-white);
+  border-color: var(--brand-primary);
+}
+.flj-iconbtn--ghost {
+  --flj-btn-shadow: none;
+  color: var(--brand-primary);
+  background-color: transparent;
+  border-color: transparent;
+}
+a.flj-iconbtn--primary:hover {
+  color: var(--flj-white);
+}
+a.flj-iconbtn--secondary:hover,
+a.flj-iconbtn--ghost:hover {
+  color: var(--brand-primary);
+}
+
+/* ---------- States (shared) ---------- */
+.flj-btn:hover:not(:disabled, [aria-disabled='true']),
+.flj-iconbtn:hover:not(:disabled, [aria-disabled='true']) {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--flj-btn-shadow);
+}
+.flj-btn--ghost:hover:not(:disabled, [aria-disabled='true']),
+.flj-iconbtn--ghost:hover:not(:disabled, [aria-disabled='true']) {
+  transform: none;
+  background-color: var(--surface-muted);
+}
+.flj-btn:active:not(:disabled, [aria-disabled='true']),
+.flj-iconbtn:active:not(:disabled, [aria-disabled='true']) {
+  transform: translate(1px, 1px);
+  box-shadow: none;
+}
+.flj-btn:disabled,
+.flj-btn[aria-disabled='true'],
+.flj-iconbtn:disabled,
+.flj-iconbtn[aria-disabled='true'] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flj-btn,
+  .flj-iconbtn {
+    transition: none;
+  }
+  .flj-btn:hover:not(:disabled, [aria-disabled='true']),
+  .flj-iconbtn:hover:not(:disabled, [aria-disabled='true']),
+  .flj-btn:active:not(:disabled, [aria-disabled='true']),
+  .flj-iconbtn:active:not(:disabled, [aria-disabled='true']) {
+    transform: none;
+  }
+}

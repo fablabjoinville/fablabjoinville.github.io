@@ -1,0 +1,28 @@
+# Benefits carousel (old /faça-parte, "Para usar o laboratório").
+# `caption` is the text baked into each photo on the old site (verbatim);
+# `imageAlt` repeats it (images of text) plus a short description of the photo.
+- id: maquinas
+  caption: "Impressoras 3D, CNC e Corte a Laser"
+  image: ../assets/old-site/faca-parte/beneficio-1.jpg
+  imageAlt: "Impressoras 3D, CNC e Corte a Laser: bico de uma impressora 3D imprimindo peças amarelas"
+  order: 1
+- id: internet
+  caption: "Acesso ao laboratório com internet"
+  image: ../assets/old-site/faca-parte/beneficio-2.jpg
+  imageAlt: "Acesso ao laboratório com internet: área de trabalho do laboratório com mesas longas, cadeiras e um mural colorido"
+  order: 2
+- id: eletronica
+  caption: "Bancada de Eletrônica"
+  image: ../assets/old-site/faca-parte/beneficio-3.jpg
+  imageAlt: "Bancada de Eletrônica: pessoa soldando uma placa ao lado de uma estação de solda"
+  order: 3
+- id: ferramentas
+  caption: "Ferramentas Manuais e Ferramentas Elétricas"
+  image: ../assets/old-site/faca-parte/beneficio-4.jpg
+  imageAlt: "Ferramentas Manuais e Ferramentas Elétricas: três pessoas trabalham em uma mesa com furadeira e pistola de cola quente"
+  order: 4
+- id: comunidade
+  caption: "Comunidade engajada e disposta a ajudar"
+  image: ../assets/old-site/faca-parte/beneficio-5.jpg
+  imageAlt: "Comunidade engajada e disposta a ajudar: grupo reunido em uma sala assistindo a uma apresentação"
+  order: 5

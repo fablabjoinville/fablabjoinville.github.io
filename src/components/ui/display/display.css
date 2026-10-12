@@ -1,0 +1,317 @@
+/* Display primitives: Badge, Card, EventCard, Tag. Tokens only. */
+
+/* ------------------------------------------------------------------ Badge */
+.flj-badge {
+  --flj-badge-chamfer: calc(var(--chamfer) * 0.6);
+  --flj-badge-bg: var(--surface-muted);
+  --flj-badge-fg: var(--text-body);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  box-sizing: border-box;
+  height: var(--space-5);
+  padding: 0 calc(var(--space-2) + var(--flj-badge-chamfer) / 2) 0 var(--space-2);
+  background: var(--flj-badge-bg);
+  color: var(--flj-badge-fg);
+  font: var(--type-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-radius: var(--radius-1);
+  /* Chamfered top-right corner echoing the FLJ symbol's cut corner. */
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--flj-badge-chamfer)) 0,
+    100% var(--flj-badge-chamfer),
+    100% 100%,
+    0 100%
+  );
+}
+.flj-badge--primary { --flj-badge-bg: var(--brand-primary); --flj-badge-fg: var(--flj-white); }
+.flj-badge--accent { --flj-badge-bg: var(--brand-accent); --flj-badge-fg: var(--flj-white); }
+.flj-badge--success { --flj-badge-bg: var(--status-success-bg); --flj-badge-fg: var(--status-success); }
+.flj-badge--warning {
+  --flj-badge-bg: var(--status-warning-bg);
+  /* Darkened warning yellow for legible text (DS used a one-off hex). */
+  --flj-badge-fg: color-mix(in srgb, var(--status-warning) 45%, var(--flj-black));
+}
+.flj-badge--danger { --flj-badge-bg: var(--status-danger-bg); --flj-badge-fg: var(--status-danger); }
+.flj-badge--info { --flj-badge-bg: var(--status-info-bg); --flj-badge-fg: var(--status-info); }
+
+/* ------------------------------------------------------------------- Card */
+.flj-card {
+  display: block;
+  box-sizing: border-box;
+  padding: var(--flj-card-padding, var(--space-5));
+  border: var(--border-w) solid var(--border-default);
+  border-radius: var(--radius-1);
+  background: var(--surface-card);
+  color: var(--text-body);
+  text-decoration: none;
+  box-shadow: none;
+  transform: none;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+/* Doubled selectors beat global `a:hover` when the card renders as a link. */
+.flj-card--outline,
+.flj-card--outline:hover {
+  background: var(--surface-card);
+  border-color: var(--border-default);
+  color: var(--text-body);
+}
+.flj-card--paper,
+.flj-card--paper:hover {
+  background: var(--surface-paper);
+  border-color: transparent;
+  color: var(--text-body);
+}
+.flj-card--inverse,
+.flj-card--inverse:hover {
+  background: var(--surface-inverse);
+  border-color: var(--surface-inverse);
+  color: var(--text-inverse);
+}
+.flj-card--interactive { cursor: pointer; }
+.flj-card--interactive:hover,
+.flj-card--interactive:focus-visible {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--shadow-offset);
+}
+.flj-card--inverse.flj-card--interactive:hover,
+.flj-card--inverse.flj-card--interactive:focus-visible {
+  box-shadow: var(--shadow-offset-accent);
+}
+.flj-card--interactive:active {
+  transform: translate(1px, 1px);
+  box-shadow: none;
+}
+.flj-card:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: var(--border-w);
+}
+/* Outer wrapper when `as="li" | "article"` is combined with `href`. */
+.flj-card-item {
+  display: block;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* -------------------------------------------------------------- EventCard */
+.flj-event {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
+  background: var(--surface-card);
+  border: var(--border-w) solid var(--border-default);
+  border-radius: var(--radius-1);
+  color: var(--text-body);
+  box-shadow: none;
+  transform: none;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+.flj-event--interactive { cursor: pointer; }
+.flj-event--interactive:hover,
+.flj-event--interactive:focus-within {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--shadow-offset);
+}
+.flj-event--interactive:active {
+  transform: translate(1px, 1px);
+  box-shadow: none;
+}
+/* `overflow: hidden` would clip an outer outline, so draw the ring inside. */
+.flj-event--interactive:has(.flj-event__link:focus-visible) {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: calc(-1 * var(--border-w));
+}
+
+.flj-event__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: var(--surface-muted);
+  border-bottom: var(--border-w) solid var(--border-default);
+}
+.flj-event__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-0);
+}
+.flj-event__date {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  background: var(--brand-primary);
+  color: var(--flj-white);
+  text-align: center;
+}
+.flj-event__day {
+  font: var(--fw-black) var(--fs-24) / 1 var(--font-display);
+  letter-spacing: var(--ls-display);
+}
+.flj-event__month {
+  font: var(--type-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+}
+.flj-event__badge {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+}
+
+.flj-event__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5);
+}
+.flj-event__kind {
+  font: var(--type-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-accent);
+}
+.flj-event__title {
+  margin: 0;
+  font: var(--type-h4);
+  color: var(--text-strong);
+  text-wrap: pretty;
+}
+.flj-event__link,
+.flj-event__link:hover {
+  /* Reset native link/button styling; title stays visually plain. */
+  appearance: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+.flj-event__link:focus-visible { outline: none; }
+/* Stretched hit area: the whole card activates the title link/button. */
+.flj-event__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.flj-event__desc {
+  margin: 0;
+  font: var(--type-small);
+  color: var(--text-muted);
+}
+.flj-event__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-top: auto;
+  padding-top: var(--space-2);
+  font: var(--fw-medium) var(--fs-14) / var(--lh-snug) var(--font-mono);
+  color: var(--text-body);
+}
+.flj-event__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+/* -------------------------------------------------------------------- Tag */
+.flj-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  box-sizing: border-box;
+  height: var(--space-6);
+  padding: 0 var(--space-3);
+  border: var(--border-w) solid var(--border-default);
+  border-radius: var(--radius-pill);
+  background: var(--flj-white);
+  color: var(--text-body);
+  font: var(--fw-medium) var(--fs-14) / 1 var(--font-body);
+  white-space: nowrap;
+  user-select: none;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.flj-tag--selected {
+  background: var(--brand-primary);
+  color: var(--flj-white);
+}
+.flj-tag--clickable { cursor: pointer; }
+.flj-tag--clickable:not(.flj-tag--selected):hover { background: var(--surface-muted); }
+.flj-tag--clickable.flj-tag--selected:hover { background: var(--brand-primary-hover); }
+.flj-tag--clickable:has(> .flj-tag__label:active) {
+  background: var(--brand-primary-press);
+  color: var(--flj-white);
+}
+.flj-tag:has(.flj-tag__btn:focus-visible) {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: var(--border-w);
+}
+
+.flj-tag__btn {
+  appearance: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.flj-tag__btn:focus-visible { outline: none; }
+/* Clickable label fills the pill so the whole chip is the hit target. */
+.flj-tag--clickable { padding: 0; }
+.flj-tag--clickable > .flj-tag__label {
+  display: inline-flex;
+  align-items: center;
+  align-self: stretch;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-pill);
+}
+.flj-tag--clickable.flj-tag--removable > .flj-tag__label { padding-right: 0; }
+.flj-tag--clickable.flj-tag--removable { padding-right: var(--space-3); }
+.flj-tag__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font: var(--fw-bold) var(--fs-14) / 1 var(--font-mono);
+}
+.flj-tag__remove:hover { color: var(--text-accent); }
+.flj-tag--selected .flj-tag__remove:hover { color: var(--flj-laser-100); }
+
+@media (prefers-reduced-motion: reduce) {
+  .flj-card,
+  .flj-event,
+  .flj-tag {
+    transition: none;
+  }
+  .flj-card--interactive:hover,
+  .flj-card--interactive:focus-visible,
+  .flj-card--interactive:active,
+  .flj-event--interactive:hover,
+  .flj-event--interactive:focus-within,
+  .flj-event--interactive:active {
+    transform: none;
+  }
+}

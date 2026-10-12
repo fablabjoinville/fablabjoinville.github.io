@@ -1,0 +1,54 @@
+---
+/**
+ * Base page shell: <head> SEO, skip link, sticky header, main landmark
+ * (indexed by Pagefind), footer and delegated CTA click tracking.
+ */
+import type { ImageMetadata } from 'astro';
+import '@/styles/global.css';
+import Seo from './Seo.astro';
+import SiteHeader from './SiteHeader.astro';
+import { SiteFooter } from './SiteFooter';
+import { site } from '@/data/site';
+
+export interface Props {
+  /** Page title; rendered as "FabLab Joinville - <title>". Omit on the home page. */
+  title?: string;
+  description?: string;
+  image?: ImageMetadata | string;
+  imageAlt?: string;
+  /** Exclude from search engines and from the Pagefind index. */
+  noindex?: boolean;
+  /** Extra page-level JSON-LD entities. */
+  jsonLd?: object | object[];
+}
+
+const { title, description, image, imageAlt, noindex = false, jsonLd } = Astro.props;
+const fullTitle = title ? `${site.siteTitle} - ${title}` : site.siteTitle;
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <Seo
+      title={fullTitle}
+      description={description}
+      image={image}
+      imageAlt={imageAlt}
+      noindex={noindex}
+      jsonLd={jsonLd}
+    />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="flj-skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <SiteHeader currentPath={currentPath} />
+    <main id="conteudo" tabindex="-1" data-pagefind-body={noindex ? undefined : ''}>
+      <slot />
+    </main>
+    <SiteFooter />
+    <script>
+      import '@/scripts/track';
+    </script>
+  </body>
+</html>

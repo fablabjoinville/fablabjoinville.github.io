@@ -1,0 +1,489 @@
+---
+/**
+ * /lerobot — LeRobot Arm Hackathon, Edição Joinville (13–15 jun 2025).
+ *
+ * The old Google Sites page announced the event; it is now a RECAP. All old
+ * sentences are kept verbatim (scripts/migration/old-site.json → pages[lerobot]);
+ * the past-tense context comes only from the added badges ("Edição 2025 ·
+ * encerrada", "Inscrições encerradas — edição 2025").
+ *
+ * Content: src/content/pages/lerobot.md (title, meta description, hero copy,
+ * mascot) + src/content/lerobot-videos.yaml (7 team videos, Google Drive).
+ * Intentional drops/edits: scripts/migration/parity-exclusions/lerobot.json.
+ *
+ * The old yellow/black wave backgrounds are replaced by flat DS bands with a
+ * solid laser-orange rule (no LeRobot yellow, no gradients).
+ */
+import { getEntry } from 'astro:content';
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import { Badge, Button, Card, Icon } from '@/components/ui';
+import { CardGrid, Hero, Photo, Section } from '@/components/sections';
+import { MapEmbed } from '@/components/islands/MapEmbed';
+import { VideoFacade } from '@/components/islands/VideoFacade';
+import { getSorted } from '@/lib/content-guard';
+import { img } from '@/lib/images';
+import { site } from '@/data/site';
+import aftermoviePoster from '@/assets/old-site/portfolio/lerobot-aftermovie.jpg';
+import mascotPrizes from '@/assets/old-site/lerobot/mascote-premiacoes.png';
+import timeline from '@/assets/old-site/lerobot/cronograma.png';
+import sponsors from '@/assets/old-site/lerobot/realizacao-patrocinio.png';
+
+const page = await getEntry('pages', 'lerobot');
+if (!page) throw new Error('Missing src/content/pages/lerobot.md');
+const { title, description, eyebrow, lead, headerImage, headerImageAlt } = page.data;
+if (!headerImage || !lead || !eyebrow) {
+  throw new Error('src/content/pages/lerobot.md needs eyebrow, lead and headerImage');
+}
+
+const videos = await getSorted('lerobotVideos');
+
+const [heroImg, aftermovieImg, prizesImg, timelineImg, sponsorsImg, posters] = await Promise.all([
+  img(headerImage, { widths: [480, 800], sizes: '(min-width: 60em) 36rem, 100vw' }),
+  img(aftermoviePoster, { widths: [480, 800, 1280], sizes: '(min-width: 60em) 48rem, 100vw' }),
+  img(mascotPrizes, { widths: [400, 600], sizes: '(min-width: 60em) 24rem, 80vw' }),
+  img(timeline, { widths: [640, 960, 1280], sizes: '(min-width: 75em) 72rem, 100vw' }),
+  img(sponsors, { widths: [400, 600], sizes: '(min-width: 40em) 36rem, 100vw' }),
+  Promise.all(
+    videos.map((v) =>
+      img(v.data.poster, {
+        widths: v.data.aspect === '9/16' ? [360, 720] : [480, 800, 1280],
+        sizes: v.data.aspect === '9/16' ? '(min-width: 60em) 12rem, 60vw' : '(min-width: 60em) 36rem, 100vw',
+      }),
+    ),
+  ),
+]);
+
+const aftermovieAlt =
+  'Participante sorri ao lado de um braço robótico SO-101 amarelo durante o LeRobot Arm Hackathon em Joinville';
+const timelineAlt =
+  'Cronograma do hackathon: 1° WarmUp 02.06 · Final das inscrições 10.06 · 2° WarmUp 11.06 · Pagamento das inscrições 12.06 · Hackathon Joinville 13.06 até 15.06 · Melhores Projetos Globais';
+const sponsorsAlt =
+  'Realização: Zion, Fab Lab Joinville. Patrocínio: Avell, Grupo Alltech, Ousar, Aurion, Slim 3D Impressoras';
+
+const base = Astro.site ?? new URL(site.url);
+const eventJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: 'LeRobot Arm Hackathon — Edição Joinville',
+  description: lead,
+  startDate: '2025-06-13T18:00:00-03:00',
+  endDate: '2025-06-15T13:00:00-03:00',
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  image: new URL(aftermovieImg.src, base).href,
+  url: new URL('/lerobot', base).href,
+  location: {
+    '@type': 'Place',
+    name: site.address.building,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: site.address.street,
+      addressLocality: site.address.city,
+      addressRegion: site.address.state,
+      addressCountry: site.address.country,
+    },
+    geo: { '@type': 'GeoCoordinates', latitude: site.address.lat, longitude: site.address.lng },
+  },
+  organizer: { '@type': 'Organization', name: site.name, url: site.url },
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={aftermoviePoster}
+  imageAlt={aftermovieAlt}
+  jsonLd={eventJsonLd}
+>
+  <div class="lr">
+    <Hero eyebrow={eyebrow} title={title} lead={lead} image={heroImg} imageAlt={headerImageAlt}>
+      <Fragment slot="actions">
+        <p class="lr-date">
+          <Icon name="calendar-days" size={18} />
+          <span>
+            <time datetime="2025-06-13T18:00-03:00">13 jun - 2025 • 18:00</time>{' > '}<time datetime="2025-06-15T13:00-03:00">15 jun - 2025 • 13:00</time>
+          </span>
+        </p>
+        <Badge tone="primary">Edição 2025 · encerrada</Badge>
+      </Fragment>
+      <Button
+        variant="secondary"
+        icon="github"
+        href="https://github.com/huggingface/lerobot"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-track="lerobot-github"
+      >
+        + Sobre Le Robot
+      </Button>
+    </Hero>
+
+    <Section id="aftermovie" eyebrow="Edição Joinville 2025" title="Aftermovie oficial" tone="inverse">
+      <div class="lr-aftermovie">
+        <VideoFacade
+          client:visible
+          provider="youtube"
+          id="D-8BeTLw0Ts"
+          title="Aftermovie Oficial | Le Robot Arm Hackathon Edição Joinville"
+          poster={aftermovieImg}
+          posterAlt={aftermovieAlt}
+        />
+      </div>
+    </Section>
+
+    <Section id="premiacoes" eyebrow="Prêmios" title="Premiações">
+      <div class="lr-prizes">
+        <div class="lr-prizes__text">
+          <p class="lr-prizes__amount">15.000,00 €</p>
+          <p class="lr-prizes__desc">em premiação internacional além de destaque na comunidade Hugging Face</p>
+          <p class="lr-prizes__local">
+            <Icon name="trophy" size={24} />
+            <span>Premiação local pelo Fab Lab Joinville</span>
+          </p>
+        </div>
+        <Photo
+          image={prizesImg}
+          alt="Ilustração do mascote do LeRobot espiando à frente de um sol laranja e amarelo, segurando uma flor branca"
+          className="lr-prizes__mascot"
+        />
+      </div>
+
+      <div class="lr-timeline">
+        <h3 class="lr-timeline__title">Cronograma</h3>
+        <Photo image={timelineImg} alt={timelineAlt} frame="plain" />
+      </div>
+    </Section>
+
+    <Section id="projetos" eyebrow="Equipes" title="Projetos das equipes" tone="paper">
+      <ul class="lr-teams" role="list">
+        {
+          videos.map((video, i) => (
+            <li class:list={['lr-team', video.data.aspect === '9/16' ? 'lr-team--portrait' : 'lr-team--landscape']}>
+              <article class="lr-team__card" aria-labelledby={`equipe-${video.id}`}>
+                <VideoFacade
+                  client:visible
+                  provider="drive"
+                  id={video.data.driveId}
+                  title={video.data.team}
+                  poster={posters[i]}
+                  posterAlt={video.data.posterAlt}
+                  aspect={video.data.aspect}
+                />
+                <div class="lr-team__meta">
+                  <h3 class="lr-team__name" id={`equipe-${video.id}`}>
+                    {video.data.team}
+                  </h3>
+                  {video.data.duration && (
+                    <span class="lr-team__duration">
+                      <span class="sr-only">Duração: </span>
+                      {video.data.duration}
+                    </span>
+                  )}
+                </div>
+              </article>
+            </li>
+          ))
+        }
+      </ul>
+    </Section>
+
+    <Section id="outras-edicoes" eyebrow="Hugging Face · LeRobot" title="Conheça as outras edições no mundo">
+      <CardGrid columns={2} as="ul">
+        <Card
+          as="li"
+          href="https://huggingface.co/spaces/LeRobot-worldwide-hackathon/worldwide-map"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-track="lerobot-worldwide-map"
+        >
+          <span class="lr-link">
+            <Icon name="globe" size={24} />
+            <span class="lr-link__text">Worldwide Map - a Hugging Face Space by LeRobot-worldwide-hackathon</span>
+            <Icon name="arrow-up-right" size={20} />
+          </span>
+        </Card>
+        {/* TODO(old-site): "LeRobot Worldwide hackathon Countdown" (huggingface.co/spaces/LeRobot-worldwide-hackathon/countdown) — dead link: the countdown ended with the June 2025 event. */}
+      </CardGrid>
+    </Section>
+
+    <Section id="local" eyebrow="Onde aconteceu" title="Local" tone="inverse" className="lr-local">
+      <div class="lr-local__grid">
+        <div class="lr-local__text">
+          <h3 class="lr-local__name">Fab Lab Joinville</h3>
+          <address class="lr-local__address">
+            <p>
+              Rua Dona Francisca, 8300 Prédio Ágora Uni, no Ágora Tech, Sala 004 - piso térreo, Na Avenida Fábio
+              Perini, entrar no prédio em frente à UFSC, Distrito Industrial
+            </p>
+            <p>Joinville, SC</p>
+          </address>
+          {/* TODO(old-site): "Inscreva-se Agora" (Sympla pre-registration) — recap: the June 2025 edition is over; replaced by a non-link label. */}
+          <Badge tone="neutral">Inscrições encerradas — edição 2025</Badge>
+        </div>
+        <MapEmbed
+          client:visible
+          src={site.links.mapEmbed}
+          title="Mapa: Fab Lab Joinville no Ágora Tech Park"
+          href={site.links.mapLink}
+        />
+      </div>
+    </Section>
+
+    <Section id="realizacao" eyebrow="Apoio" title="Realização e Patrocínio">
+      <div class="lr-sponsors">
+        <Photo image={sponsorsImg} alt={sponsorsAlt} frame="plain" />
+      </div>
+    </Section>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Old yellow wave header → flat white hero closed by a solid laser rule. */
+  .lr :global(.flj-hero) {
+    border-bottom: var(--space-2) solid var(--brand-accent);
+  }
+
+  /* The mascot is an illustration: show it whole inside the offset frame. */
+  .lr :global(.flj-hero .flj-photo__img) {
+    object-fit: contain;
+    background: var(--flj-white);
+  }
+
+  .lr-date {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin: 0;
+    font: var(--type-code);
+    font-weight: var(--fw-bold);
+    color: var(--text-strong);
+  }
+
+  /* ---------------------------------------------------------- Aftermovie */
+  .lr-aftermovie {
+    max-width: 56rem;
+  }
+
+  /* ---------------------------------------------------------- Premiações */
+  .lr-prizes {
+    display: grid;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  .lr-prizes__amount {
+    margin: 0;
+    font: var(--type-display);
+    font-size: clamp(var(--fs-40), 7vw, var(--fs-72));
+    letter-spacing: var(--ls-display);
+    color: var(--text-strong);
+    white-space: nowrap;
+  }
+
+  .lr-prizes__desc {
+    max-width: 36ch;
+    margin: var(--space-3) 0 0;
+    font: var(--type-body-lg);
+    color: var(--text-muted);
+  }
+
+  .lr-prizes__local {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin: var(--space-6) 0 0;
+    padding-top: var(--space-5);
+    border-top: var(--border-w) solid var(--border-default);
+    font: var(--type-h4);
+    color: var(--text-strong);
+  }
+
+  .lr :global(.lr-prizes__mascot) {
+    width: min(100%, 24rem);
+    justify-self: center;
+  }
+
+  .lr :global(.lr-prizes__mascot .flj-photo__img) {
+    background: var(--flj-white);
+  }
+
+  .lr-timeline {
+    margin-top: var(--space-8);
+  }
+
+  .lr-timeline__title {
+    margin: 0 0 var(--space-4);
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  @media (min-width: 60em) {
+    .lr-prizes {
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    }
+  }
+
+  /* -------------------------------------------- Projetos das equipes (videos)
+   * Justified rows: each item grows in proportion to its aspect ratio (--r), so
+   * portrait (9/16) and landscape (16/9) videos share the same height per row.
+   * The ::after filler keeps the last row from stretching. */
+  .lr-teams {
+    --lr-row: 16rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .lr-teams::after {
+    content: '';
+    flex: 999 1 0;
+  }
+
+  .lr-team {
+    flex: var(--r) 1 calc(var(--r) * var(--lr-row));
+    min-width: 0;
+  }
+
+  .lr-team--landscape {
+    --r: 1.7778;
+  }
+
+  .lr-team--portrait {
+    --r: 0.5625;
+  }
+
+  .lr-team__card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: var(--border-w) solid var(--border-default);
+    background: var(--surface-card);
+  }
+
+  .lr-team__card :global(.flj-video) {
+    max-width: none;
+    border: 0;
+    border-bottom: var(--border-w) solid var(--border-default);
+  }
+
+  /* The team name is shown (and is the heading) right below the video. */
+  .lr-team__card :global(.flj-video__title) {
+    display: none;
+  }
+
+  .lr-team__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-1) var(--space-3);
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .lr-team__name {
+    margin: 0;
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    line-height: var(--lh-snug);
+    text-transform: uppercase;
+    color: var(--text-strong);
+  }
+
+  .lr-team__duration {
+    font: var(--type-code);
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 40em) {
+    .lr-team {
+      flex-basis: 100%;
+    }
+
+    .lr-team--portrait {
+      flex-grow: 0;
+      flex-basis: 70%;
+      margin-inline: auto;
+    }
+
+    .lr-teams::after {
+      display: none;
+    }
+  }
+
+  /* ------------------------------------------------------ Outras edições */
+  .lr-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    font: var(--type-h4);
+    color: var(--text-strong);
+  }
+
+  .lr-link__text {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  /* --------------------------------------------------------------- Local */
+  .lr :global(.lr-local) {
+    border-top: var(--space-2) solid var(--brand-accent);
+  }
+
+  /* The map placeholder is a light card: undo the inverse band's white text/links. */
+  .lr :global(.lr-local .flj-map) {
+    border-color: var(--flj-white);
+    color: var(--text-body);
+  }
+
+  .lr :global(.lr-local .flj-map .flj-map__link) {
+    color: var(--text-body);
+  }
+
+  .lr :global(.lr-local .flj-map .flj-map__link:hover) {
+    color: var(--text-accent);
+  }
+
+  .lr-local__grid {
+    display: grid;
+    gap: var(--space-7);
+    align-items: start;
+  }
+
+  .lr-local__name {
+    margin: 0 0 var(--space-4);
+  }
+
+  .lr-local__address {
+    font: var(--type-body-lg);
+    font-style: normal;
+    color: var(--flj-navy-100);
+  }
+
+  .lr-local__address p {
+    margin: 0 0 var(--space-3);
+    max-width: 44ch;
+  }
+
+  .lr-local__address p:last-child {
+    margin-bottom: var(--space-6);
+    color: var(--text-inverse);
+    font-weight: var(--fw-semibold);
+  }
+
+  @media (min-width: 60em) {
+    .lr-local__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    }
+  }
+
+  /* ---------------------------------------------------------- Realização */
+  .lr-sponsors {
+    max-width: 36rem;
+  }
+</style>

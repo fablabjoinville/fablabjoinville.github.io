@@ -1,0 +1,245 @@
+---
+/**
+ * <MachineStrip /> — "// Do arquivo ao objeto": paper band with five square photos
+ * of the lab's machines/spaces (offset-shadow frames, numbered mono captions),
+ * linking to /estrutura#recursos. 5 columns on desktop; below 64em it becomes a
+ * horizontal scroll-snap row (no JS). Promoted from the /lab/headers variant 5.
+ *
+ * Props: eyebrow? (default "Do arquivo ao objeto"), id? (default "maquinas").
+ */
+import { Image } from 'astro:assets';
+import laserSrc from '@/assets/old-site/estrutura/recurso-corte-a-laser.jpg';
+import cncSrc from '@/assets/old-site/estrutura/recurso-fresa-cnc.jpg';
+import printersSrc from '@/assets/old-site/estrutura/recurso-impressoras-3d.jpg';
+import electronicsSrc from '@/assets/old-site/estrutura/recurso-laboratorio-eletronica.jpg';
+import workshopSrc from '@/assets/old-site/estrutura/recurso-oficina.jpg';
+
+export interface Props {
+  eyebrow?: string;
+  id?: string;
+}
+
+const { eyebrow = 'Do arquivo ao objeto', id = 'maquinas' } = Astro.props;
+
+// Captions use the materials/tools listed in src/content/resources.yaml; alt text copied from there too.
+const machines = [
+  {
+    title: 'Corte a laser',
+    spec: 'Madeira · acrílico · tecido',
+    image: laserSrc,
+    alt: 'Duas pessoas operando a máquina de corte a laser Protolaser CO₂ no Fab Lab Joinville',
+  },
+  {
+    title: 'Fresa CNC',
+    spec: 'Madeira · plástico · metais leves',
+    image: cncSrc,
+    alt: 'Pessoa acompanhando a fresa CNC enquanto ela usina peças circulares em uma chapa de madeira',
+  },
+  {
+    title: 'Impressoras 3D',
+    spec: 'Filamento · resina',
+    image: printersSrc,
+    alt: 'Impressoras 3D de filamento lado a lado na bancada, com peças verdes recém-impressas',
+  },
+  {
+    title: 'Eletrônica',
+    spec: 'Solda · osciloscópios · fontes',
+    image: electronicsSrc,
+    alt: 'Bancada de eletrônica com estação de solda, ferramentas penduradas e gavetas de componentes',
+  },
+  {
+    title: 'Oficina',
+    spec: 'Ferramentas manuais e elétricas',
+    image: workshopSrc,
+    alt: 'Três pessoas trabalhando em peças de madeira na bancada da oficina, com lixadeira e furadeira',
+  },
+];
+---
+
+<section class="machines__band" id={id} aria-labelledby={`${id}-titulo`}>
+  <div class="flj-container">
+    <div class="machines__bandhead">
+      <h2 class="flj-eyebrow machines__title" id={`${id}-titulo`}>{eyebrow}</h2>
+      <a class="machines__more" href="/estrutura#recursos" data-track="machines-estrutura">
+        Nossa estrutura <span aria-hidden="true">→</span>
+      </a>
+    </div>
+    <ul class="machines__strip" role="list" aria-label="Máquinas e espaços do laboratório">
+      {
+        machines.map((m, i) => (
+          <li class="machines__item">
+            <a class="machines__card" href="/estrutura#recursos" data-track={`machine-${i + 1}`}>
+              <span class="machines__frame">
+                <Image
+                  src={m.image}
+                  alt={m.alt}
+                  widths={[320, 480, 640]}
+                  sizes="(min-width: 64em) 14rem, 70vw"
+                  class="machines__img"
+                />
+              </span>
+              <span class="machines__caption">
+                <span class="machines__num">{String(i + 1).padStart(2, '0')}</span>
+                <span class="machines__name">{m.title}</span>
+              </span>
+              <span class="machines__spec">{m.spec}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="machines__hint" aria-hidden="true">Deslize para ver mais →</p>
+  </div>
+</section>
+
+<style>
+  .machines__title {
+    margin: 0;
+  }
+
+  .machines__strip {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .machines__band {
+    background: var(--surface-paper);
+    border-top: var(--border-w) solid var(--border-default);
+    border-bottom: var(--border-w) solid var(--border-default);
+    padding-block: var(--space-7) var(--space-8);
+  }
+
+  .machines__bandhead {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+  }
+
+  .machines__more {
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--text-body);
+  }
+
+  .machines__more:hover {
+    color: var(--brand-accent-hover);
+  }
+
+  .machines__strip {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+
+  .machines__card {
+    display: block;
+    text-decoration: none;
+    color: var(--text-body);
+  }
+
+  .machines__card:hover {
+    color: var(--text-body);
+  }
+
+  .machines__frame {
+    display: block;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: var(--flj-navy-100);
+    border: var(--border-w) solid var(--border-default);
+    box-shadow: var(--shadow-offset);
+    transition:
+      transform var(--dur) var(--ease-out),
+      box-shadow var(--dur) var(--ease-out);
+  }
+
+  .machines__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .machines__card:hover .machines__frame,
+  .machines__card:focus-visible .machines__frame {
+    transform: translate(calc(var(--space-1) * -1), calc(var(--space-1) * -1));
+    box-shadow: var(--shadow-offset-lg);
+  }
+
+  .machines__card:active .machines__frame {
+    transform: translate(1px, 1px);
+    box-shadow: none;
+  }
+
+  .machines__caption {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    margin-top: var(--space-5);
+    font: var(--fw-bold) var(--fs-14) / var(--lh-snug) var(--font-display);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .machines__num {
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    color: var(--text-muted);
+  }
+
+  .machines__spec {
+    display: block;
+    margin-top: var(--space-1);
+    font: var(--fw-regular) var(--fs-12) / var(--lh-normal) var(--font-mono);
+    color: var(--text-muted);
+  }
+
+  .machines__hint {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .machines__frame {
+      transition: none;
+    }
+  }
+
+  /* Below desktop the strip becomes a horizontal scroll-snap row (no JS). */
+  @media (max-width: 63.99em) {
+  .machines__band {
+      padding-block: var(--space-6) var(--space-7);
+    }
+
+    .machines__strip {
+      display: flex;
+      gap: var(--space-4);
+      margin-inline: calc(var(--gutter) * -1);
+      padding: var(--space-1) var(--gutter) var(--space-4);
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: var(--gutter);
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-default) transparent;
+    }
+
+    .machines__item {
+      flex: 0 0 clamp(12rem, 62vw, 17rem);
+      scroll-snap-align: start;
+    }
+
+    .machines__hint {
+      display: block;
+      margin-top: var(--space-3);
+      font: var(--type-label);
+      letter-spacing: var(--ls-label);
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+  }
+</style>

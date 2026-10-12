@@ -1,0 +1,12 @@
+[
+  {
+    "text": "Site Festival Maker",
+    "reason": "dead-link",
+    "note": "Festival Maker button to https://www.festivalmaker.com.br/ dropped: the domain no longer resolves (critic 2.5). TODO(old-site) left in src/content/projects/festival-maker.md and src/pages/portfolio.astro."
+  },
+  {
+    "text": "Fotos 2023",
+    "reason": "dead-link",
+    "note": "Two 'Fotos 2023' buttons dropped: Maratona Lab Code -> private/deleted Drive folder 1rL8lIhj5BJI4kofBNAh0OKQ3unamWN-q (404 without login); Festival Maker -> https://shiftfestival.vercel.app (404). Label is shorter than the checker's 12-char needle minimum, so this entry is reported as unused; kept for the record."
+  }
+]

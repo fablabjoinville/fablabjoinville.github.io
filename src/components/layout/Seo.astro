@@ -1,0 +1,110 @@
+---
+/**
+ * <head> metadata: title, description, canonical, Open Graph, Twitter, icons,
+ * sitemap, robots, theme-color and JSON-LD (Organization + LocalBusiness on
+ * every page, plus optional page-specific entities).
+ */
+import type { ImageMetadata } from 'astro';
+import { site } from '@/data/site';
+import { brandMark, themeColor } from '@/data/brand';
+
+const logo = brandMark('marca-azul.svg');
+
+export interface Props {
+  /** Full document title (already composed by BaseLayout). */
+  title: string;
+  description?: string;
+  /** Social share image: imported asset or a path/URL. Defaults to /og-default.png. */
+  image?: ImageMetadata | string;
+  /** Alt text for the share image. */
+  imageAlt?: string;
+  noindex?: boolean;
+  jsonLd?: object | object[];
+}
+
+const {
+  title,
+  description = site.description,
+  image = '/og-default.png',
+  imageAlt = `${site.name} — laboratório de fabricação digital em Joinville/SC`,
+  noindex = false,
+  jsonLd,
+} = Astro.props;
+
+const base = Astro.site ?? new URL(site.url);
+const canonical = new URL(Astro.url.pathname, base).href;
+const imageUrl = new URL(typeof image === 'string' ? image : image.src, base).href;
+const orgId = new URL('/#organizacao', base).href;
+
+const organization = {
+  '@context': 'https://schema.org',
+  '@type': ['Organization', 'LocalBusiness'],
+  '@id': orgId,
+  name: site.name,
+  alternateName: site.siteTitle,
+  description: site.description,
+  url: new URL('/', base).href,
+  logo: new URL(logo ? logo.src : '/favicon.svg', base).href,
+  image: new URL('/og-default.png', base).href,
+  email: site.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: `${site.address.street} — ${site.address.building}`,
+    addressLocality: site.address.city,
+    addressRegion: site.address.state,
+    addressCountry: site.address.country,
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: site.address.lat,
+    longitude: site.address.lng,
+  },
+  hasMap: site.links.mapLink,
+  openingHoursSpecification: site.openingHours.map((h) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: h.dayOfWeek.map((d) => `https://schema.org/${d}`),
+    opens: h.opens,
+    closes: h.closes,
+  })),
+  sameAs: site.social.filter((s) => !s.href.includes('chat.whatsapp.com')).map((s) => s.href),
+};
+
+const pageJsonLd = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+
+/** Serialize for a <script> body: escape `<` so content can never close the tag. */
+const toScript = (data: object) => JSON.stringify(data).replace(/</g, '\\u003c');
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+<meta name="generator" content={Astro.generator} />
+<meta name="theme-color" content={themeColor} />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={site.siteTitle} />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:alt" content={imageAlt} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+<meta name="twitter:image:alt" content={imageAlt} />
+
+<script is:inline type="application/ld+json" set:html={toScript(organization)} />
+{pageJsonLd.map((entry) => <script is:inline type="application/ld+json" set:html={toScript(entry)} />)}

@@ -1,0 +1,490 @@
+---
+/**
+ * HeaderVariant4 — "Photo-first"
+ *
+ * Concept: the lab's real community leads. A full-bleed, flat (no overlay)
+ * photo of the Festival Maker sits directly under a white nav bar; a solid
+ * white panel with a chamfered corner and a hard navy offset shadow (the
+ * extruded-symbol motif) overlaps the photo bottom-left and carries the
+ * eyebrow, a deliberate two-line headline, the lead and the CTAs. A ruled
+ * "visit" strip (hours, address, socials) fills the white space to its right.
+ *
+ * Fixes vs. the current header: the 4-line headline becomes 2 controlled lines
+ * inside a fixed-width panel; the floating illustration is replaced by real lab
+ * photography that fills the width (no dead space); the nav's 2px bottom rule
+ * is the photo's top edge, so nav and hero read as one unit; social icons move
+ * out of the CTA stack into a quiet info strip with practical visit facts.
+ *
+ * Static mock for /lab: nav links are real, the search and menu buttons are
+ * inert (no JS). Mobile (<64em): logo + search + hamburger; photo stacks above
+ * the panel, which overlaps it only slightly.
+ */
+import { Image } from 'astro:assets';
+import { Button, IconButton } from '@/components/ui';
+import { site, isActivePath } from '@/data/site';
+import { brandMark } from '@/data/brand';
+import photo from '@/assets/old-site/portfolio/festival-maker-1.jpg';
+
+const logo = brandMark('marca-azul.svg');
+const currentPath = '/';
+const hours = site.hours[0];
+const place = site.address.building.split(',')[0];
+---
+
+<div class="hv4">
+  <header class="hv4-bar">
+    <div class="flj-container hv4-bar__inner">
+      <a class="hv4-brand" href="/" aria-label={`${site.name} — página inicial`}>
+        {
+          logo ? (
+            <img class="hv4-logo" src={logo.src} width={logo.width} height={logo.height} alt={site.name} />
+          ) : (
+            <span class="hv4-wordmark">{site.name}</span>
+          )
+        }
+      </a>
+      <nav class="hv4-nav" aria-label="Principal">
+        <ul class="hv4-nav__list" role="list">
+          {
+            site.nav.map((item) => {
+              const active = isActivePath(currentPath, item.href);
+              return (
+                <li>
+                  <a
+                    class:list={['hv4-nav__link', { 'hv4-nav__link--active': active }]}
+                    href={item.href}
+                    aria-current={active ? 'page' : undefined}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              );
+            })
+          }
+        </ul>
+      </nav>
+      <div class="hv4-actions">
+        <IconButton icon="search" label="Buscar no site" variant="secondary" className="hv4-search" />
+        <IconButton icon="menu" label="Abrir menu" variant="primary" className="hv4-menu" />
+      </div>
+    </div>
+  </header>
+
+  <section class="hv4-hero" aria-labelledby="hv4-title">
+    <figure class="hv4-media">
+      <Image
+        src={photo}
+        alt="Vista do alto do Festival Maker: estandes de equipes e startups em um grande saguão com visitantes circulando."
+        widths={[480, 800, 1280]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+        class="hv4-photo"
+      />
+      <figcaption class="hv4-caption">Festival Maker · 2023</figcaption>
+    </figure>
+
+    <div class="flj-container hv4-stage">
+      <div class="hv4-panel">
+        <div class="hv4-panel__frame">
+          <div class="hv4-panel__body">
+            <p class="flj-eyebrow">Makerspace · Joinville/SC</p>
+            <h1 id="hv4-title" class="hv4-title">
+              Construa <span class="hv4-title__aside">(quase)</span><br />
+              qualquer coisa!
+            </h1>
+            <p class="hv4-lead">
+              O Fab Lab Joinville é um laboratório de inovação aberta onde as pessoas se reúnem para compartilhar
+              conhecimento e ferramentas.
+            </p>
+            <div class="hv4-ctas">
+              <Button variant="accent" size="lg" iconRight="arrow-right" href="/faca-parte" data-track="hero-faca-parte">
+                Faça parte
+              </Button>
+              <Button variant="secondary" size="lg" href="/estrutura" data-track="hero-estrutura">
+                Conheça o espaço
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="hv4-meta" aria-label="Visite o Fab Lab">
+        <dl class="hv4-facts">
+          <div class="hv4-fact">
+            <dt class="hv4-fact__label">Horário</dt>
+            <dd class="hv4-fact__value">
+              {hours.days} · <span class="hv4-mono">{hours.time}</span>
+            </dd>
+          </div>
+          <div class="hv4-fact">
+            <dt class="hv4-fact__label">Onde</dt>
+            <dd class="hv4-fact__value">{place} · {site.address.city}/{site.address.state}</dd>
+          </div>
+        </dl>
+        <ul class="hv4-social" role="list" aria-label="Redes sociais">
+          {
+            site.social.map((s) => (
+              <li>
+                <IconButton
+                  icon={s.icon}
+                  label={s.label}
+                  variant="ghost"
+                  href={s.href}
+                  target="_blank"
+                  data-track={s.name.toLowerCase()}
+                />
+              </li>
+            ))
+          }
+        </ul>
+      </aside>
+    </div>
+  </section>
+</div>
+
+<style>
+  .hv4 {
+    /* Local knobs (all derived from tokens). */
+    --hv4-cut: calc(var(--chamfer) * 2);
+    --hv4-cut-inner: calc(var(--hv4-cut) - var(--border-w) * 0.586);
+    --hv4-shadow: var(--space-2);
+    --hv4-overlap: var(--space-6);
+    --hv4-pad: var(--space-5);
+
+    background: var(--surface-page);
+    color: var(--text-body);
+  }
+
+  /* ---------- Nav bar ---------- */
+  .hv4-bar {
+    position: relative;
+    z-index: 2;
+    background: var(--surface-page);
+    border-bottom: var(--border-w) solid var(--border-default);
+  }
+
+  .hv4-bar__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    height: var(--header-h);
+  }
+
+  .hv4-brand {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+    text-decoration: none;
+  }
+
+  .hv4-logo {
+    display: block;
+    width: auto;
+    height: calc(var(--space-1) * 10);
+  }
+
+  .hv4-wordmark {
+    font: var(--fw-black) var(--fs-18) / 1 var(--font-display);
+    text-transform: uppercase;
+    color: var(--text-body);
+  }
+
+  .hv4-nav {
+    display: none;
+  }
+
+  .hv4-nav__list {
+    display: flex;
+    gap: var(--space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hv4-nav__link {
+    display: inline-flex;
+    align-items: center;
+    height: calc(var(--space-1) * 9);
+    padding: 0 var(--space-2);
+    border-radius: var(--radius-1);
+    font: var(--fw-bold) var(--fs-12) / 1 var(--font-display);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    color: var(--text-body);
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
+  }
+
+  .hv4-nav__link:hover {
+    background: var(--surface-muted);
+    color: var(--text-accent);
+  }
+
+  .hv4-nav__link--active,
+  .hv4-nav__link--active:hover {
+    background: var(--brand-primary);
+    color: var(--text-inverse);
+  }
+
+  .hv4-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  /* ---------- Photo ---------- */
+  .hv4-hero {
+    position: relative;
+    padding-bottom: var(--space-7);
+    border-bottom: var(--border-w) solid var(--border-default);
+  }
+
+  .hv4-media {
+    position: relative;
+    margin: 0;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--surface-muted);
+    border-bottom: var(--border-w) solid var(--border-default);
+  }
+
+  .hv4-photo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 55% 40%;
+  }
+
+  .hv4-caption {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--gutter);
+    padding: var(--space-2) var(--space-3);
+    background: var(--surface-card);
+    border: var(--border-w) solid var(--border-default);
+    border-radius: var(--radius-1);
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--text-body);
+  }
+
+  .hv4-caption::before {
+    content: '// ';
+    color: var(--text-accent);
+  }
+
+  /* ---------- Stage: panel + info strip ---------- */
+  .hv4-stage {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: var(--space-7);
+    margin-top: calc(-1 * var(--hv4-overlap));
+  }
+
+  /* Panel = offset navy shadow (::before) + navy frame (2px "border" that also
+     follows the chamfer) + white body. clip-path would cut a box-shadow, so the
+     hard shadow is its own chamfered layer. */
+  .hv4-panel {
+    position: relative;
+    isolation: isolate;
+    max-width: 42rem;
+    margin-right: var(--hv4-shadow);
+  }
+
+  .hv4-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--brand-primary);
+    transform: translate(var(--hv4-shadow), var(--hv4-shadow));
+    clip-path: polygon(0 0, calc(100% - var(--hv4-cut)) 0, 100% var(--hv4-cut), 100% 100%, 0 100%);
+  }
+
+  .hv4-panel__frame {
+    padding: var(--border-w);
+    background: var(--border-default);
+    clip-path: polygon(0 0, calc(100% - var(--hv4-cut)) 0, 100% var(--hv4-cut), 100% 100%, 0 100%);
+  }
+
+  .hv4-panel__body {
+    padding: var(--hv4-pad);
+    background: var(--surface-card);
+    clip-path: polygon(
+      0 0,
+      calc(100% - var(--hv4-cut-inner)) 0,
+      100% var(--hv4-cut-inner),
+      100% 100%,
+      0 100%
+    );
+  }
+
+  .hv4-title {
+    margin: var(--space-4) 0 0;
+    font-family: var(--font-display);
+    font-weight: var(--fw-black);
+    font-size: clamp(1.625rem, 7.2vw, var(--fs-56));
+    line-height: var(--lh-tight);
+    letter-spacing: var(--ls-display);
+    text-transform: uppercase;
+    color: var(--text-strong);
+  }
+
+  .hv4-title__aside {
+    font-weight: var(--fw-medium);
+    color: var(--text-muted);
+  }
+
+  .hv4-lead {
+    max-width: 46ch;
+    margin: var(--space-5) 0 0;
+    font: var(--type-body-lg);
+    color: var(--text-muted);
+  }
+
+  .hv4-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+
+  .hv4-ctas :global(.flj-btn) {
+    flex: 1 1 auto;
+  }
+
+  /* Info strip: ruled "bench" rows + social links. */
+  .hv4-meta {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .hv4-facts {
+    display: grid;
+    margin: 0;
+  }
+
+  .hv4-fact {
+    display: grid;
+    gap: var(--space-1);
+    padding: var(--space-3) 0;
+    border-top: var(--border-w) solid var(--border-default);
+  }
+
+  .hv4-fact:last-child {
+    border-bottom: var(--border-w) solid var(--border-default);
+  }
+
+  .hv4-fact__label {
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--text-subtle);
+  }
+
+  .hv4-fact__label::before {
+    content: '// ';
+  }
+
+  .hv4-fact__value {
+    margin: 0;
+    font: var(--type-body);
+    font-weight: var(--fw-medium);
+    color: var(--text-body);
+  }
+
+  .hv4-mono {
+    font-family: var(--font-mono);
+    font-size: var(--fs-14);
+  }
+
+  .hv4-social {
+    display: flex;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* ---------- ≥ 40em: wider photo, roomier panel ---------- */
+  @media (min-width: 40em) {
+    .hv4 {
+      --hv4-cut: calc(var(--chamfer) * 3);
+      --hv4-shadow: calc(var(--space-2) + var(--border-w));
+      --hv4-overlap: var(--space-8);
+      --hv4-pad: var(--space-7);
+    }
+
+    .hv4-media {
+      aspect-ratio: 16 / 9;
+    }
+
+    .hv4-caption {
+      top: var(--space-5);
+    }
+
+    .hv4-ctas :global(.flj-btn) {
+      flex: 0 0 auto;
+    }
+  }
+
+  /* ---------- ≥ 64em: full nav, overlapping desktop composition ---------- */
+  @media (min-width: 64em) {
+    .hv4 {
+      --hv4-overlap: 18rem;
+    }
+
+    .hv4-nav {
+      display: block;
+    }
+
+    .hv4-actions :global(.hv4-menu) {
+      display: none;
+    }
+
+    .hv4-media {
+      aspect-ratio: auto;
+      height: clamp(30rem, 66vh, 42rem);
+    }
+
+    .hv4-caption {
+      top: var(--space-6);
+      right: max(var(--gutter), calc((100% - var(--container)) / 2 + var(--gutter)));
+    }
+
+    .hv4-stage {
+      grid-template-columns: minmax(0, 42rem) minmax(15rem, 1fr);
+      grid-template-rows: var(--hv4-overlap) auto;
+      column-gap: var(--space-7);
+      row-gap: 0;
+    }
+
+    .hv4-panel {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+      margin-right: 0;
+    }
+
+    /* Sits in the white band under the photo, right of the panel. */
+    .hv4-meta {
+      grid-column: 2;
+      grid-row: 2;
+      align-self: start;
+      padding-top: var(--space-6);
+    }
+  }
+
+  @media (min-width: 75em) {
+    .hv4-nav__link {
+      padding: 0 var(--space-3);
+      font-size: var(--fs-14);
+    }
+  }
+</style>

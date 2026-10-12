@@ -1,0 +1,816 @@
+---
+/**
+ * HeaderVariant1 — "Refined split"
+ *
+ * Concept: keeps the familiar two-column hero but tightens it. The headline sits on two
+ * deliberate lines, a real lab photo fills the right half and runs flush to the nav rule
+ * and the right edge of the viewport (stacked offset layers peek out bottom-left), and a
+ * thin "spec strip" with machine chips and today's hours closes the band.
+ *
+ * Fixes in the current header: the 4-line headline (now 2 lines, sized to its column
+ * with container-query units), the small floating illustration (now a large, anchored
+ * photo that ties the hero to the nav bar), the empty space under the CTAs (filled by the
+ * concrete spec strip), and nav/hero disconnection (the photo starts at the nav rule;
+ * "Faça parte" is promoted to a nav CTA, "Home" is left to the logo).
+ *
+ * Self-contained mock: non-sticky nav, static <details> mobile menu (no JS needed), one
+ * small progressive-enhancement script that turns the hours fallback into "Hoje · …".
+ */
+import { Image } from 'astro:assets';
+import { Button, Icon, IconButton } from '@/components/ui';
+import { site } from '@/data/site';
+import { brandMark } from '@/data/brand';
+import { getSorted } from '@/lib/content-guard';
+import heroPhoto from '@/assets/old-site/portfolio/festival-maker-1.jpg';
+
+const logo = brandMark('marca-azul.svg');
+
+// "Home" is covered by the logo and "Faça parte" becomes the nav CTA, so the centered
+// list keeps the five browse destinations. The mobile menu lists everything.
+const ctaHref = '/faca-parte';
+const browseNav = site.nav.filter((item) => item.href !== '/' && item.href !== ctaHref);
+
+// Spec strip: the machine/space resources from resources.yaml (Ágora UNI is the building,
+// not a machine). Short labels keep the strip on one line on desktop.
+const SHORT_LABEL: Record<string, string> = {
+  'corte-a-laser': 'Corte a laser',
+  'fresa-cnc': 'Fresa CNC',
+  'impressoras-3d': 'Impressão 3D',
+  'laboratorio-de-eletronica': 'Eletrônica',
+  oficina: 'Oficina',
+};
+const ICON: Record<string, string> = {
+  'corte-a-laser': 'zap',
+  'fresa-cnc': 'box',
+  'impressoras-3d': 'printer',
+  'laboratorio-de-eletronica': 'cpu',
+  oficina: 'wrench',
+};
+const specs = (await getSorted('resources'))
+  .filter(({ id }) => id in SHORT_LABEL)
+  .map(({ id, data }) => ({ id, label: SHORT_LABEL[id] ?? data.title, icon: ICON[id] ?? 'box' }));
+
+// Hours: static fallback built from site.openingHours ("Seg–Qui 10:30–19:00 · Sex 10:30–17:00");
+// the script below swaps it for today's slot (America/Sao_Paulo) when JS runs.
+const DAY_ABBR: Record<string, string> = {
+  Monday: 'Seg',
+  Tuesday: 'Ter',
+  Wednesday: 'Qua',
+  Thursday: 'Qui',
+  Friday: 'Sex',
+  Saturday: 'Sáb',
+  Sunday: 'Dom',
+};
+const hoursFallback = site.openingHours
+  .map(({ dayOfWeek, opens, closes }) => {
+    const first = DAY_ABBR[dayOfWeek[0]];
+    const last = DAY_ABBR[dayOfWeek[dayOfWeek.length - 1]];
+    const days = first === last ? first : `${first}–${last}`;
+    return `${days} ${opens}–${closes}`;
+  })
+  .join(' · ');
+const saturdayNote = site.hours.find((h) => h.days.startsWith('Sáb'))?.time ?? 'fechado';
+const hoursData = JSON.stringify({ spec: site.openingHours, saturday: saturdayNote });
+
+const photoAlt =
+  'Vista do alto do Festival Maker: estandes de equipes e startups em um grande saguão com visitantes circulando.';
+---
+
+<div class="hv1">
+  {/* ------------------------------------------------------------------ nav */}
+  <header class="hv1-nav">
+    <div class="hv1-nav__bar flj-container">
+      <a class="hv1-nav__brand" href="/" aria-label={`${site.name} — página inicial`}>
+        {
+          logo ? (
+            <img class="hv1-nav__logo" src={logo.src} width={logo.width} height={logo.height} alt={site.name} />
+          ) : (
+            <span class="hv1-nav__wordmark">{site.name}</span>
+          )
+        }
+      </a>
+
+      <nav class="hv1-nav__menu" aria-label="Principal (variante 1)">
+        <ul class="hv1-nav__list" role="list">
+          {
+            browseNav.map((item) => (
+              <li>
+                <a class="hv1-nav__link" href={item.href}>
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="hv1-nav__actions">
+        <button class="hv1-search" type="button" aria-label="Buscar no site">
+          <Icon name="search" size={16} />
+          <span class="hv1-search__label">Buscar</span>
+          <kbd class="hv1-search__kbd">/</kbd>
+        </button>
+        <span class="hv1-nav__cta">
+          <Button variant="primary" size="sm" href={ctaHref}>Faça parte</Button>
+        </span>
+      </div>
+
+      <details class="hv1-mnav">
+        <summary class="hv1-mnav__toggle" aria-label="Menu">
+          <span class="hv1-mnav__open"><Icon name="menu" size={20} /></span>
+          <span class="hv1-mnav__close"><Icon name="x" size={20} /></span>
+        </summary>
+        <div class="hv1-mnav__panel">
+          <p class="flj-eyebrow hv1-mnav__eyebrow">Menu</p>
+          <ul class="hv1-mnav__list" role="list">
+            {
+              site.nav.map((item) => (
+                <li>
+                  <a class="hv1-mnav__link" href={item.href}>
+                    {item.label}
+                    <Icon name="arrow-right" size={18} />
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </details>
+    </div>
+  </header>
+
+  {/* ----------------------------------------------------------------- hero */}
+  <section class="hv1-hero" aria-labelledby="hv1-titulo">
+    <div class="hv1-hero__grid">
+      <div class="hv1-hero__text">
+        <p class="flj-eyebrow">Makerspace · Joinville/SC</p>
+        <h1 id="hv1-titulo" class="hv1-title">
+          <span class="hv1-title__line">Construa <span class="hv1-title__aside">(quase)</span></span>
+          <span class="hv1-title__line">qualquer coisa!</span>
+        </h1>
+        <p class="hv1-lead">
+          O Fab Lab Joinville é um laboratório de inovação aberta onde as pessoas se reúnem para compartilhar
+          conhecimento e ferramentas.
+        </p>
+        <div class="hv1-actions">
+          <Button variant="accent" size="lg" iconRight="arrow-right" href="/faca-parte">Faça parte</Button>
+          <Button variant="secondary" size="lg" href="/estrutura">Conheça o espaço</Button>
+        </div>
+        <div class="hv1-social">
+          <span class="hv1-social__label">Siga</span>
+          <ul class="hv1-social__list" role="list">
+            {
+              site.social.map((s) => (
+                <li>
+                  <IconButton icon={s.icon} label={s.label} variant="ghost" size={36} href={s.href} target="_blank" />
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+
+      <figure class="hv1-media">
+        <div class="hv1-media__frame">
+          <Image
+            class="hv1-media__img"
+            src={heroPhoto}
+            alt={photoAlt}
+            widths={[480, 800, 1200, 1280]}
+            sizes="(min-width: 60em) 50vw, 100vw"
+            loading="eager"
+            fetchpriority="high"
+          />
+          <figcaption class="hv1-media__tag">Festival Maker · 2023</figcaption>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  {/* ----------------------------------------------------------- spec strip */}
+  <div class="hv1-strip">
+    <div class="hv1-strip__inner flj-container">
+      <div class="hv1-strip__specs">
+        <span class="hv1-strip__label">No lab</span>
+        <ul class="hv1-chips" role="list">
+          {
+            specs.map((s) => (
+              <li>
+                <a class="hv1-chip" href="/estrutura#recursos">
+                  <Icon name={s.icon} size={14} />
+                  {s.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="hv1-hours" data-hv1-hours={hoursData}>
+        <Icon name="clock" size={16} />
+        <span class="hv1-hours__status" data-state="unknown" aria-hidden="true"></span>
+        <span class="hv1-hours__text">{hoursFallback}</span>
+        <a class="hv1-hours__map" href={site.links.mapLink} target="_blank" rel="noopener noreferrer">
+          Como chegar
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Progressive enhancement: replace the weekly hours with today's slot (Joinville time).
+  interface Slot {
+    dayOfWeek: string[];
+    opens: string;
+    closes: string;
+  }
+  const ABBR: Record<string, string> = {
+    Monday: 'seg',
+    Tuesday: 'ter',
+    Wednesday: 'qua',
+    Thursday: 'qui',
+    Friday: 'sex',
+    Saturday: 'sáb',
+    Sunday: 'dom',
+  };
+  const toMinutes = (hhmm: string) => {
+    const [h = 0, m = 0] = hhmm.split(':').map(Number);
+    return h * 60 + m;
+  };
+
+  for (const el of document.querySelectorAll<HTMLElement>('[data-hv1-hours]')) {
+    try {
+      const { spec, saturday } = JSON.parse(el.dataset.hv1Hours ?? '{}') as { spec: Slot[]; saturday: string };
+      const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Sao_Paulo',
+        weekday: 'long',
+        hour: '2-digit',
+        minute: '2-digit',
+        hourCycle: 'h23',
+      }).formatToParts(new Date());
+      const get = (type: string) => parts.find((p) => p.type === type)?.value ?? '';
+      const weekday = get('weekday');
+      const now = toMinutes(`${get('hour')}:${get('minute')}`);
+      const slot = spec.find((s) => s.dayOfWeek.includes(weekday));
+      const text = el.querySelector('.hv1-hours__text');
+      const status = el.querySelector<HTMLElement>('.hv1-hours__status');
+      if (!text || !status) continue;
+
+      const day = ABBR[weekday] ?? '';
+      if (slot) {
+        const open = now >= toMinutes(slot.opens) && now < toMinutes(slot.closes);
+        text.textContent = `Hoje (${day}) ${slot.opens}–${slot.closes} · ${open ? 'aberto agora' : 'fechado agora'}`;
+        status.dataset.state = open ? 'open' : 'closed';
+      } else {
+        text.textContent = `Hoje (${day}) · ${weekday === 'Saturday' ? saturday : 'fechado'}`;
+        status.dataset.state = 'closed';
+      }
+    } catch {
+      // Keep the static weekly hours.
+    }
+  }
+</script>
+
+<style>
+  .hv1 {
+    --hv1-step: var(--space-3);
+    position: relative;
+    overflow-x: clip;
+    color: var(--text-body);
+    background: var(--surface-page);
+  }
+
+  /* ================================================================ nav */
+  .hv1-nav {
+    position: relative;
+    z-index: 3;
+    background: var(--surface-page);
+    border-bottom: var(--border-w) solid var(--border-default);
+  }
+
+  .hv1-nav__bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    height: var(--header-h);
+  }
+
+  .hv1-nav__brand {
+    display: flex;
+    flex: none;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .hv1-nav__logo {
+    width: auto;
+    height: calc(var(--space-7) - var(--space-1));
+  }
+
+  .hv1-nav__wordmark {
+    font: var(--fw-black) var(--fs-18) / 1 var(--font-display);
+    text-transform: uppercase;
+    color: var(--brand-primary);
+  }
+
+  .hv1-nav__menu {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .hv1-nav__list {
+    display: flex;
+    gap: var(--space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hv1-nav__link {
+    display: flex;
+    align-items: center;
+    padding: var(--space-2) var(--space-3);
+    font: var(--fw-bold) var(--fs-12) / 1 var(--font-display);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    color: var(--text-body);
+    border-radius: var(--radius-1);
+    transition: background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .hv1-nav__link:hover {
+    color: var(--text-body);
+    background: var(--surface-muted);
+  }
+
+  .hv1-nav__actions {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .hv1-nav__cta {
+    display: inline-flex;
+  }
+
+  /* Search trigger mock: flat field-like control with the "/" shortcut hint. */
+  .hv1-search {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    height: calc(var(--space-1) * 9);
+    padding: 0 var(--space-2) 0 var(--space-3);
+    font: var(--fw-bold) var(--fs-12) / 1 var(--font-display);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: var(--surface-muted);
+    border: var(--border-w) solid transparent;
+    border-radius: var(--radius-1);
+    cursor: pointer;
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
+  }
+
+  .hv1-search:hover {
+    color: var(--text-body);
+    border-color: var(--border-default);
+  }
+
+  .hv1-search__kbd {
+    display: inline-grid;
+    place-items: center;
+    min-width: calc(var(--space-1) * 5);
+    height: calc(var(--space-1) * 5);
+    margin-left: var(--space-2);
+    font: var(--fw-bold) var(--fs-12) / 1 var(--font-mono);
+    color: var(--text-muted);
+    background: var(--surface-page);
+    border: var(--border-w-thin) solid var(--flj-navy-300);
+    border-radius: var(--radius-1);
+  }
+
+  @media (min-width: 75em) {
+    .hv1-nav__link {
+      font-size: var(--fs-14);
+    }
+  }
+
+  /* Mobile menu (<details>, no JS). Hidden on desktop. */
+  .hv1-mnav {
+    display: none;
+  }
+
+  .hv1-mnav__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(var(--space-1) * 10);
+    height: calc(var(--space-1) * 10);
+    color: var(--brand-primary);
+    background: var(--surface-page);
+    border: var(--border-w) solid var(--border-default);
+    border-radius: var(--radius-1);
+    cursor: pointer;
+    list-style: none;
+    transition:
+      transform var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out);
+  }
+
+  .hv1-mnav__toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .hv1-mnav__toggle:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: var(--shadow-offset-sm);
+  }
+
+  .hv1-mnav__toggle:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: var(--border-w);
+  }
+
+  .hv1-mnav__close,
+  .hv1-mnav[open] .hv1-mnav__open {
+    display: none;
+  }
+
+  .hv1-mnav[open] .hv1-mnav__close {
+    display: inline-flex;
+  }
+
+  .hv1-mnav[open] > .hv1-mnav__toggle {
+    color: var(--text-inverse);
+    background: var(--brand-primary);
+  }
+
+  .hv1-mnav__panel {
+    position: absolute;
+    top: calc(var(--header-h) + var(--border-w));
+    right: 0;
+    left: 0;
+    padding: var(--space-5) var(--gutter) var(--space-6);
+    color: var(--text-inverse);
+    background: var(--surface-inverse);
+    border-bottom: var(--border-w) solid var(--border-default);
+  }
+
+  .hv1-mnav__eyebrow {
+    margin-bottom: var(--space-3);
+    color: var(--brand-accent);
+  }
+
+  .hv1-mnav__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: var(--border-w-thin) solid var(--flj-navy-600);
+  }
+
+  .hv1-mnav__list > li {
+    border-bottom: var(--border-w-thin) solid var(--flj-navy-600);
+  }
+
+  .hv1-mnav__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4) var(--space-1);
+    font: var(--fw-bold) var(--fs-18) / var(--lh-snug) var(--font-display);
+    letter-spacing: var(--ls-display);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--text-inverse);
+  }
+
+  .hv1-mnav__link:hover {
+    color: var(--brand-accent);
+  }
+
+  @media (max-width: 64em) {
+    .hv1-nav__menu,
+    .hv1-nav__actions {
+      display: none;
+    }
+
+    .hv1-nav__brand {
+      margin-right: auto;
+    }
+
+    .hv1-mnav {
+      display: block;
+    }
+  }
+
+  @media (max-width: 30em) {
+    .hv1-nav__logo {
+      height: var(--space-6);
+    }
+  }
+
+  /* =============================================================== hero */
+
+  /* Four tracks: outer gutter · text half · media half · outer bleed. The media spans
+     the last two, so the photo runs to the viewport's right edge while the text stays
+     aligned with the 1200px container. */
+  .hv1-hero__grid {
+    --hv1-half: calc((var(--container) - 2 * var(--gutter)) / 2);
+    display: grid;
+    grid-template-columns:
+      minmax(var(--gutter), 1fr)
+      minmax(0, var(--hv1-half))
+      minmax(0, var(--hv1-half))
+      minmax(0, 1fr);
+  }
+
+  .hv1-hero__text {
+    container-type: inline-size;
+    grid-column: 2 / 3;
+    align-self: center;
+    padding: var(--space-8) var(--space-8) var(--space-8) 0;
+  }
+
+  .hv1-title {
+    margin: var(--space-4) 0 0;
+    /* ~9.2em is the widest line ("CONSTRUA (QUASE)"); 10.4cqi keeps both lines in the column. */
+    font-family: var(--font-display);
+    font-weight: var(--fw-black);
+    font-size: clamp(var(--fs-32), 10.4cqi, var(--fs-56));
+    line-height: 1;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+    color: var(--text-strong);
+  }
+
+  .hv1-title__line {
+    display: block;
+  }
+
+  .hv1-title__aside {
+    font-weight: var(--fw-medium);
+    color: var(--text-muted);
+  }
+
+  .hv1-lead {
+    max-width: 44ch;
+    margin: var(--space-5) 0 0;
+    font: var(--type-body-lg);
+    color: var(--text-muted);
+  }
+
+  .hv1-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+
+  .hv1-social {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: var(--border-w-thin) solid var(--border-subtle);
+  }
+
+  .hv1-social__label,
+  .hv1-strip__label {
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .hv1-social__label::before,
+  .hv1-strip__label::before {
+    content: '// ';
+  }
+
+  .hv1-social__list {
+    display: flex;
+    gap: var(--space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Photo: flush to the nav rule and to the right edge; offset layers (navy block +
+     outline, the symbol's extrusion) step out toward the bottom-left. */
+  .hv1-media {
+    position: relative;
+    isolation: isolate;
+    grid-column: 3 / 5;
+    margin: 0 0 calc(var(--space-7) + var(--hv1-step)) calc(var(--hv1-step) * 2);
+  }
+
+  .hv1-media::before,
+  .hv1-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .hv1-media::before {
+    background: var(--brand-primary);
+    transform: translate(calc(var(--hv1-step) * -1), var(--hv1-step));
+  }
+
+  .hv1-media::after {
+    z-index: -2;
+    border: var(--border-w) solid var(--border-default);
+    transform: translate(calc(var(--hv1-step) * -2), calc(var(--hv1-step) * 2));
+  }
+
+  .hv1-media__frame {
+    position: relative;
+    height: 100%;
+    min-height: 28rem;
+    overflow: hidden;
+    background: var(--flj-navy-100);
+    border: var(--border-w) solid var(--border-default);
+    border-top: 0;
+    border-right: 0;
+  }
+
+  .hv1-media__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 40% 50%;
+  }
+
+  .hv1-media__tag {
+    position: absolute;
+    bottom: var(--space-4);
+    left: var(--space-4);
+    padding: var(--space-2) var(--space-4) var(--space-2) var(--space-3);
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--text-inverse);
+    background: var(--surface-inverse);
+    clip-path: polygon(0 0, calc(100% - var(--chamfer)) 0, 100% var(--chamfer), 100% 100%, 0 100%);
+  }
+
+  .hv1-media__tag::before {
+    content: '// ';
+    color: var(--brand-accent);
+  }
+
+  @media (max-width: 60em) {
+    .hv1 {
+      --hv1-step: var(--space-2);
+    }
+
+    .hv1-hero__text {
+      grid-column: 2 / 4;
+      padding: var(--space-7) var(--gutter) var(--space-6) 0;
+    }
+
+    .hv1-media {
+      grid-column: 2 / 5;
+      margin: 0 0 calc(var(--space-6) + var(--hv1-step) * 2) calc(var(--hv1-step) * 2);
+    }
+
+    .hv1-media__frame {
+      height: auto;
+      min-height: 0;
+      aspect-ratio: 4 / 3;
+      border-top: var(--border-w) solid var(--border-default);
+    }
+  }
+
+  @media (max-width: 30em) {
+    .hv1-actions :global(.flj-btn) {
+      flex: 1 1 100%;
+    }
+  }
+
+  /* ========================================================= spec strip */
+  .hv1-strip {
+    background: var(--surface-paper);
+    border-top: var(--border-w) solid var(--border-default);
+    border-bottom: var(--border-w) solid var(--border-default);
+  }
+
+  .hv1-strip__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4) var(--space-6);
+    padding-block: var(--space-4);
+  }
+
+  .hv1-strip__specs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .hv1-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hv1-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    font: var(--type-label);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    color: var(--text-body);
+    background: var(--surface-page);
+    border: var(--border-w) solid var(--border-default);
+    border-radius: var(--radius-1);
+    transition:
+      transform var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out);
+  }
+
+  .hv1-chip:hover {
+    color: var(--text-body);
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-offset-sm);
+  }
+
+  .hv1-chip:active {
+    transform: translate(1px, 1px);
+    box-shadow: none;
+  }
+
+  .hv1-hours {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    font: var(--fw-bold) var(--fs-12) / var(--lh-snug) var(--font-mono);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-body);
+  }
+
+  .hv1-hours__status {
+    width: var(--space-2);
+    height: var(--space-2);
+    background: var(--text-subtle);
+  }
+
+  .hv1-hours__status[data-state='unknown'] {
+    display: none;
+  }
+
+  .hv1-hours__status[data-state='open'] {
+    background: var(--status-success);
+  }
+
+  .hv1-hours__map {
+    margin-left: var(--space-2);
+    padding-left: var(--space-3);
+    color: var(--text-body);
+    border-left: var(--border-w-thin) solid var(--flj-navy-300);
+  }
+
+  .hv1-hours__map:hover {
+    color: var(--brand-accent-hover);
+  }
+
+  .hv1-hours__map::after {
+    content: ' →';
+  }
+
+  @media (max-width: 60em) {
+    .hv1-strip__label {
+      flex-basis: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hv1-chip,
+    .hv1-mnav__toggle {
+      transition: none;
+    }
+  }
+</style>

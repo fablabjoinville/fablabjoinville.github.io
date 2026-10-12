@@ -1,0 +1,354 @@
+/*
+ * Fab Lab Joinville — global stylesheet.
+ * Import once from the base layout: `import '@/styles/global.css'`.
+ * @import rules must stay first (tokens → component groups → sections/layout).
+ */
+@import './tokens/fonts.css';
+@import './tokens/colors.css';
+@import './tokens/typography.css';
+@import './tokens/spacing.css';
+@import './tokens/base.css';
+
+@import '../components/ui/core/core.css';
+@import '../components/ui/display/display.css';
+@import '../components/ui/forms/forms.css';
+@import '../components/ui/navigation/navigation.css';
+@import '../components/ui/feedback/feedback.css';
+@import '../components/sections/sections.css';
+@import '../components/layout/layout.css';
+
+/* ---------- Reset / base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-h) + var(--space-4));
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font: var(--type-body);
+  color: var(--text-body);
+  background: var(--surface-page);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote {
+  margin: 0;
+}
+
+/* ---------- Headings ---------- */
+h1,
+h2,
+h3,
+h4 {
+  color: var(--text-strong);
+  text-wrap: balance;
+}
+
+h1 {
+  font: var(--type-h1);
+  letter-spacing: var(--ls-display);
+  text-transform: uppercase;
+}
+
+h2 {
+  font: var(--type-h2);
+  letter-spacing: var(--ls-display);
+  text-transform: uppercase;
+}
+
+h3 {
+  font: var(--type-h3);
+}
+
+h4 {
+  font: var(--type-h4);
+}
+
+@media (max-width: 720px) {
+  h1 {
+    font-size: var(--fs-40);
+  }
+
+  h2 {
+    font-size: var(--fs-32);
+  }
+
+  h3 {
+    font-size: var(--fs-20);
+  }
+}
+
+/* ---------- Links ---------- */
+a {
+  color: var(--brand-primary);
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-w);
+  text-underline-offset: 0.2em;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+a:hover {
+  color: var(--brand-accent);
+}
+
+a:focus-visible {
+  outline: var(--border-w) solid var(--focus-ring);
+  outline-offset: var(--border-w);
+  border-radius: var(--radius-1);
+}
+
+/* Default focus ring for anything without component-specific focus styles */
+:focus-visible {
+  outline: var(--border-w) solid var(--focus-ring);
+  outline-offset: var(--border-w);
+}
+
+hr {
+  border: 0;
+  border-top: var(--border-w) solid var(--border-default);
+  margin: var(--space-7) 0;
+}
+
+code,
+kbd,
+samp,
+pre {
+  font: var(--type-code);
+}
+
+/* ---------- Utilities ---------- */
+.flj-container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.flj-eyebrow {
+  display: inline-block;
+  margin: 0;
+  font: var(--type-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-accent);
+}
+
+.flj-eyebrow::before {
+  content: '// ';
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Skip link: visually hidden until focused */
+.flj-skip-link {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 1000;
+  padding: var(--space-3) var(--space-4);
+  font: var(--type-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text-inverse);
+  background: var(--surface-inverse);
+  border: var(--border-w) solid var(--border-default);
+  border-radius: var(--radius-1);
+  box-shadow: var(--shadow-offset-accent);
+  transform: translateY(calc(-100% - var(--space-4)));
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.flj-skip-link:focus,
+.flj-skip-link:focus-visible {
+  color: var(--text-inverse);
+  transform: translateY(0);
+  outline: none;
+}
+
+/* ---------- Long-form prose (rendered markdown) ---------- */
+.flj-prose {
+  max-width: 72ch;
+  font: var(--type-body-lg);
+  color: var(--text-body);
+}
+
+.flj-prose > * + * {
+  margin-top: var(--space-5);
+}
+
+.flj-prose h2 {
+  margin-top: var(--space-8);
+  font-size: var(--fs-32);
+}
+
+.flj-prose h3 {
+  margin-top: var(--space-7);
+}
+
+.flj-prose h4 {
+  margin-top: var(--space-6);
+}
+
+.flj-prose h2 + *,
+.flj-prose h3 + *,
+.flj-prose h4 + * {
+  margin-top: var(--space-4);
+}
+
+.flj-prose strong,
+.flj-prose b {
+  font-weight: var(--fw-semibold);
+  color: var(--text-strong);
+}
+
+.flj-prose a {
+  font-weight: var(--fw-medium);
+}
+
+.flj-prose ul,
+.flj-prose ol {
+  margin-bottom: 0;
+  padding-left: var(--space-5);
+}
+
+.flj-prose ul {
+  list-style: square;
+}
+
+.flj-prose li + li {
+  margin-top: var(--space-2);
+}
+
+.flj-prose li::marker {
+  color: var(--text-accent);
+  font-weight: var(--fw-bold);
+}
+
+.flj-prose blockquote {
+  padding: var(--space-4) var(--space-5);
+  border-left: var(--border-w) solid var(--brand-accent);
+  background: var(--surface-paper);
+  font-style: italic;
+}
+
+.flj-prose img,
+.flj-prose video {
+  border: var(--border-w) solid var(--border-default);
+}
+
+.flj-prose figcaption {
+  margin-top: var(--space-2);
+  font: var(--type-small);
+  color: var(--text-muted);
+}
+
+.flj-prose :not(pre) > code {
+  padding: 0 var(--space-1);
+  background: var(--surface-muted);
+  border-radius: var(--radius-1);
+}
+
+.flj-prose pre {
+  padding: var(--space-4);
+  overflow-x: auto;
+  color: var(--text-inverse);
+  background: var(--surface-inverse);
+  border-radius: var(--radius-1);
+}
+
+.flj-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font: var(--type-small);
+}
+
+.flj-prose th,
+.flj-prose td {
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+  border-bottom: var(--border-w-thin) solid var(--border-subtle);
+}
+
+.flj-prose th {
+  font: var(--type-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  border-bottom: var(--border-w) solid var(--border-default);
+}
+
+/* ---------- Motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

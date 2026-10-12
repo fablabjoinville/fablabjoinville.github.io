@@ -1,0 +1,69 @@
+/*
+ * Fab Lab Joinville — navigation primitives (Tabs).
+ * Only design tokens via var().
+ */
+
+.flj-tabs {
+  /* 3px focus offset derived from tokens (4px - 1px). */
+  --flj-focus-offset: calc(var(--space-1) - var(--border-w-thin));
+  display: flex;
+  gap: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  border-bottom: var(--border-w) solid var(--border-default);
+}
+
+.flj-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.flj-tabs__tab {
+  flex: none;
+  height: calc(var(--space-7) - var(--space-1)); /* 44px */
+  margin: 0;
+  /* Pull over the tablist rule so the selected tab merges with it. */
+  margin-bottom: calc(var(--border-w) * -1);
+  padding: 0 calc(var(--space-4) + var(--border-w)); /* 18px */
+  background: transparent;
+  color: var(--text-body);
+  border: 0;
+  border-bottom: var(--border-w) solid transparent;
+  border-radius: var(--radius-1) var(--radius-1) 0 0;
+  font: var(--fw-bold) var(--fs-14) / 1 var(--font-display);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.flj-tabs__tab:hover {
+  background: var(--surface-muted);
+}
+
+.flj-tabs__tab:active {
+  background: var(--border-subtle);
+}
+
+.flj-tabs__tab--selected,
+.flj-tabs__tab--selected:hover,
+.flj-tabs__tab--selected:active {
+  background: var(--brand-primary);
+  color: var(--flj-white);
+  border-bottom-color: var(--brand-primary);
+}
+
+.flj-tabs__tab:focus-visible {
+  outline: var(--flj-focus-offset) solid var(--focus-ring);
+  outline-offset: calc(var(--flj-focus-offset) * -1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flj-tabs__tab {
+    transition: none;
+  }
+}

@@ -1,0 +1,541 @@
+---
+/**
+ * HeaderVariant5 — "Manifesto + marquee"
+ *
+ * Concept: an editorial masthead (opening hours left, logo centered, social
+ * links right) sits above a double-ruled nav row with Buscar pinned right. The
+ * hero is a centered typographic manifesto set across the full container width
+ * on exactly two lines, followed by a paper band with a strip of five square
+ * lab photos (offset-shadow frames + mono captions) that scroll-snaps on mobile.
+ *
+ * Fixes in the current header: the 4-line headline becomes 2 lines sized to the
+ * container (container-query units), so the hero is shorter and denser; the
+ * floating illustration is replaced by real photos of the machines, which
+ * show what the lab offers at a glance; nav and hero share one centered axis
+ * and the same rules, so they read as one masthead instead of two blocks; the
+ * social icons move into the masthead, which leaves the hero with only the
+ * headline, the lead and the two CTAs.
+ */
+import { Image } from 'astro:assets';
+import { Button, IconButton } from '@/components/ui';
+import { site } from '@/data/site';
+import logo from '@/assets/brand/marca-azul.svg';
+import laserSrc from '@/assets/old-site/estrutura/recurso-corte-a-laser.jpg';
+import cncSrc from '@/assets/old-site/estrutura/recurso-fresa-cnc.jpg';
+import printersSrc from '@/assets/old-site/estrutura/recurso-impressoras-3d.jpg';
+import electronicsSrc from '@/assets/old-site/estrutura/recurso-laboratorio-eletronica.jpg';
+import workshopSrc from '@/assets/old-site/estrutura/recurso-oficina.jpg';
+
+const currentPath = '/';
+const weekdays = site.hours[0];
+const friday = site.hours[1];
+
+// Captions use the materials/tools listed in src/content/resources.yaml; alt text copied from there too.
+const machines = [
+  {
+    title: 'Corte a laser',
+    spec: 'Madeira · acrílico · tecido',
+    image: laserSrc,
+    alt: 'Duas pessoas operando a máquina de corte a laser Protolaser CO₂ no Fab Lab Joinville',
+  },
+  {
+    title: 'Fresa CNC',
+    spec: 'Madeira · plástico · metais leves',
+    image: cncSrc,
+    alt: 'Pessoa acompanhando a fresa CNC enquanto ela usina peças circulares em uma chapa de madeira',
+  },
+  {
+    title: 'Impressoras 3D',
+    spec: 'Filamento · resina',
+    image: printersSrc,
+    alt: 'Impressoras 3D de filamento lado a lado na bancada, com peças verdes recém-impressas',
+  },
+  {
+    title: 'Eletrônica',
+    spec: 'Solda · osciloscópios · fontes',
+    image: electronicsSrc,
+    alt: 'Bancada de eletrônica com estação de solda, ferramentas penduradas e gavetas de componentes',
+  },
+  {
+    title: 'Oficina',
+    spec: 'Ferramentas manuais e elétricas',
+    image: workshopSrc,
+    alt: 'Três pessoas trabalhando em peças de madeira na bancada da oficina, com lixadeira e furadeira',
+  },
+];
+---
+
+<header class="v5" aria-label="Variante 5: Manifesto + marquee">
+  {/* ---------- Masthead ---------- */}
+  <div class="flj-container v5__mast">
+    <div class="v5__meta">
+      <p class="v5__dateline">// {weekdays.days} · {weekdays.time}</p>
+      {friday && <p class="v5__subline">{friday.days} · {friday.time}</p>}
+    </div>
+
+    <a class="v5__brand" href="/" aria-label="Fab Lab Joinville, página inicial">
+      <img class="v5__logo" src={logo.src} width={logo.width} height={logo.height} alt="" />
+    </a>
+
+    <ul class="v5__social" aria-label="Redes sociais">
+      {
+        site.social.map((s) => (
+          <li>
+            <IconButton icon={s.icon} label={s.label} variant="ghost" href={s.href} target="_blank" />
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="v5__burger">
+      <IconButton icon="menu" label="Abrir menu" variant="secondary" />
+    </div>
+  </div>
+
+  {/* ---------- Ruled nav row ---------- */}
+  <div class="flj-container v5__navwrap">
+    <nav class="v5__navrow" aria-label="Principal">
+      <span class="v5__navspacer" aria-hidden="true"></span>
+      <ul class="v5__navlist">
+        {
+          site.nav.map((item) => (
+            <li>
+              <a
+                class:list={['v5__link', { 'v5__link--active': item.href === currentPath }]}
+                href={item.href}
+                aria-current={item.href === currentPath ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="v5__search">
+        <Button variant="ghost" size="sm" icon="search">Buscar</Button>
+      </div>
+    </nav>
+  </div>
+
+  {/* ---------- Manifesto ---------- */}
+  <section class="v5__hero" aria-labelledby="v5-titulo">
+    <div class="flj-container v5__fit">
+      <p class="flj-eyebrow">Makerspace · Joinville/SC</p>
+      <h1 id="v5-titulo" class="v5__title">
+        <span class="v5__line">Construa <span class="v5__outline">(quase)</span></span>
+        <span class="v5__line">qualquer coisa!</span>
+      </h1>
+      <p class="v5__lead">
+        O Fab Lab Joinville é um laboratório de inovação aberta onde as pessoas se reúnem para compartilhar
+        conhecimento e ferramentas.
+      </p>
+      <div class="v5__actions">
+        <Button variant="accent" size="lg" iconRight="arrow-right" href="/faca-parte">Faça parte</Button>
+        <Button variant="secondary" size="lg" href="/estrutura">Conheça o espaço</Button>
+      </div>
+      <ul class="v5__social v5__social--hero" aria-label="Redes sociais">
+        {
+          site.social.map((s) => (
+            <li>
+              <IconButton icon={s.icon} label={s.label} variant="secondary" href={s.href} target="_blank" />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    {/* ---------- Photo strip ---------- */}
+    <div class="v5__band">
+      <div class="flj-container">
+        <div class="v5__bandhead">
+          <p class="flj-eyebrow">Do arquivo ao objeto</p>
+          <a class="v5__more" href="/estrutura#recursos">
+            Nossa estrutura <span aria-hidden="true">→</span>
+          </a>
+        </div>
+        <ul class="v5__strip" aria-label="Máquinas e espaços do laboratório">
+          {
+            machines.map((m, i) => (
+              <li class="v5__item">
+                <a class="v5__card" href="/estrutura#recursos">
+                  <span class="v5__frame">
+                    <Image
+                      src={m.image}
+                      alt={m.alt}
+                      widths={[320, 480, 640]}
+                      sizes="(min-width: 64em) 14rem, 70vw"
+                      loading="eager"
+                      class="v5__img"
+                    />
+                  </span>
+                  <span class="v5__caption">
+                    <span class="v5__num">{String(i + 1).padStart(2, '0')}</span>
+                    <span class="v5__name">{m.title}</span>
+                  </span>
+                  <span class="v5__spec">{m.spec}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="v5__hint" aria-hidden="true">Deslize para ver mais →</p>
+      </div>
+    </div>
+  </section>
+</header>
+
+<style>
+  /* Breakpoint 64em = desktop masthead + 5-column strip; below it the nav collapses
+     to logo + hamburger and the strip becomes a scroll-snap row. */
+  .v5 {
+    background: var(--surface-page);
+    color: var(--text-body);
+    border-bottom: var(--border-w) solid var(--border-default);
+  }
+
+  /* :where keeps these resets at class-level specificity so BEM rules below override them. */
+  .v5 :where(ul) {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .v5 :where(p) {
+    margin: 0;
+  }
+
+  /* ---------- Masthead ---------- */
+  .v5__mast {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-5);
+    padding-block: var(--space-5);
+  }
+
+  .v5__dateline {
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--text-body);
+  }
+
+  .v5__subline {
+    margin-top: var(--space-2);
+    font: var(--fw-regular) var(--fs-12) / var(--lh-normal) var(--font-mono);
+    color: var(--text-muted);
+  }
+
+  .v5__brand {
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+  }
+
+  .v5__logo {
+    display: block;
+    width: auto;
+    height: var(--space-8);
+  }
+
+  .v5__social {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-1);
+  }
+
+  .v5__burger {
+    display: none;
+  }
+
+  /* ---------- Ruled nav row ---------- */
+  .v5__navrow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: stretch;
+    border-top: var(--border-w) solid var(--border-default);
+    position: relative;
+  }
+
+  /* Second, thin rule offset above the first: the symbol's stacked-outline motif. */
+  .v5__navrow::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: calc((var(--border-w) + var(--space-1) + var(--border-w-thin)) * -1);
+    border-top: var(--border-w-thin) solid var(--border-default);
+  }
+
+  .v5__navlist {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .v5__link {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: var(--space-4) var(--space-3);
+    font: var(--fw-bold) var(--fs-12) / 1 var(--font-display);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    color: var(--text-body);
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
+  }
+
+  .v5__link:hover {
+    color: var(--text-body);
+    background: var(--surface-muted);
+  }
+
+  .v5__link--active,
+  .v5__link--active:hover {
+    color: var(--text-inverse);
+    background: var(--brand-primary);
+  }
+
+  .v5__search {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  /* ---------- Manifesto ---------- */
+  .v5__hero {
+    border-top: var(--border-w) solid var(--border-default);
+  }
+
+  .v5__fit {
+    container-type: inline-size;
+    padding-block: var(--space-9) var(--space-8);
+    text-align: center;
+  }
+
+  .v5__title {
+    margin: var(--space-5) 0 0;
+    font-family: var(--font-display);
+    font-weight: var(--fw-black);
+    /* "CONSTRUA (QUASE)" = 16 mono glyphs ≈ 9.1em at -0.03em tracking → ~93% of the container. */
+    font-size: clamp(var(--fs-24), 10.2cqi, calc(var(--fs-96) * 1.25));
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--text-strong);
+  }
+
+  .v5__line {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .v5__outline {
+    color: transparent;
+    -webkit-text-stroke: 0.025em var(--text-strong);
+  }
+
+  .v5__lead {
+    max-width: 52ch;
+    margin: var(--space-6) auto 0;
+    font: var(--type-body-lg);
+    color: var(--text-muted);
+  }
+
+  .v5__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+
+  .v5__social--hero {
+    display: none;
+  }
+
+  /* ---------- Photo strip ---------- */
+  .v5__band {
+    background: var(--surface-paper);
+    border-top: var(--border-w) solid var(--border-default);
+    padding-block: var(--space-7) var(--space-8);
+  }
+
+  .v5__bandhead {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+  }
+
+  .v5__more {
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--text-body);
+  }
+
+  .v5__more:hover {
+    color: var(--brand-accent-hover);
+  }
+
+  .v5__strip {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+
+  .v5__card {
+    display: block;
+    text-decoration: none;
+    color: var(--text-body);
+  }
+
+  .v5__card:hover {
+    color: var(--text-body);
+  }
+
+  .v5__frame {
+    display: block;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: var(--flj-navy-100);
+    border: var(--border-w) solid var(--border-default);
+    box-shadow: var(--shadow-offset);
+    transition:
+      transform var(--dur) var(--ease-out),
+      box-shadow var(--dur) var(--ease-out);
+  }
+
+  .v5__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .v5__card:hover .v5__frame,
+  .v5__card:focus-visible .v5__frame {
+    transform: translate(calc(var(--space-1) * -1), calc(var(--space-1) * -1));
+    box-shadow: var(--shadow-offset-lg);
+  }
+
+  .v5__card:active .v5__frame {
+    transform: translate(1px, 1px);
+    box-shadow: none;
+  }
+
+  .v5__caption {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    margin-top: var(--space-5);
+    font: var(--fw-bold) var(--fs-14) / var(--lh-snug) var(--font-display);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .v5__num {
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    color: var(--text-muted);
+  }
+
+  .v5__spec {
+    display: block;
+    margin-top: var(--space-1);
+    font: var(--fw-regular) var(--fs-12) / var(--lh-normal) var(--font-mono);
+    color: var(--text-muted);
+  }
+
+  .v5__hint {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .v5__frame,
+    .v5__link {
+      transition: none;
+    }
+  }
+
+  /* ---------- Below desktop: collapsed nav + scroll-snap strip ---------- */
+  @media (max-width: 63.99em) {
+    .v5__mast {
+      display: flex;
+      justify-content: space-between;
+      padding-block: var(--space-3);
+    }
+
+    .v5__meta,
+    .v5__mast > .v5__social,
+    .v5__navwrap {
+      display: none;
+    }
+
+    .v5__logo {
+      height: calc(var(--space-7) - var(--space-1));
+    }
+
+    .v5__burger {
+      display: block;
+    }
+
+    .v5__fit {
+      padding-block: var(--space-8) var(--space-7);
+    }
+
+    .v5__social--hero {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-2);
+      margin-top: var(--space-6);
+    }
+
+    .v5__band {
+      padding-block: var(--space-6) var(--space-7);
+    }
+
+    .v5__strip {
+      display: flex;
+      gap: var(--space-4);
+      margin-inline: calc(var(--gutter) * -1);
+      padding: var(--space-1) var(--gutter) var(--space-4);
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: var(--gutter);
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-default) transparent;
+    }
+
+    .v5__item {
+      flex: 0 0 clamp(12rem, 62vw, 17rem);
+      scroll-snap-align: start;
+    }
+
+    .v5__hint {
+      display: block;
+      margin-top: var(--space-3);
+      font: var(--type-label);
+      letter-spacing: var(--ls-label);
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+  }
+
+  @media (max-width: 40em) {
+    .v5__actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .v5__lead {
+      font: var(--type-body);
+    }
+  }
+</style>

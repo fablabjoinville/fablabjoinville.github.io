@@ -1,0 +1,626 @@
+---
+/**
+ * HeaderVariant2 — "Navy band"
+ *
+ * Concept: nav and hero live in ONE full-bleed navy band, so the header reads as
+ * a single branded block instead of a white bar floating above a separate hero.
+ * The active nav item is a laser-orange tab sitting on the bar's 2px rule; a large,
+ * cropped FLJ symbol drawn as navy-700 outlines (no opacity) sits behind the photo.
+ * The headline uses a deliberate two-line break with "(quase)" set as an outline
+ * (solid + outline layering, like the symbol), and a ruled meta strip (hours,
+ * address, socials) closes the band with a 2px rule.
+ *
+ * Fixes vs. the current header: nav and hero were disconnected (now one surface);
+ * the headline broke into 4 heavy lines (now 2 controlled lines with a fluid size);
+ * empty space and a floating illustration (now a real lab photo locked into an
+ * offset frame with a white outline layer, overlapping the symbol device); the
+ * loose social icons are folded into a compact info strip with useful facts.
+ *
+ * Static (no JS). Mobile: ≤64em the nav collapses to logo + hamburger button,
+ * ≤60em the hero stacks (text → photo → meta strip).
+ */
+import { Image } from 'astro:assets';
+import { Button, Icon } from '@/components/ui';
+import { site, isActivePath } from '@/data/site';
+import { brandMark } from '@/data/brand';
+import photo from '@/assets/old-site/portfolio/arduino-day-1.jpg';
+import symbolRaw from '@/assets/brand/simbolo-branco.svg?raw';
+
+export interface Props {
+  /** Path used to highlight the active nav item (the mock represents the home page). */
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+
+const logo = brandMark('marca-branco.svg');
+
+// Outline-only symbol: reuse the official path data, drawn with a stroke instead of a fill.
+const symbolViewBox = symbolRaw.match(/viewBox="([^"]+)"/)?.[1] ?? '0 0 343.5 449.95';
+const symbolPath = symbolRaw.match(/<path[^>]*\sd="([^"]+)"/)?.[1];
+
+const hours = site.hours.slice(0, 2);
+const place = `${site.address.building.split(',')[0]} · ${site.address.city}/${site.address.state}`;
+---
+
+<section class="v2" aria-labelledby="v2-titulo">
+  {
+    symbolPath && (
+      <svg class="v2__symbol" viewBox={symbolViewBox} aria-hidden="true" focusable="false">
+        <path d={symbolPath} />
+      </svg>
+    )
+  }
+
+  <div class="v2__barwrap">
+    <div class="v2__inner v2__bar">
+      <a class="v2__brand" href="/" aria-label={`${site.name} — página inicial`}>
+        {
+          logo ? (
+            <img class="v2__logo" src={logo.src} width={logo.width} height={logo.height} alt={site.name} />
+          ) : (
+            <span class="v2__wordmark">{site.name}</span>
+          )
+        }
+      </a>
+
+      <nav class="v2__nav" aria-label="Principal">
+        <ul class="v2__list" role="list">
+          {
+            site.nav.map((item) => {
+              const active = isActivePath(currentPath, item.href);
+              return (
+                <li>
+                  <a
+                    class:list={['v2__link', { 'v2__link--active': active }]}
+                    href={item.href}
+                    aria-current={active ? 'page' : undefined}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              );
+            })
+          }
+        </ul>
+      </nav>
+
+      <button class="v2__search" type="button" aria-label="Buscar no site">
+        <Icon name="search" size={16} />
+        <span>Buscar</span>
+      </button>
+
+      <button class="v2__menu" type="button" aria-label="Abrir menu">
+        <Icon name="menu" size={22} />
+      </button>
+    </div>
+  </div>
+
+  <div class="v2__inner v2__hero">
+    <div class="v2__text">
+      <p class="flj-eyebrow v2__eyebrow">Makerspace · Joinville/SC</p>
+      <h1 id="v2-titulo" class="v2__title">
+        Construa <span class="v2__quase">(quase)</span><br />
+        qualquer coisa!
+      </h1>
+      <p class="v2__lead">
+        O Fab Lab Joinville é um laboratório de inovação aberta onde as pessoas se reúnem para compartilhar
+        conhecimento e ferramentas.
+      </p>
+      <div class="v2__actions">
+        <Button variant="accent" size="lg" iconRight="arrow-right" href="/faca-parte">Faça parte</Button>
+        <Button variant="inverse" size="lg" href="/estrutura">Conheça o espaço</Button>
+      </div>
+    </div>
+
+    <figure class="v2__media">
+      <div class="v2__photo">
+        <Image
+          src={photo}
+          alt="Participantes do Arduino Day montam circuitos em uma mesa com notebooks, kits de componentes e caixas de Arduino."
+          widths={[480, 800, 1200]}
+          sizes="(min-width: 60em) 34rem, 100vw"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+      <figcaption class="v2__caption">
+        <a href="/portfolio">Arduino Day · desde 2016</a>
+      </figcaption>
+    </figure>
+  </div>
+
+  <div class="v2__metawrap">
+    <div class="v2__inner v2__meta">
+      <div class="v2__cell">
+        <Icon name="clock" size={18} className="v2__cellicon" />
+        <div>
+          <p class="v2__key">Horário</p>
+          {
+            hours.map((h) => (
+              <p class="v2__value">
+                {h.days} <span class="v2__mono">{h.time}</span>
+              </p>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="v2__cell">
+        <Icon name="map-pin" size={18} className="v2__cellicon" />
+        <div>
+          <p class="v2__key">Onde</p>
+          <p class="v2__value">
+            <a class="v2__maplink" href={site.links.mapLink} target="_blank" rel="noopener noreferrer">{place}</a>
+          </p>
+        </div>
+      </div>
+
+      <ul class="v2__social" role="list" aria-label="Redes sociais">
+        {
+          site.social.map((s) => (
+            <li>
+              <a
+                class="v2__soc"
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={s.label}
+                title={s.label}
+              >
+                <Icon name={s.icon} size={18} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .v2 {
+    /* Offset of the photo frame layers (smaller on phones). */
+    --v2-offset: var(--space-5);
+    /* Design-system hooks: on navy the button hover shadows/borders turn white. */
+    --flj-btn-shadow-dark: 3px 3px 0 0 var(--flj-white);
+    --flj-btn-shadow-dark-alt: var(--space-1) var(--space-1) 0 0 var(--brand-accent);
+    --flj-btn-border-dark: var(--flj-white);
+
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--surface-inverse);
+    color: var(--text-inverse);
+    border-bottom: var(--border-w) solid var(--border-strong);
+  }
+
+  .v2__inner {
+    width: 100%;
+    max-width: var(--container);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  /* ---------- Symbol device (outline only, navy-700 lines) ---------- */
+  .v2__symbol {
+    position: absolute;
+    z-index: -1;
+    top: calc(var(--header-h) + var(--space-6));
+    right: calc(var(--space-9) * -1);
+    height: calc(100% + var(--space-8));
+    width: auto;
+    aspect-ratio: 343.5 / 449.95;
+    pointer-events: none;
+  }
+  .v2__symbol path {
+    fill: none;
+    stroke: var(--flj-navy-700);
+    stroke-width: var(--border-w);
+    stroke-linejoin: miter;
+    vector-effect: non-scaling-stroke;
+  }
+
+  /* ---------- Nav bar ---------- */
+  .v2__barwrap {
+    border-bottom: var(--border-w) solid var(--flj-navy-700);
+  }
+  .v2__bar {
+    display: flex;
+    align-items: stretch;
+    gap: var(--space-6);
+    height: var(--header-h);
+  }
+  .v2__brand {
+    display: flex;
+    align-items: center;
+    flex: none;
+    text-decoration: none;
+    color: var(--text-inverse);
+  }
+  .v2__logo {
+    display: block;
+    width: auto;
+    height: calc(var(--space-1) * 11);
+  }
+  .v2__wordmark {
+    font: var(--fw-black) var(--fs-18) / 1 var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-display);
+  }
+
+  .v2__nav {
+    display: flex;
+    margin-left: auto;
+  }
+  .v2__list {
+    display: flex;
+    align-items: stretch;
+    gap: var(--space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .v2__list li {
+    display: flex;
+  }
+  .v2__link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0 var(--space-3);
+    font: var(--fw-bold) var(--fs-12) / 1 var(--font-display);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    color: var(--flj-navy-100);
+    transition:
+      color var(--dur-fast) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out);
+  }
+  .v2__link:hover {
+    color: var(--text-inverse);
+    background: var(--flj-navy-700);
+  }
+  /* Active item: an orange tab sitting on the bar's 2px rule. */
+  .v2__link--active,
+  .v2__link--active:hover {
+    color: var(--text-inverse);
+  }
+  .v2__link--active::after {
+    content: '';
+    position: absolute;
+    left: var(--space-3);
+    right: var(--space-3);
+    bottom: calc(var(--border-w) * -1);
+    height: var(--space-1);
+    background: var(--brand-accent);
+  }
+  .v2__link:focus-visible,
+  .v2__search:focus-visible,
+  .v2__menu:focus-visible,
+  .v2__soc:focus-visible,
+  .v2__caption a:focus-visible,
+  .v2__maplink:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: var(--border-w);
+  }
+
+  .v2__search,
+  .v2__menu {
+    align-self: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    margin: 0;
+    color: var(--text-inverse);
+    background: transparent;
+    border: var(--border-w) solid var(--flj-navy-500);
+    border-radius: var(--radius-1);
+    cursor: pointer;
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out);
+  }
+  .v2__search {
+    flex: none;
+    height: calc(var(--space-1) * 9);
+    padding: 0 var(--space-3);
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+  }
+  .v2__search:hover,
+  .v2__menu:hover {
+    border-color: var(--flj-white);
+    background: var(--flj-navy-700);
+  }
+  .v2__menu {
+    display: none;
+    width: calc(var(--space-1) * 10);
+    height: calc(var(--space-1) * 10);
+    padding: 0;
+    margin-left: auto;
+  }
+
+  /* ---------- Hero ---------- */
+  .v2__hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-8);
+    padding-block: var(--space-9);
+  }
+  .v2__eyebrow {
+    color: var(--flj-laser-500);
+  }
+  .v2__title {
+    margin: var(--space-5) 0;
+    font-family: var(--font-display);
+    font-weight: var(--fw-black);
+    font-size: clamp(var(--fs-32), 8vw, var(--fs-72));
+    line-height: var(--lh-tight);
+    letter-spacing: var(--ls-display);
+    text-transform: uppercase;
+    color: var(--text-inverse);
+  }
+  /* "(quase)" as an outline layer — the solid + outline pairing of the symbol. */
+  @supports (-webkit-text-stroke: 2px white) {
+    .v2__quase {
+      color: var(--surface-inverse);
+      -webkit-text-stroke: var(--border-w) var(--flj-white);
+    }
+  }
+  .v2__lead {
+    max-width: 46ch;
+    margin: 0 0 var(--space-6);
+    font: var(--type-body-lg);
+    color: var(--flj-navy-100);
+  }
+  .v2__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  /* Photo in an offset frame: solid navy-900 layer + white outline layer. */
+  .v2__media {
+    position: relative;
+    margin: 0 var(--v2-offset) var(--v2-offset) 0;
+  }
+  .v2__media::before,
+  .v2__media::after {
+    content: '';
+    position: absolute;
+  }
+  .v2__media::before {
+    inset: var(--v2-offset) calc(var(--v2-offset) * -1) calc(var(--v2-offset) * -1) var(--v2-offset);
+    border: var(--border-w) solid var(--flj-white);
+  }
+  .v2__media::after {
+    inset: calc(var(--v2-offset) / 2) calc(var(--v2-offset) / -2) calc(var(--v2-offset) / -2)
+      calc(var(--v2-offset) / 2);
+    background: var(--flj-navy-900);
+  }
+  .v2__photo {
+    position: relative;
+    z-index: 1;
+    border: var(--border-w) solid var(--flj-white);
+    background: var(--flj-navy-700);
+  }
+  .v2__photo :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+  .v2__caption {
+    position: absolute;
+    z-index: 2;
+    left: calc(var(--space-3) * -1);
+    bottom: var(--space-5);
+    clip-path: polygon(0 0, calc(100% - var(--chamfer)) 0, 100% var(--chamfer), 100% 100%, 0 100%);
+  }
+  .v2__caption a {
+    display: block;
+    padding: var(--space-2) calc(var(--space-3) + var(--space-1)) var(--space-2) var(--space-3);
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--brand-primary);
+    background: var(--flj-white);
+  }
+  .v2__caption a::before {
+    content: '// ';
+  }
+  .v2__caption a:hover {
+    color: var(--brand-primary);
+    background: var(--flj-navy-50);
+  }
+
+  /* ---------- Meta strip (closes the band) ---------- */
+  .v2__metawrap {
+    border-top: var(--border-w) solid var(--flj-navy-700);
+    background: var(--surface-inverse);
+  }
+  .v2__meta {
+    display: flex;
+    align-items: stretch;
+  }
+  .v2__cell {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-5) var(--space-6) var(--space-5) 0;
+  }
+  .v2__cell + .v2__cell {
+    padding-left: var(--space-6);
+    border-left: var(--border-w) solid var(--flj-navy-700);
+  }
+  .v2__cell :global(.v2__cellicon) {
+    margin-top: var(--space-1);
+    color: var(--flj-navy-300);
+  }
+  .v2__key {
+    margin: 0 0 var(--space-2);
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--flj-navy-300);
+  }
+  .v2__key::before {
+    content: '// ';
+  }
+  .v2__value {
+    margin: 0;
+    font: var(--type-small);
+    color: var(--flj-navy-100);
+  }
+  .v2__mono {
+    font-family: var(--font-mono);
+    font-weight: var(--fw-medium);
+    color: var(--text-inverse);
+  }
+  .v2__maplink {
+    color: var(--text-inverse);
+    text-decoration-color: var(--flj-navy-500);
+  }
+  .v2__maplink:hover {
+    color: var(--text-inverse);
+    text-decoration-color: var(--flj-white);
+  }
+
+  .v2__social {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin: 0 0 0 auto;
+    padding: var(--space-5) 0 var(--space-5) var(--space-6);
+    list-style: none;
+    border-left: var(--border-w) solid var(--flj-navy-700);
+  }
+  .v2__soc {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(var(--space-1) * 10);
+    height: calc(var(--space-1) * 10);
+    color: var(--text-inverse);
+    border: var(--border-w) solid var(--flj-navy-500);
+    border-radius: var(--radius-1);
+    text-decoration: none;
+    transition:
+      transform var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out);
+  }
+  .v2__soc:hover {
+    color: var(--text-inverse);
+    border-color: var(--flj-white);
+    transform: translate(-3px, -3px);
+    box-shadow: 3px 3px 0 0 var(--flj-white);
+  }
+  .v2__soc:active {
+    transform: translate(1px, 1px);
+    box-shadow: none;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 75em) {
+    .v2__bar {
+      gap: var(--space-4);
+    }
+    .v2__link {
+      padding: 0 var(--space-2);
+    }
+    .v2__link--active::after {
+      left: var(--space-2);
+      right: var(--space-2);
+    }
+  }
+
+  @media (max-width: 64em) {
+    .v2__nav,
+    .v2__search {
+      display: none;
+    }
+    .v2__menu {
+      display: inline-flex;
+    }
+  }
+
+  @media (min-width: 60em) {
+    .v2__title {
+      font-size: clamp(var(--fs-40), calc(4.4vw + var(--space-2)), calc(var(--fs-56) + var(--space-2)));
+    }
+  }
+
+  @media (max-width: 60em) {
+    .v2__hero {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-7);
+      padding-block: var(--space-7) var(--space-8);
+    }
+    .v2__symbol {
+      top: var(--header-h);
+      right: calc(var(--space-8) * -1);
+      height: 70%;
+    }
+    .v2__meta {
+      flex-wrap: wrap;
+    }
+    .v2__social {
+      flex-basis: 100%;
+      margin-left: 0;
+      padding: var(--space-4) 0;
+      border-left: 0;
+      border-top: var(--border-w) solid var(--flj-navy-700);
+    }
+  }
+
+  @media (max-width: 40em) {
+    .v2 {
+      --v2-offset: var(--space-3);
+    }
+    .v2__inner {
+      padding-inline: var(--space-4);
+    }
+    .v2__logo {
+      height: calc(var(--space-1) * 9);
+    }
+    .v2__actions > :global(.flj-btn) {
+      flex: 1 1 auto;
+    }
+    .v2__meta {
+      flex-direction: column;
+    }
+    .v2__social {
+      flex-basis: auto;
+    }
+    .v2__cell,
+    .v2__cell + .v2__cell {
+      padding: var(--space-4) 0;
+      border-left: 0;
+    }
+    .v2__cell + .v2__cell {
+      border-top: var(--border-w) solid var(--flj-navy-700);
+    }
+    .v2__caption {
+      left: calc(var(--space-2) * -1);
+      bottom: var(--space-3);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .v2__link,
+    .v2__search,
+    .v2__menu,
+    .v2__soc {
+      transition: none;
+    }
+  }
+</style>

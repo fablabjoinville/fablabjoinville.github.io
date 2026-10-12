@@ -1,0 +1,94 @@
+---
+/**
+ * /sentry-test — manual Sentry smoke test (noindex, not in the sitemap, ignored
+ * by Pagefind). Each button exercises one signal:
+ *  1. uncaught error from a plain <script> click handler (global handler)
+ *  2. React render error inside an island → withIslandBoundary ErrorBoundary
+ *  3. Sentry.logger.info('sentry_test_log', { page: 'sentry-test' })  (Logs)
+ *  4. Sentry.metrics.count('sentry_test_click', 1)                     (Metrics)
+ * API (@sentry/core 11): logger.info(message, attributes?, { scope }?);
+ * metrics.count(name, value?, { unit?, attributes?, scope? }).
+ */
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import { Section } from '@/components/sections';
+import { SentryTestIsland } from '@/components/islands/SentryTestIsland';
+---
+
+<BaseLayout
+  title="Teste do Sentry"
+  description="Página interna para testar a captura de erros, logs e métricas do Sentry."
+  noindex
+>
+  <div data-pagefind-ignore="all">
+    <Section eyebrow="Interno" title="Teste do Sentry" headingLevel={1} lead="Cada botão envia um tipo de sinal ao Sentry. Use apenas para verificação.">
+      <ol class="sentry-test">
+        <li>
+          <button type="button" class="flj-btn flj-btn--primary flj-btn--md" id="sentry-throw">
+            Lançar erro no script
+          </button>
+          <span>Erro não tratado em um manipulador de clique.</span>
+        </li>
+        <li>
+          <SentryTestIsland client:load />
+          <span>Erro de renderização capturado pelo ErrorBoundary da ilha.</span>
+        </li>
+        <li>
+          <button type="button" class="flj-btn flj-btn--secondary flj-btn--md" id="sentry-log">Enviar log</button>
+          <span><code>Sentry.logger.info('sentry_test_log')</code></span>
+        </li>
+        <li>
+          <button type="button" class="flj-btn flj-btn--secondary flj-btn--md" id="sentry-metric">
+            Enviar métrica
+          </button>
+          <span><code>Sentry.metrics.count('sentry_test_click', 1)</code></span>
+        </li>
+      </ol>
+      <p class="sentry-test__status" role="status" id="sentry-status"></p>
+    </Section>
+  </div>
+</BaseLayout>
+
+<script>
+  import * as Sentry from '@sentry/astro';
+
+  const status = document.getElementById('sentry-status');
+  const say = (text: string) => {
+    if (status) status.textContent = text;
+  };
+
+  document.getElementById('sentry-throw')?.addEventListener('click', () => {
+    say('Erro lançado.');
+    throw new Error('Sentry test error ' + Date.now());
+  });
+
+  document.getElementById('sentry-log')?.addEventListener('click', () => {
+    Sentry.logger.info('sentry_test_log', { page: 'sentry-test' });
+    say('Log enviado.');
+  });
+
+  document.getElementById('sentry-metric')?.addEventListener('click', () => {
+    Sentry.metrics.count('sentry_test_click', 1);
+    say('Métrica enviada.');
+  });
+</script>
+
+<style>
+  .sentry-test {
+    display: grid;
+    gap: var(--space-5);
+    margin: 0;
+    padding-left: var(--space-5);
+  }
+
+  .sentry-test li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .sentry-test__status {
+    margin-top: var(--space-6);
+    font: var(--type-code);
+  }
+</style>

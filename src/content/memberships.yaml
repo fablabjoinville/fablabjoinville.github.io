@@ -1,0 +1,41 @@
+# Modalidades do clube (old /faça-parte, "Modalidades" columns). Text verbatim.
+# The prices and buttons were Google Sites custom-embed iframes on the old page.
+# "Fab Lab Ágora" in the Lab Maker text is verbatim (name of the lab space).
+# Typo fixed: "Increver-se!" -> "Inscrever-se!" (see parity-exclusions/faca-parte.json).
+- id: corporate-maker
+  name: Corporate Maker
+  body: "Empresas que querem desenvolver projetos e protótipos em um ambiente de experimentação e troca de conhecimento."
+  image: ../assets/old-site/faca-parte/corporate-maker.jpg
+  imageAlt: "Homem de boné mostra uma máquina vermelha a um jovem durante um evento maker"
+  prices: []
+  cta:
+    label: "Entre em contato!"
+    href: "mailto:contato@fablabjoinville.com.br?subject=Corporate%20Maker%20FabLab&body=Descrever%20o%20interesse%20e/ou%20a%20finalidade%20do%20uso%20do%20laborat%C3%B3rio"
+    track: mailto-corporate
+  order: 1
+- id: lab-maker
+  name: Lab Maker
+  body: "Pessoas que querem usar a estrutura do laboratório Fab Lab Ágora para criar, inventar e prototipar ideias e projetos."
+  image: ../assets/old-site/faca-parte/lab-maker.jpg
+  imageAlt: "Adultos e crianças montam um carrinho de madeira com rodas em uma bancada do laboratório"
+  prices:
+    - { amount: "R$ 100,00", period: "/mês" }
+    - { amount: "R$ 1.000,00", period: "/ano" }
+  cta:
+    label: "Fazer parte!"
+    href: "https://docs.google.com/forms/d/e/1FAIpQLSfxX9-qFL0dST55psG44gDg2lc0aHs2SS_iiG1FL6lFw8eWiA/viewform"
+    track: membership-form-lab
+  order: 2
+- id: academy-maker
+  name: Academy Maker
+  body: "Estudantes ou grupos acadêmicos que precisam de estrutura e apoio para desenvolver seus projetos e protótipos."
+  image: ../assets/old-site/faca-parte/academy-maker.jpg
+  imageAlt: "Estudantes do grupo de robótica móvel GERM trabalham em robôs e em um notebook no estande do grupo durante um evento"
+  prices:
+    - { amount: "R$ 50,00", period: "/mês" }
+    - { amount: "R$ 250,00", period: "/semestre" }
+  cta:
+    label: "Inscrever-se!"
+    href: "https://docs.google.com/forms/d/e/1FAIpQLSfxX9-qFL0dST55psG44gDg2lc0aHs2SS_iiG1FL6lFw8eWiA/viewform"
+    track: membership-form-academy
+  order: 3

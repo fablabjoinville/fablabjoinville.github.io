@@ -1,0 +1,186 @@
+---
+/**
+ * /faca-parte — Faça parte (old Google Sites page /faça-parte; redirect configured).
+ *
+ * Content (verbatim pt-BR from scripts/migration/old-site.json):
+ *  - src/content/pages/faca-parte.md   title, meta description, header photo
+ *  - src/content/benefits.yaml         5 carousel slides (caption text was baked into the photos)
+ *  - src/content/memberships.yaml      Corporate / Lab / Academy Maker plans
+ * The section copy below (intro, "projeto social" CTA, Contribua cards) is
+ * short and page-specific, so it lives here.
+ *
+ * Accent CTA budget: one per view. "Fazer parte!" (Lab Maker) is the accent;
+ * the other CTAs use primary / inverse variants.
+ *
+ * Intentional edits are listed in scripts/migration/parity-exclusions/faca-parte.json.
+ */
+import { getEntry } from 'astro:content';
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import { Button } from '@/components/ui';
+import { CardGrid, CtaBand, FeatureCard, PageHeader, PricingCard, Section } from '@/components/sections';
+import { Carousel } from '@/components/islands/Carousel';
+import { getSorted } from '@/lib/content-guard';
+import { img } from '@/lib/images';
+import { site } from '@/data/site';
+
+const page = await getEntry('pages', 'faca-parte');
+if (!page) throw new Error('Missing src/content/pages/faca-parte.md');
+const { title, description, eyebrow, lead, headerImage, headerImageAlt } = page.data;
+
+const headerImg = headerImage
+  ? await img(headerImage, { sizes: '(min-width: 60em) 36rem, 100vw' })
+  : undefined;
+
+// Benefits carousel. The caption text is baked into the photos, so it is
+// carried by the alt text (which repeats it) instead of a visible figcaption
+// that would duplicate the text drawn on the image.
+const benefits = await getSorted('benefits');
+const slides = await Promise.all(
+  benefits.map(async (b) => ({
+    image: await img(b.data.image, { sizes: '(min-width: 75em) 72rem, 100vw' }),
+    alt: b.data.imageAlt,
+  })),
+);
+
+// Membership plans. "Fazer parte!" (Lab Maker) is the single accent CTA.
+const ACCENT_PLAN = 'lab-maker';
+const memberships = await getSorted('memberships');
+const plans = await Promise.all(
+  memberships.map(async (m) => ({
+    id: m.id,
+    name: m.data.name,
+    description: m.data.body,
+    image: m.data.image
+      ? await img(m.data.image, { sizes: '(min-width: 60em) 25rem, (min-width: 40em) 50vw, 100vw' })
+      : undefined,
+    imageAlt: m.data.imageAlt,
+    prices: m.data.prices,
+    cta: {
+      ...m.data.cta,
+      variant: m.id === ACCENT_PLAN ? ('accent' as const) : ('primary' as const),
+    },
+  })),
+);
+
+// "Nós fazemos acontecer!" — old mailto with prefilled subject/body (verbatim).
+const fazerAcontecerHref = `mailto:${site.email}?subject=Fazer%20Acontecer&body=Descrever%20sua%20ideia%20e/ou%20a%20projeto%20para%20uso%20do%20laborat%C3%B3rio`;
+
+// "Fale com a gente!" — old link went through google.com/url to Instagram
+// (with an ?igsh= share parameter, dropped); use the profile from site.ts.
+const instagram = site.social.find((s) => s.icon === 'instagram');
+const instagramHref = instagram?.href ?? 'https://www.instagram.com/fablabjoinville';
+
+const contribua = [
+  {
+    title: 'Pessoa Associada',
+    icon: 'users',
+    text: 'Pessoa que querem contribuir com o Fab Lab Joinville como um todo, apoiando os nossos projetos, nossas iniciativas e/ou se envolvendo nas questões estratégicas da associação.',
+  },
+  {
+    title: 'Empresa Patrocinadora',
+    icon: 'building-2',
+    text: 'Empresas que desejam patrocinar a inovação social e o desenvolvimento científico e tecnológico da região.',
+  },
+  {
+    title: 'Instituição Parceira',
+    icon: 'handshake',
+    text: 'Para instituições que buscam parcerias estratégicas e querem transformar positivamente a cidade.',
+  },
+];
+---
+
+<BaseLayout title={title} description={description} image={headerImage} imageAlt={headerImageAlt}>
+  <PageHeader eyebrow={eyebrow} title={title} lead={lead} image={headerImg} imageAlt={headerImageAlt} />
+
+  <Section
+    id="para-usar-o-laboratorio"
+    eyebrow="Como funciona"
+    title="Para usar o laboratório"
+    lead="O uso do nosso laboratório funciona no formato de clube: você paga uma mensalidade e tem acesso a toda a estrutura, incluindo as máquinas e todas as pessoas makers que frequentam o lab."
+  >
+    <Carousel client:visible slides={slides} label="O que o clube oferece" aspect="16/9" />
+    <p class="faca-parte__intro">
+      Temos modalidades diferentes para <strong>empresas</strong>, <strong>pessoa física</strong> e{' '}
+      <strong>acadêmicos</strong>, confira abaixo:
+    </p>
+  </Section>
+
+  <Section id="modalidades" eyebrow="Modalidades" title="Modalidades do clube" tone="paper">
+    <CardGrid columns={3} as="ul">
+      {
+        plans.map((plan) => (
+          <li>
+            <PricingCard
+              name={plan.name}
+              description={plan.description}
+              image={plan.image}
+              imageAlt={plan.imageAlt}
+              prices={plan.prices}
+              cta={plan.cta}
+            />
+          </li>
+        ))
+      }
+    </CardGrid>
+  </Section>
+
+  <CtaBand
+    id="fazer-acontecer"
+    eyebrow="Fazer acontecer"
+    title="Projeto social, escola ou pesquisa?"
+    text="Quer usar o laboratório para algum projeto social, trabalho de escola, pesquisa ou simplesmente não consegue pagar o clube agora? Fale com a gente:"
+  >
+    <Fragment slot="actions">
+      <Button variant="inverse" size="lg" icon="mail" href={fazerAcontecerHref} data-track="mailto-fazer-acontecer">
+        Nós fazemos acontecer!
+      </Button>
+    </Fragment>
+  </CtaBand>
+
+  <Section id="contribua" eyebrow="Apoie" title="Contribua com o Fab Lab">
+    <CardGrid columns={3} as="ul">
+      {
+        contribua.map((card) => (
+          <li>
+            <FeatureCard title={card.title} icon={card.icon}>
+              <p>{card.text}</p>
+            </FeatureCard>
+          </li>
+        ))
+      }
+    </CardGrid>
+    <div class="faca-parte__cta">
+      <Button
+        variant="primary"
+        size="lg"
+        icon="instagram"
+        iconRight="arrow-up-right"
+        href={instagramHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-track="instagram"
+      >
+        Fale com a gente!
+      </Button>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  .faca-parte__intro {
+    max-width: 60ch;
+    margin-top: var(--space-6);
+    font: var(--type-body-lg);
+    color: var(--text-body);
+  }
+
+  .faca-parte__intro strong {
+    color: var(--text-strong);
+  }
+
+  .faca-parte__cta {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: var(--space-6);
+  }
+</style>

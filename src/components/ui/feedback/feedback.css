@@ -1,0 +1,202 @@
+/* Feedback primitives: Dialog, Toast, Tooltip — tokens only. */
+
+/* ---------- Dialog ---------- */
+.flj-dialog {
+  box-sizing: border-box;
+  width: var(--flj-dialog-w, calc(var(--space-10) * 3 + var(--space-6) * 3));
+  max-width: 100%;
+  background: var(--surface-card);
+  color: var(--text-body);
+  border: var(--border-w) solid var(--border-default);
+  border-radius: var(--radius-1);
+  box-shadow: var(--shadow-offset-lg);
+}
+
+/* Native <dialog> reset: the panel is the dialog box, centered in the top layer. */
+.flj-dialog--modal {
+  max-width: calc(100% - var(--space-5) * 2 - var(--space-3));
+  max-height: calc(100% - var(--space-5) * 2);
+  margin: auto;
+  padding: 0;
+  overflow: visible;
+}
+
+.flj-dialog--modal:not([open]) {
+  display: none;
+}
+
+.flj-dialog--modal[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.flj-dialog--modal::backdrop {
+  /* Navy at 55% — the only transparency in the system. */
+  background: color-mix(in srgb, var(--flj-navy-900) 55%, transparent);
+}
+
+.flj-dialog__panel {
+  min-height: 0;
+  overflow: auto;
+}
+
+.flj-dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-3) var(--space-3) calc(var(--space-4) + var(--space-1));
+  border-bottom: var(--border-w) solid var(--border-default);
+}
+
+.flj-dialog__title {
+  margin: 0;
+  font: var(--fw-bold) var(--fs-16) / var(--lh-snug) var(--font-display);
+  color: var(--text-strong);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.flj-dialog__body {
+  padding: calc(var(--space-4) + var(--space-1));
+  font: var(--type-body);
+  color: var(--text-body);
+}
+
+.flj-dialog__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  padding: 0 calc(var(--space-4) + var(--space-1)) calc(var(--space-4) + var(--space-1));
+}
+
+/* ---------- Toast ---------- */
+.flj-toast {
+  --flj-toast-edge: var(--status-success);
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  width: calc(var(--space-1) * 90);
+  max-width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-inverse);
+  color: var(--text-inverse);
+  border-radius: var(--radius-1);
+  box-shadow: var(--space-1) var(--space-1) 0 0 var(--flj-toast-edge);
+}
+
+.flj-toast--success { --flj-toast-edge: var(--status-success); }
+.flj-toast--info { --flj-toast-edge: var(--status-info); }
+.flj-toast--warning { --flj-toast-edge: var(--status-warning); }
+.flj-toast--danger { --flj-toast-edge: var(--status-danger); }
+
+.flj-toast__icon {
+  display: inline-flex;
+  flex: none;
+  margin-top: var(--border-w-thin);
+  color: var(--flj-toast-edge);
+}
+
+.flj-toast__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.flj-toast__title {
+  font: var(--fw-semibold) var(--fs-16) / var(--lh-snug) var(--font-body);
+}
+
+.flj-toast__message {
+  font: var(--type-small);
+  opacity: 0.85;
+  margin-top: calc(var(--space-1) / 2);
+}
+
+.flj-toast__message:first-child {
+  margin-top: 0;
+}
+
+.flj-toast__close {
+  display: inline-flex;
+  flex: none;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: var(--radius-1);
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+
+.flj-toast__close:hover {
+  opacity: 1;
+}
+
+.flj-toast__close:focus-visible {
+  opacity: 1;
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+/* ---------- Tooltip ---------- */
+.flj-tooltip {
+  position: relative;
+  display: inline-flex;
+}
+
+.flj-tooltip__bubble {
+  position: absolute;
+  left: 50%;
+  z-index: 10;
+  padding: calc(var(--space-1) * 1.5) calc(var(--space-2) + var(--space-1) / 2);
+  background: var(--flj-navy-900);
+  color: var(--flj-white);
+  font: var(--fw-medium) var(--fs-12) / var(--lh-snug) var(--font-mono);
+  border-radius: var(--radius-1);
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translateX(-50%);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    visibility 0s linear var(--dur-fast);
+}
+
+.flj-tooltip--top .flj-tooltip__bubble {
+  bottom: calc(100% + var(--space-2));
+}
+
+.flj-tooltip--bottom .flj-tooltip__bubble {
+  top: calc(100% + var(--space-2));
+}
+
+.flj-tooltip:hover .flj-tooltip__bubble,
+.flj-tooltip:focus-within .flj-tooltip__bubble,
+.flj-tooltip--open .flj-tooltip__bubble {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    visibility 0s;
+}
+
+.flj-tooltip--closed .flj-tooltip__bubble,
+.flj-tooltip--closed:hover .flj-tooltip__bubble,
+.flj-tooltip--closed:focus-within .flj-tooltip__bubble {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flj-toast__close,
+  .flj-tooltip__bubble,
+  .flj-tooltip:hover .flj-tooltip__bubble,
+  .flj-tooltip:focus-within .flj-tooltip__bubble,
+  .flj-tooltip--open .flj-tooltip__bubble {
+    transition: none;
+  }
+}

@@ -1,0 +1,36 @@
+---
+/**
+ * /cultura — "Fab Charter" (nav label). Migrated from the old Google Sites page:
+ * title band + the 7 Fab Charter Q&A (pt-PT wording kept verbatim).
+ * Copy lives in src/content/pages/cultura.md (header) and src/content/charter.yaml (Q&A).
+ * Old heading anchors (#h.xxxx) keep working through QaList `legacyId`.
+ */
+import { getEntry } from 'astro:content';
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import { PageHeader, QaList, Section } from '@/components/sections';
+import { getSorted } from '@/lib/content-guard';
+import { img } from '@/lib/images';
+
+const page = await getEntry('pages', 'cultura');
+if (!page) throw new Error('Missing src/content/pages/cultura.md');
+const { title, description, eyebrow, lead, headerImage, headerImageAlt } = page.data;
+
+const headerImg = headerImage
+  ? await img(headerImage, { sizes: '(min-width: 60em) 36rem, 100vw' })
+  : undefined;
+
+const charter = await getSorted('charter');
+const items = charter.map(({ id, data }) => ({
+  id,
+  question: data.question,
+  answerHtml: data.answerHtml,
+  legacyId: data.legacyId,
+}));
+---
+
+<BaseLayout title={title} description={description} image={headerImage} imageAlt={headerImageAlt}>
+  <PageHeader eyebrow={eyebrow} title={title} lead={lead} image={headerImg} imageAlt={headerImageAlt} />
+  <Section id="fab-charter" narrow>
+    <QaList items={items} headingLevel={2} openFirst />
+  </Section>
+</BaseLayout>

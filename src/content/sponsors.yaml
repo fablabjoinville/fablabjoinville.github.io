@@ -1,0 +1,50 @@
+# Patrocinadores (página /sobre), na ordem do site antigo.
+# Nomes inferidos das URLs no inventário (os logos não tinham legenda).
+# URLs: scripts/migration/old-site.json (pages[sobre].links, já sem o redirecionador do Google).
+- id: agora-tech-park
+  name: Ágora Tech Park
+  url: "https://agoratechpark.com.br/"
+  logo: ../assets/old-site/sobre/patrocinador-agora-tech-park.png
+  order: 1
+
+- id: colegio-bonja
+  name: Colégio Bom Jesus (Bonja)
+  url: "https://colegiobonja.com.br/"
+  logo: ../assets/old-site/sobre/patrocinador-colegio-bonja.png
+  order: 2
+
+- id: joinvalle
+  name: Joinvalle
+  url: "https://www.joinvalle.com.br/"
+  logo: ../assets/old-site/sobre/patrocinador-joinvalle.png
+  order: 3
+
+- id: avell
+  name: Avell
+  url: "https://www.avell.com.br/"
+  logo: ../assets/old-site/sobre/patrocinador-avell.png
+  order: 4
+
+- id: perville
+  name: Perville
+  url: "https://perville.com.br/"
+  logo: ../assets/old-site/sobre/patrocinador-perville.png
+  order: 5
+
+- id: slim3d
+  name: Slim 3D
+  url: "https://www.slim3d.com.br"
+  logo: ../assets/old-site/sobre/patrocinador-slim3d.png
+  order: 6
+
+- id: weld-vision
+  name: Weld Vision
+  url: "https://www.weldvision.com/"
+  logo: ../assets/old-site/sobre/patrocinador-weld-vision.png
+  order: 7
+
+- id: armazem-cloud
+  name: Armazém Cloud
+  url: "https://armazem.cloud"
+  logo: ../assets/old-site/sobre/patrocinador-armazem-cloud.png
+  order: 8

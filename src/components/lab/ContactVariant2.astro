@@ -1,0 +1,299 @@
+---
+/**
+ * ContactVariant2 — "Faixa de dados"
+ *
+ * Concept: a workshop-bench "data strip". A header row pairs the eyebrow and
+ * h2 "Visite o Fab Lab" (left) with the verbatim old-site invitation and the
+ * section's single accent CTA (right). Below it the OpenStreetMap embed runs
+ * full width (4:3 mobile, 21:9 desktop) and is welded to a ruled 3-cell spec
+ * strip — // ENDEREÇO, // HORÁRIOS, // E-MAIL — separated by navy border-w rules,
+ * the whole map + strip unit framed in navy with a hard offset shadow.
+ *
+ * How it removes the repetition: the old block listed e-mail / localização /
+ * horários, a navy "Agende a sua visita" card and a map whose caption repeated
+ * the address. Here every fact appears exactly once: the address lives only in
+ * the ENDEREÇO cell (together with "Abrir no Google Maps"), the map carries no
+ * caption, the hours appear only in the HORÁRIOS cell, the e-mail only in its
+ * cell, and the booking sentence + CTA sit once in the header instead of a
+ * separate card. All data comes from src/data/site.ts.
+ *
+ * Static, no island: the iframe is rendered directly with loading="lazy".
+ */
+import { Button, Icon } from '@/components/ui';
+import { site } from '@/data/site';
+
+interface Props {
+  /** Section id; defaults to "contato" (FAQ links to /#contato). */
+  id?: string;
+}
+
+const { id = 'contato' } = Astro.props;
+
+const { address, hours, email, links } = site;
+---
+
+<section id={id} class="cv2" aria-labelledby="cv2-title">
+  <div class="flj-container">
+    <header class="cv2-head">
+      <div class="cv2-head__title">
+        <p class="flj-eyebrow">Contato</p>
+        <h2 id="cv2-title" class="cv2-title">Visite o Fab Lab</h2>
+      </div>
+      <div class="cv2-head__cta">
+        <p class="cv2-lead">
+          Quer conhecer as nossas tecnologias, desenvolver um projeto ou fazer uma visita guiada? Agende um horário com a nossa equipe.
+        </p>
+        <Button
+          variant="accent"
+          size="lg"
+          href={links.visitBooking}
+          target="_blank"
+          iconRight="arrow-right"
+          data-track="visit-booking"
+        >
+          Escolher data e horário
+        </Button>
+      </div>
+    </header>
+
+    <div class="cv2-bench">
+      <div class="cv2-map">
+        <iframe
+          class="cv2-map__frame"
+          src={links.mapEmbed}
+          title="Mapa de Localização Ágora Tech Park"
+          loading="lazy"
+          referrerpolicy="no-referrer"></iframe>
+      </div>
+
+      <div class="cv2-strip">
+        <div class="cv2-cell">
+          <h3 class="cv2-label">Endereço</h3>
+          <address class="cv2-address">
+            {address.building}<br />
+            {address.street}<br />
+            {address.district}, {address.city}/{address.state}
+          </address>
+          <a class="cv2-link" href={links.mapLink} target="_blank" rel="noopener noreferrer" data-track="map-link">
+            Abrir no Google Maps
+            <Icon name="arrow-up-right" size={16} />
+            <span class="sr-only">(abre em nova aba)</span>
+          </a>
+        </div>
+
+        <div class="cv2-cell">
+          <h3 class="cv2-label">Horários</h3>
+          <dl class="cv2-hours">
+            {
+              hours.map((h) => (
+                <div class="cv2-hours__row">
+                  <dt>{h.days}</dt>
+                  <dd>{h.time}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+
+        <div class="cv2-cell">
+          <h3 class="cv2-label">E-mail</h3>
+          <a class="cv2-email" href={`mailto:${email}`} data-track="mailto-contact">{email}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cv2 {
+    padding-block: var(--space-8);
+    background: var(--surface-paper);
+    color: var(--text-body);
+    scroll-margin-top: var(--header-h);
+  }
+
+  /* ---------- Header row ---------- */
+  .cv2-head {
+    display: grid;
+    gap: var(--space-5);
+    margin-bottom: var(--space-6);
+  }
+
+  .cv2-head__title {
+    display: grid;
+    gap: var(--space-3);
+    align-content: end;
+  }
+
+  .cv2-title {
+    margin: 0;
+    font: var(--fw-bold) var(--fs-32) / var(--lh-tight) var(--font-display);
+    letter-spacing: var(--ls-display);
+    text-transform: uppercase;
+    color: var(--text-strong);
+  }
+
+  .cv2-head__cta {
+    display: grid;
+    gap: var(--space-4);
+    justify-items: start;
+  }
+
+  .cv2-lead {
+    margin: 0;
+    max-width: 52ch;
+    font: var(--type-body-lg);
+    color: var(--text-body);
+  }
+
+  /* ---------- Map + strip (one framed unit) ---------- */
+  .cv2-bench {
+    background: var(--surface-card);
+    border: var(--border-w) solid var(--border-default);
+    border-radius: var(--radius-0);
+    box-shadow: var(--shadow-offset);
+    /* keep the offset shadow inside the gutter on narrow screens */
+    margin-right: var(--space-1);
+  }
+
+  .cv2-map {
+    aspect-ratio: 4 / 3;
+    background: var(--surface-muted);
+    border-bottom: var(--border-w) solid var(--border-default);
+  }
+
+  .cv2-map__frame {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .cv2-strip {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .cv2-cell {
+    display: grid;
+    align-content: start;
+    gap: var(--space-3);
+    min-width: 0;
+    padding: var(--space-5);
+  }
+
+  .cv2-cell + .cv2-cell {
+    border-top: var(--border-w) solid var(--border-default);
+  }
+
+  .cv2-label {
+    margin: 0;
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .cv2-label::before {
+    content: '// ';
+  }
+
+  .cv2-address {
+    font: var(--type-body);
+    font-style: normal;
+    color: var(--text-body);
+  }
+
+  .cv2-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    justify-self: start;
+    font: var(--fw-bold) var(--fs-12) / var(--lh-snug) var(--font-mono);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+  }
+
+  .cv2-hours {
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+  }
+
+  .cv2-hours__row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-1) var(--space-3);
+    padding-bottom: var(--space-2);
+    border-bottom: var(--border-w-thin) solid var(--border-subtle);
+    font: var(--type-code);
+  }
+
+  .cv2-hours__row:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .cv2-hours dt {
+    font-weight: var(--fw-bold);
+    color: var(--text-strong);
+  }
+
+  .cv2-hours dd {
+    margin: 0;
+    color: var(--text-body);
+  }
+
+  .cv2-email {
+    font: var(--fw-bold) var(--fs-16) / var(--lh-snug) var(--font-mono);
+    overflow-wrap: anywhere;
+  }
+
+  /* ---------- ≥ 40em: wider map, strip stays stacked ---------- */
+  @media (min-width: 40em) {
+    .cv2-map {
+      aspect-ratio: 16 / 9;
+    }
+
+    .cv2-bench {
+      margin-right: var(--space-2);
+    }
+  }
+
+  /* ---------- ≥ 60em: desktop ---------- */
+  @media (min-width: 60em) {
+    .cv2 {
+      padding-block: var(--space-9);
+    }
+
+    .cv2-head {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: end;
+      gap: var(--space-7);
+      margin-bottom: var(--space-7);
+    }
+
+    .cv2-title {
+      font: var(--type-h2);
+      letter-spacing: var(--ls-display);
+    }
+
+    .cv2-map {
+      aspect-ratio: 21 / 9;
+    }
+
+    .cv2-strip {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .cv2-cell {
+      padding: var(--space-5) var(--space-6);
+    }
+
+    .cv2-cell + .cv2-cell {
+      border-top: 0;
+      border-left: var(--border-w) solid var(--border-default);
+    }
+  }
+</style>

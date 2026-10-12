@@ -1,0 +1,47 @@
+---
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import { Button, Icon } from '@/components/ui';
+import { site } from '@/data/site';
+
+const links = site.nav.filter((item) => item.href !== '/');
+---
+
+<BaseLayout
+  title="Página não encontrada"
+  description="A página que você procurou não existe ou mudou de endereço."
+  noindex
+>
+  <section class="flj-notfound" aria-labelledby="erro-titulo">
+    <div class="flj-container flj-notfound__grid">
+      <div>
+        <p class="flj-eyebrow">Erro 404</p>
+        <h1 id="erro-titulo" class="flj-notfound__title">Página não encontrada</h1>
+        <p class="flj-notfound__lead">
+          O endereço que você acessou não existe ou mudou de lugar. Volte para o início ou escolha
+          uma das páginas ao lado.
+        </p>
+        <div class="flj-notfound__actions">
+          <Button variant="primary" size="lg" icon="arrow-left" href="/">Voltar ao início</Button>
+          <Button variant="secondary" size="lg" icon="mail" href={`mailto:${site.email}`}>
+            Fale com a gente
+          </Button>
+        </div>
+      </div>
+      <nav aria-labelledby="erro-links">
+        <p id="erro-links" class="flj-eyebrow">Páginas do site</p>
+        <ul class="flj-notfound__links" role="list">
+          {
+            links.map((item) => (
+              <li>
+                <a href={item.href}>
+                  {item.label}
+                  <Icon name="arrow-right" size={18} />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+  </section>
+</BaseLayout>

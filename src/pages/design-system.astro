@@ -1,0 +1,587 @@
+---
+/**
+ * Internal design-system preview (/design-system): every primitive from
+ * '@/components/ui' plus the section library from '@/components/sections' and
+ * the content islands, rendered inside the real layout.
+ * noindex, excluded from Pagefind (data-pagefind-ignore) and from the sitemap
+ * (astro.config.mjs filter).
+ */
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import {
+  Badge,
+  Button,
+  Card,
+  Checkbox,
+  Dialog,
+  EventCard,
+  Icon,
+  IconButton,
+  Input,
+  Radio,
+  Select,
+  Switch,
+  Tabs,
+  Tag,
+  Toast,
+  Tooltip,
+} from '@/components/ui';
+import { site } from '@/data/site';
+import {
+  CardGrid,
+  ContactBlock,
+  CtaBand,
+  FeatureCard,
+  Gallery,
+  InstagramFeed,
+  LogoGrid,
+  PageHeader,
+  PersonCard,
+  Photo,
+  PricingCard,
+  ProjectBlock,
+  Prose,
+  QaList,
+  Section,
+  SocialLinks,
+  Testimonial,
+  Hero,
+} from '@/components/sections';
+import { Carousel } from '@/components/islands/Carousel';
+import { VideoFacade } from '@/components/islands/VideoFacade';
+import { img, imgs } from '@/lib/images';
+import { getCollection } from 'astro:content';
+import heroSrc from '@/assets/old-site/home/hero.jpg';
+import bannerSrc from '@/assets/old-site/estrutura/banner.jpg';
+import laserSrc from '@/assets/old-site/estrutura/recurso-corte-a-laser.jpg';
+import printSrc from '@/assets/old-site/estrutura/recurso-impressoras-3d.jpg';
+import cncSrc from '@/assets/old-site/estrutura/recurso-fresa-cnc.jpg';
+import joaoSrc from '@/assets/old-site/estrutura/depoimento-joao-pedro-golynski.jpg';
+import aftermovieSrc from '@/assets/old-site/portfolio/lerobot-aftermovie.jpg';
+import simbolo from '@/assets/brand/simbolo-cor.svg';
+
+const tones = ['neutral', 'primary', 'accent', 'success', 'warning', 'danger', 'info'] as const;
+const hero = await img(heroSrc, { sizes: '(min-width: 60em) 36rem, 100vw' });
+const banner = await img(bannerSrc, { sizes: '(min-width: 60em) 36rem, 100vw' });
+const photos = await imgs({ laser: laserSrc, print: printSrc, cnc: cncSrc });
+const joao = await img(joaoSrc, { widths: [160, 320], sizes: '5rem' });
+const poster = await img(aftermovieSrc, { sizes: '(min-width: 60em) 40rem, 100vw' });
+const posts = (await getCollection('instagram')).map((e) => e.data);
+const demoQa = [
+  {
+    id: 'pergunta-exemplo',
+    legacyId: 'h.exemplo',
+    question: 'O Fab Lab é aberto para todos?',
+    answerHtml: '<p>Sim. Esta é uma resposta de exemplo renderizada a partir de <strong>HTML</strong>.</p>',
+  },
+  {
+    id: 'outra-pergunta',
+    question: 'Preciso saber usar as máquinas?',
+    answerHtml: '<p>Não. Oferecemos apoio e treinamentos.</p><ul><li>Impressoras 3D</li><li>Corte a laser</li></ul>',
+  },
+];
+const icons = ['printer', 'scissors', 'bot', 'cpu', 'wrench', 'users', 'calendar', 'clock', 'map-pin', 'mail', 'arrow-right', 'instagram', 'linkedin', 'whatsapp', 'youtube'];
+---
+
+<BaseLayout
+  title="Design system"
+  description="Prévia temporária dos componentes do design system do Fab Lab Joinville."
+  noindex
+>
+  <div data-pagefind-ignore="all">
+  <section class="preview-hero">
+    <div class="flj-container">
+      <p class="flj-eyebrow">Prévia · Design system</p>
+      <h1>Componentes</h1>
+      <p class="preview-lead">
+        Página interna com todos os componentes de <code>@/components/ui</code> e as seções de
+        <code>@/components/sections</code> renderizados como HTML estático.
+      </p>
+    </div>
+  </section>
+
+  <section class="preview-section">
+    <div class="flj-container">
+      <p class="flj-eyebrow">Core</p>
+      <h2>Botões e ícones</h2>
+
+      <h3 class="preview-sub">Button — variantes</h3>
+      <div class="preview-row">
+        <Button variant="primary">Primário</Button>
+        <Button variant="accent" iconRight="arrow-right">Inscreva-se</Button>
+        <Button variant="secondary">Secundário</Button>
+        <Button variant="ghost">Ghost</Button>
+        <Button variant="primary" disabled>Desabilitado</Button>
+        <Button variant="secondary" href="/faca-parte" icon="users">Link (href)</Button>
+      </div>
+      <h3 class="preview-sub">Button — tamanhos</h3>
+      <div class="preview-row">
+        <Button size="sm">Pequeno</Button>
+        <Button size="md">Médio</Button>
+        <Button size="lg" icon="calendar">Grande</Button>
+      </div>
+      <div class="preview-inverse">
+        <Button variant="inverse" iconRight="arrow-right">Inverso sobre navy</Button>
+      </div>
+      <div class="preview-full">
+        <Button variant="primary" fullWidth>Largura total</Button>
+      </div>
+
+      <h3 class="preview-sub">IconButton</h3>
+      <div class="preview-row">
+        <IconButton icon="x" label="Fechar" variant="primary" />
+        <IconButton icon="search" label="Buscar" variant="secondary" />
+        <IconButton icon="menu" label="Menu" variant="ghost" />
+        <IconButton icon="instagram" label="Instagram" href={site.social[0].href} target="_blank" />
+        <IconButton icon="plus" label="Adicionar" size={56} />
+        <IconButton icon="minus" label="Remover" disabled />
+      </div>
+
+      <h3 class="preview-sub">Icon</h3>
+      <ul class="preview-icons" role="list">
+        {
+          icons.map((name) => (
+            <li>
+              <Icon name={name} size={24} />
+              <code>{name}</code>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="preview-section preview-section--paper">
+    <div class="flj-container">
+      <p class="flj-eyebrow">Display</p>
+      <h2>Cards, badges e tags</h2>
+
+      <h3 class="preview-sub">Badge</h3>
+      <div class="preview-row">{tones.map((tone) => <Badge tone={tone}>{tone}</Badge>)}</div>
+
+      <h3 class="preview-sub">Tag</h3>
+      <div class="preview-row">
+        <Tag>Impressão 3D</Tag>
+        <Tag selected>Robótica</Tag>
+        <Tag>Corte a laser</Tag>
+      </div>
+
+      <h3 class="preview-sub">Card</h3>
+      <div class="preview-grid">
+        <Card>
+          <h4>Outline</h4>
+          <p>Contorno navy de 2px, sem sombra em repouso.</p>
+        </Card>
+        <Card variant="paper">
+          <h4>Paper</h4>
+          <p>Fundo papel, sem borda.</p>
+        </Card>
+        <Card variant="inverse">
+          <h4>Inverse</h4>
+          <p>Fundo navy para destaques.</p>
+        </Card>
+        <Card interactive href="/estrutura">
+          <h4>Interativo (link)</h4>
+          <p>Levanta e revela a sombra deslocada no hover.</p>
+        </Card>
+      </div>
+
+      <h3 class="preview-sub">EventCard</h3>
+      <div class="preview-grid preview-grid--events">
+        <EventCard
+          day="18"
+          month="OUT"
+          kind="Hackathon"
+          title="LeRobot Arm Hackathon"
+          description="Dois dias programando braços robóticos SO-101 com a comunidade."
+          place="Fab Lab Joinville"
+          time="09h–18h"
+          badge="Inscrições abertas"
+          badgeTone="accent"
+          href="/lerobot"
+        />
+        <EventCard
+          day="25"
+          month="OUT"
+          kind="Oficina"
+          title="Corte a laser: do vetor à peça"
+          description="Iniciante · não precisa de experiência · traga seu notebook."
+          place="Fab Lab Joinville"
+          time="14h–17h"
+          badge="Últimas vagas"
+          badgeTone="warning"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="preview-section">
+    <div class="flj-container">
+      <p class="flj-eyebrow">Forms</p>
+      <h2>Formulários</h2>
+      <div class="preview-grid preview-grid--forms">
+        <Input label="Nome" placeholder="Seu nome completo" />
+        <Input label="E-mail" type="email" placeholder="voce@exemplo.com" hint="Enviaremos a confirmação" />
+        <Input label="Telefone" defaultValue="47 9999" error="Número incompleto" />
+        <Input label="Desabilitado" placeholder="Indisponível" disabled />
+        <Input label="Mensagem" multiline rows={4} placeholder="Conte sobre seu projeto" />
+        <Select label="Nível" options={['Iniciante', 'Intermediário', 'Avançado']} defaultValue="Iniciante" />
+      </div>
+      <div class="preview-grid preview-grid--forms">
+        <div class="preview-stack">
+          <Checkbox label="Aceito o regulamento do hackathon" defaultChecked />
+          <Checkbox label="Quero receber novidades" />
+          <Checkbox label="Desabilitado" disabled />
+        </div>
+        <div class="preview-stack">
+          <Radio name="modalidade" options={['Presencial', 'Online']} defaultValue="Presencial" direction="row" />
+          <Radio
+            name="maquina"
+            options={[
+              { value: 'laser', label: 'Corte a laser' },
+              { value: '3d', label: 'Impressão 3D' },
+              { value: 'cnc', label: 'CNC' },
+            ]}
+            defaultValue="3d"
+          />
+        </div>
+        <div class="preview-stack">
+          <Switch label="Receber novidades por e-mail" defaultChecked />
+          <Switch label="Modo compacto" />
+          <Switch label="Desabilitado" disabled />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="preview-section preview-section--paper">
+    <div class="flj-container">
+      <p class="flj-eyebrow">Navigation</p>
+      <h2>Abas</h2>
+      <Tabs tabs={['Próximos', 'Passados']} defaultValue="Próximos" />
+      <h3 class="preview-sub">Hidratado (client:visible)</h3>
+      <Tabs
+        client:visible
+        tabs={[
+          { value: 'oficinas', label: 'Oficinas' },
+          { value: 'hackathons', label: 'Hackathons' },
+          { value: 'eventos', label: 'Eventos' },
+        ]}
+        defaultValue="oficinas"
+      />
+      <div class="preview-row preview-row--spaced">
+        <Checkbox client:visible label="Checkbox hidratado" />
+        <Switch client:visible label="Switch hidratado" />
+      </div>
+    </div>
+  </section>
+
+  <section class="preview-section">
+    <div class="flj-container">
+      <p class="flj-eyebrow">Feedback</p>
+      <h2>Diálogos, toasts e tooltips</h2>
+
+      <h3 class="preview-sub">Dialog (inline)</h3>
+      <Dialog
+        open
+        inline
+        title="Confirmar inscrição"
+      >
+        <p>Você está se inscrevendo na oficina de corte a laser de sábado, 25/10, às 14h.</p>
+        <Fragment slot="actions">
+          <Button variant="ghost">Cancelar</Button>
+          <Button variant="accent">Confirmar</Button>
+        </Fragment>
+      </Dialog>
+
+      <h3 class="preview-sub">Toast</h3>
+      <div class="preview-stack">
+        <Toast tone="success" title="Inscrição confirmada">Enviamos os detalhes para seu e-mail.</Toast>
+        <Toast tone="info" title="Novidade">A agenda de novembro já está no ar.</Toast>
+        <Toast tone="warning" title="Atenção">Toda máquina exige uma oficina introdutória de segurança.</Toast>
+        <Toast tone="danger" title="Erro">Não foi possível enviar o formulário.</Toast>
+      </div>
+
+      <h3 class="preview-sub">Tooltip</h3>
+      <div class="preview-row preview-row--tooltips">
+        <Tooltip content="Área útil 600×400 mm">
+          <IconButton icon="info" label="Informações da máquina" />
+        </Tooltip>
+        <Tooltip content="Sempre visível" open>
+          <Button variant="secondary" size="sm">Tooltip aberto</Button>
+        </Tooltip>
+        <Tooltip content="Abaixo do alvo" placement="bottom" open>
+          <Button variant="secondary" size="sm">Placement bottom</Button>
+        </Tooltip>
+      </div>
+    </div>
+  </section>
+
+  <div class="preview-divider flj-container">
+    <p class="flj-eyebrow">Seções</p>
+    <h2>Biblioteca de seções</h2>
+  </div>
+
+  <PageHeader
+    eyebrow="Fab Lab Joinville"
+    title="Nossa estrutura"
+    lead="PageHeader: faixa navy com foto na moldura deslocada."
+    image={banner}
+    imageAlt="Pessoas trabalhando nas bancadas do Fab Lab Joinville"
+  />
+
+  <Hero
+    eyebrow="Makerspace · Joinville/SC"
+    title="Construa (quase) qualquer coisa!"
+    lead="Hero da home conforme o UI kit, com foto em moldura deslocada."
+    image={hero}
+    imageAlt="Ilustração de uma pessoa cercada por globos e engrenagens"
+  >
+    <Fragment slot="actions">
+      <Button variant="accent" size="lg" iconRight="arrow-right" href="/faca-parte" data-track="demo-hero">Faça parte</Button>
+      <Button variant="secondary" size="lg" href="/estrutura">Conheça o espaço</Button>
+    </Fragment>
+    <SocialLinks />
+  </Hero>
+
+  <Section eyebrow="Recursos" title="FeatureCard em CardGrid" tone="paper" id="demo-features">
+    <CardGrid columns={3}>
+      <FeatureCard title="Corte a laser" image={photos.laser} imageAlt="Máquina de corte a laser" tags={['Laser', 'MDF']}>
+        <p>Cartão com foto e tags.</p>
+      </FeatureCard>
+      <FeatureCard title="Impressão 3D" image={photos.print} imageAlt="Impressoras 3D" href="/estrutura" track="demo-card">
+        <p>Cartão inteiro como link.</p>
+      </FeatureCard>
+      <FeatureCard title="Robótica" icon="bot">
+        <p>Cartão com ícone.</p>
+      </FeatureCard>
+    </CardGrid>
+  </Section>
+
+  <Section eyebrow="Equipe" title="PersonCard" id="demo-people">
+    <CardGrid columns={4} as="ul">
+      <li><PersonCard name="Pessoa Exemplo" role="Gerente de Fazer Acontecer" image={joao} imageAlt="Retrato de exemplo" linkedin="https://www.linkedin.com/company/fablabjoinville" /></li>
+      <li><PersonCard name="Sem Foto" role="Voluntário" /></li>
+    </CardGrid>
+  </Section>
+
+  <Section eyebrow="Parceiros" title="LogoGrid" tone="paper" id="demo-logos">
+    <LogoGrid
+      label="Parceiros de exemplo"
+      items={[
+        { name: 'Fab Lab Joinville', href: 'https://www.fablabs.io/labs/map', image: simbolo, imageAlt: 'Símbolo do Fab Lab Joinville' },
+        { name: 'UDESC · MobiLab' },
+        { name: 'UFSC' },
+        { name: 'NVIDIA' },
+      ]}
+    />
+  </Section>
+
+  <Section eyebrow="Perguntas" title="QaList" id="demo-qa">
+    <QaList items={demoQa} />
+  </Section>
+
+  <Section eyebrow="Galeria" title="Gallery, Photo e Carousel" tone="paper" id="demo-gallery">
+    <Gallery
+      featured
+      images={[
+        { image: photos.laser, alt: 'Corte a laser' },
+        { image: photos.print, alt: 'Impressoras 3D' },
+        { image: photos.cnc, alt: 'Fresadora CNC' },
+      ]}
+    />
+    <div class="preview-split">
+      <Photo image={photos.cnc} alt="Fresadora CNC" aspect="1/1" caption="Photo com moldura deslocada" />
+      <Carousel
+        client:visible
+        label="Carrossel de exemplo"
+        slides={[
+          { image: photos.laser, alt: 'Corte a laser', caption: 'Corte a laser' },
+          { image: photos.print, alt: 'Impressoras 3D', caption: 'Impressoras 3D' },
+          { image: photos.cnc, alt: 'Fresadora CNC' },
+        ]}
+      />
+    </div>
+  </Section>
+
+  <Section eyebrow="Planos" title="PricingCard" id="demo-pricing">
+    <CardGrid columns={3}>
+      <PricingCard name="Corporate Maker" description="Sem preço, CTA mailto." image={photos.laser} imageAlt="Corte a laser" prices={[]} cta={{ label: 'Entre em contato!', href: `mailto:${site.email}`, track: 'demo-mailto' }} />
+      <PricingCard name="Lab Maker" description="Dois preços." prices={[{ amount: 'R$ 100,00', period: '/mês' }, { amount: 'R$ 1.000,00', period: '/ano' }]} cta={{ label: 'Fazer parte!', href: site.links.membershipForm, track: 'demo-form' }} />
+    </CardGrid>
+  </Section>
+
+  <Section eyebrow="Portfólio" title="ProjectBlock" tone="paper" id="demo-projects">
+    <ProjectBlock
+      id="demo-lerobot"
+      eyebrow="Hackathon"
+      title="LeRobot Hackathon"
+      html="<p>Corpo em markdown renderizado. <strong>Destaque</strong> e <a href='/lerobot'>link</a>.</p>"
+      links={[{ label: 'Veja mais', href: '/lerobot', track: 'demo-project' }]}
+    >
+      <VideoFacade client:visible provider="youtube" id="D-8BeTLw0Ts" title="Aftermovie Oficial | Le Robot Arm Hackathon Edição Joinville" poster={poster} />
+    </ProjectBlock>
+    <ProjectBlock
+      id="demo-fotos"
+      reverse
+      title="Projeto com fotos"
+      html="<p>Primeira foto grande, demais como miniaturas.</p>"
+      images={[
+        { image: photos.print, alt: 'Impressoras 3D' },
+        { image: photos.laser, alt: 'Corte a laser' },
+        { image: photos.cnc, alt: 'Fresadora CNC' },
+      ]}
+    />
+  </Section>
+
+  <Section eyebrow="Depoimento" title="Testimonial e Prose" id="demo-testimonial">
+    <Testimonial name="Pessoa Exemplo" role="Maker" image={joao} quote="Citação de exemplo em texto simples." />
+    <Prose html="<h3>Prose</h3><p>Texto longo com <a href='/sobre'>link</a>.</p><ul><li>Item</li></ul>" />
+  </Section>
+
+  <Section eyebrow="Instagram" title="InstagramFeed" tone="paper" id="demo-instagram">
+    <InstagramFeed posts={posts} />
+  </Section>
+
+  <CtaBand
+    eyebrow="Faça parte"
+    title="Construa com a gente"
+    text="CtaBand: faixa navy de largura total."
+  >
+    <Fragment slot="actions">
+      <Button variant="inverse" href="/faca-parte">Faça parte</Button>
+    </Fragment>
+  </CtaBand>
+
+  <ContactBlock id="demo-contato" />
+  </div>
+</BaseLayout>
+
+<style>
+  .preview-divider {
+    padding-block: var(--space-8) var(--space-5);
+  }
+
+  .preview-split {
+    display: grid;
+    gap: var(--space-7);
+    margin-top: var(--space-7);
+  }
+
+  @media (min-width: 60em) {
+    .preview-split {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+      align-items: start;
+    }
+  }
+
+  .preview-hero {
+    padding-block: var(--space-8);
+    border-bottom: var(--border-w) solid var(--border-default);
+  }
+
+  .preview-hero h1 {
+    margin-top: var(--space-3);
+  }
+
+  .preview-lead {
+    max-width: 60ch;
+    margin-top: var(--space-4);
+    font: var(--type-body-lg);
+    color: var(--text-muted);
+  }
+
+  .preview-section {
+    padding-block: var(--space-8);
+    border-bottom: var(--border-w) solid var(--border-default);
+  }
+
+  .preview-section--paper {
+    background: var(--surface-paper);
+  }
+
+  .preview-section h2 {
+    margin-top: var(--space-3);
+  }
+
+  .preview-sub {
+    margin: var(--space-7) 0 var(--space-4);
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .preview-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .preview-row--spaced {
+    margin-top: var(--space-5);
+  }
+
+  .preview-row--tooltips {
+    padding-top: var(--space-7);
+    gap: var(--space-8);
+  }
+
+  .preview-inverse {
+    margin-top: var(--space-4);
+    padding: var(--space-5);
+    background: var(--surface-inverse);
+  }
+
+  .preview-full {
+    max-width: 50ch;
+    margin-top: var(--space-4);
+  }
+
+  .preview-icons {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 14ch), 1fr));
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .preview-icons li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border: var(--border-w-thin) solid var(--border-subtle);
+  }
+
+  .preview-icons code {
+    font: var(--type-code);
+    font-size: var(--fs-12);
+    color: var(--text-muted);
+  }
+
+  .preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 28ch), 1fr));
+    gap: var(--space-5);
+  }
+
+  .preview-grid--events {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 40ch), 1fr));
+  }
+
+  .preview-grid--forms + .preview-grid--forms {
+    margin-top: var(--space-6);
+  }
+
+  .preview-grid h4 {
+    margin-bottom: var(--space-2);
+  }
+
+  .preview-stack {
+    display: grid;
+    align-content: start;
+    gap: var(--space-4);
+  }
+</style>

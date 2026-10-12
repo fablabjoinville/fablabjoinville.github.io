@@ -1,0 +1,57 @@
+# Recursos (equipamentos e espaços) da página /estrutura.
+# Textos copiados literalmente do site antigo (fablabjoinville.com.br/estrutura).
+# `body` é markdown (renderizado em `bodyHtml`); `image` é relativo a este arquivo.
+- id: corte-a-laser
+  title: Corte a laser
+  body: >-
+    A máquina de corte a laser oferece precisão e versatilidade para cortar e gravar materiais como madeira,
+    acrílico, tecido e muito mais. Com ela, é possível criar desde pequenos detalhes até grandes projetos com
+    rapidez e exatidão, ideal para projetos de design, personalização e fabricação de peças.
+  image: ../assets/old-site/estrutura/recurso-corte-a-laser.jpg
+  imageAlt: Duas pessoas operando a máquina de corte a laser Protolaser CO₂ no Fab Lab Joinville
+  order: 1
+- id: fresa-cnc
+  title: Fresa CNC
+  body: >-
+    O Router CNC é uma máquina robusta utilizada para usinagem de materiais como madeira, plástico e metais
+    leves. Ele permite a fabricação de peças com precisão milimétrica, sendo uma ferramenta indispensável para a
+    produção de componentes personalizados, mobiliário e outros projetos de carpintaria avançada.
+  image: ../assets/old-site/estrutura/recurso-fresa-cnc.jpg
+  imageAlt: Pessoa acompanhando a fresa CNC enquanto ela usina peças circulares em uma chapa de madeira
+  order: 2
+- id: impressoras-3d
+  title: Impressoras 3D
+  body: >-
+    No Fab Lab Joinville, contamos com impressoras 3D de filamento e resina, permitindo a criação de protótipos
+    e peças complexas com alta precisão. Essas máquinas são essenciais para designers, engenheiros e entusiastas
+    do faça-você-mesmo, transformando ideias em objetos físicos com diferentes tipos de materiais.
+  image: ../assets/old-site/estrutura/recurso-impressoras-3d.jpg
+  imageAlt: Impressoras 3D de filamento lado a lado na bancada, com peças verdes recém-impressas
+  order: 3
+- id: laboratorio-de-eletronica
+  title: Laboratório de Eletrônica
+  body: >-
+    Nosso laboratório de eletrônica está equipado com estações de solda, osciloscópios, fontes de alimentação e
+    uma variedade de componentes eletrônicos. É o ambiente perfeito para desenvolver, testar e prototipar
+    circuitos eletrônicos, adequado para iniciantes e profissionais que trabalham com eletrônica.
+  image: ../assets/old-site/estrutura/recurso-laboratorio-eletronica.jpg
+  imageAlt: Bancada de eletrônica com estação de solda, ferramentas penduradas e gavetas de componentes
+  order: 4
+- id: oficina
+  title: Oficina
+  body: >-
+    A oficina do Fab Lab Joinville dispõe de uma ampla gama de ferramentas manuais e elétricas para atender a
+    diversas necessidades de fabricação e reparo. Desde serras e furadeiras até lixadeiras e chaves de fenda, os
+    usuários têm à disposição tudo o que precisam para realizar seus projetos de maneira eficiente e segura.
+  image: ../assets/old-site/estrutura/recurso-oficina.jpg
+  imageAlt: Três pessoas trabalhando em peças de madeira na bancada da oficina, com lixadeira e furadeira
+  order: 5
+- id: agora-uni
+  title: Ágora UNI
+  body: |-
+    O laboratório Fab Lab Ágora está inserido dentro do complexo do Ágora Tech Park. Isso significa que temos também essa estrutura a disposição para desenvolver nossos projetos e realizar nossos eventos.
+
+    O Ágora Tech Park fomenta inovação, reunindo conhecimento, pessoas e capital. Elementos que funcionam como combustível para conectar ambientes e comunidades.
+  image: ../assets/old-site/estrutura/recurso-agora-uni.jpg
+  imageAlt: Ilustração do prédio Ágora Uni, no complexo do Ágora Tech Park, em Joinville
+  order: 6

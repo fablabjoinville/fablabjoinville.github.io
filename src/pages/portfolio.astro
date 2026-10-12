@@ -1,0 +1,231 @@
+---
+/**
+ * /portfolio — "Nosso portfólio de projetos". Migrated from the old Google Sites page:
+ * title band → intro ("Nós somos inevitáveis…") + in-page index → "Projetos executados"
+ * (12 ProjectBlocks) → "Equipes incubadas" (3 cards).
+ *
+ * Copy: src/content/pages/portfolio.md (header + intro body) and
+ * src/content/projects/*.md (one file per project/team; `kind` = projeto | incubada).
+ * Each project is anchored by its entry id (e.g. /portfolio#face-shields).
+ */
+import { getEntry } from 'astro:content';
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import { CardGrid, FeatureCard, PageHeader, ProjectBlock, Prose, Section } from '@/components/sections';
+import { VideoFacade } from '@/components/islands/VideoFacade';
+import { getSorted } from '@/lib/content-guard';
+import { img } from '@/lib/images';
+import aftermovieSrc from '@/assets/old-site/portfolio/lerobot-aftermovie.jpg';
+
+const page = await getEntry('pages', 'portfolio');
+if (!page) throw new Error('Missing src/content/pages/portfolio.md');
+const { title, description, eyebrow, lead, headerImage, headerImageAlt } = page.data;
+
+const headerImg = headerImage
+  ? await img(headerImage, { sizes: '(min-width: 60em) 36rem, 100vw' })
+  : undefined;
+
+const poster = await img(aftermovieSrc, { sizes: '(min-width: 60em) 34rem, 100vw' });
+const posterAlt =
+  'Participante sorri ao lado de um braço robótico amarelo durante o LeRobot Arm Hackathon em Joinville.';
+
+const entries = await getSorted('projects');
+
+async function prepare(entry: (typeof entries)[number]) {
+  const images = await Promise.all(
+    entry.data.images.map(async ({ src, alt }) => ({
+      image: await img(src, { sizes: '(min-width: 60em) 34rem, 100vw' }),
+      alt,
+    })),
+  );
+  return {
+    id: entry.id,
+    title: entry.data.title,
+    eyebrow: entry.data.eyebrow,
+    // Markdown heading ids are slugged per file ("impacto-na-comunidade" appears in two
+    // projects), so prefix them with the project id to keep ids unique on this page.
+    html: (entry.rendered?.html ?? '').replace(
+      /<h([2-6]) id="([^"]+)"/g,
+      (_m, level: string, hid: string) => `<h${level} id="${entry.id}-${hid}"`,
+    ),
+    links: entry.data.links ?? [],
+    video: entry.data.video,
+    images,
+  };
+}
+
+const projects = await Promise.all(entries.filter((e) => e.data.kind === 'projeto').map(prepare));
+const teams = await Promise.all(entries.filter((e) => e.data.kind === 'incubada').map(prepare));
+---
+
+<BaseLayout title="Portfólio" description={description} image={headerImage} imageAlt={headerImageAlt}>
+  <PageHeader eyebrow={eyebrow} title={title} lead={lead} image={headerImg} imageAlt={headerImageAlt} />
+
+  <Section
+    id="makers"
+    eyebrow="Cultura maker"
+    title="Nós somos inevitáveis, nós somos imparáveis, nós somos makers"
+    tone="paper"
+  >
+    <Prose html={page.rendered?.html ?? ''} />
+
+    <nav class="portfolio-index" aria-labelledby="portfolio-index-titulo">
+      <p class="flj-eyebrow" id="portfolio-index-titulo">Navegue pelo portfólio</p>
+      <div class="portfolio-index__group">
+        <p class="portfolio-index__label">Projetos executados</p>
+        <ul class="portfolio-index__list" role="list">
+          {
+            projects.map((p) => (
+              <li>
+                <a class="portfolio-index__chip" href={`#${p.id}`}>
+                  {p.title}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="portfolio-index__group">
+        <p class="portfolio-index__label">Equipes incubadas</p>
+        <ul class="portfolio-index__list" role="list">
+          {
+            teams.map((t) => (
+              <li>
+                <a class="portfolio-index__chip" href={`#${t.id}`}>
+                  {t.title}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </nav>
+  </Section>
+
+  <Section id="projetos-executados" eyebrow="Portfólio" title="Projetos executados">
+    {/*
+      TODO(old-site): Maratona Lab Code "Fotos 2023" — Google Drive folder
+        1rL8lIhj5BJI4kofBNAh0OKQ3unamWN-q returns 404 without login (private or deleted); dropped.
+      TODO(old-site): Festival Maker "Fotos 2023" — https://shiftfestival.vercel.app returns 404; dropped.
+      TODO(old-site): Festival Maker "Site Festival Maker" — https://www.festivalmaker.com.br/ no longer resolves; dropped.
+    */}
+    {
+      projects.map((p, i) => (
+        <ProjectBlock
+          id={p.id}
+          title={p.title}
+          eyebrow={p.eyebrow}
+          html={p.html}
+          images={p.images}
+          links={p.links}
+          reverse={i % 2 === 1}
+        >
+          {p.video && (
+            <VideoFacade
+              client:visible
+              provider={p.video.provider}
+              id={p.video.id}
+              title={p.video.title}
+              poster={poster}
+              posterAlt={posterAlt}
+            />
+          )}
+        </ProjectBlock>
+      ))
+    }
+  </Section>
+
+  <Section
+    id="equipes-incubadas"
+    eyebrow="Incubação"
+    title="Equipes incubadas"
+    lead="Equipes universitárias de competição que usam o Fab Lab para projetar, construir e testar."
+    tone="paper"
+  >
+    <CardGrid columns={3} as="ul">
+      {
+        teams.map((t) => (
+          <li id={t.id} class="portfolio-team">
+            <FeatureCard
+              title={t.title}
+              eyebrow={t.eyebrow}
+              image={t.images[0]?.image}
+              imageAlt={t.images[0]?.alt}
+              aspect="1/1"
+            >
+              <Prose html={t.html} />
+            </FeatureCard>
+          </li>
+        ))
+      }
+    </CardGrid>
+  </Section>
+</BaseLayout>
+
+<style>
+  .portfolio-index {
+    display: grid;
+    gap: var(--space-5);
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: var(--border-w) solid var(--border-default);
+  }
+
+  .portfolio-index__group {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .portfolio-index__label {
+    margin: 0;
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .portfolio-index__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .portfolio-index__chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--space-7);
+    padding: 0 var(--space-4);
+    border: var(--border-w) solid var(--border-default);
+    border-radius: var(--radius-pill);
+    background: var(--surface-card);
+    color: var(--text-body);
+    font: var(--fw-medium) var(--fs-14) / 1.2 var(--font-body);
+    text-decoration: none;
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
+  }
+
+  .portfolio-index__chip:hover {
+    background: var(--brand-primary);
+    color: var(--text-inverse);
+  }
+
+  .portfolio-index__chip:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: var(--border-w);
+  }
+
+  .portfolio-team {
+    display: grid;
+    scroll-margin-top: var(--header-h);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .portfolio-index__chip {
+      transition: none;
+    }
+  }
+</style>

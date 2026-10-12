@@ -1,0 +1,31 @@
+---
+/**
+ * Header wrapper: renders the static <SiteHeader> (TSX, zero JS) and drops the
+ * two islands into its named slots (Astro passes named slots to React as props):
+ *  - `search` → <SiteSearch> hydrated when the browser is idle.
+ *  - `menu`   → <MobileNav> hydrated only on ≤1024px viewports. Its SSR markup is a
+ *               <details> menu, so it also opens without JS.
+ */
+import { SiteHeader } from './SiteHeader';
+import { MobileNav } from '@/components/islands/MobileNav';
+import { SiteSearch } from '@/components/islands/SiteSearch';
+import { site } from '@/data/site';
+
+export interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+const navItems = site.nav.map(({ label, href }) => ({ label, href }));
+---
+
+<SiteHeader currentPath={currentPath}>
+  <SiteSearch slot="search" client:idle />
+  <MobileNav
+    slot="menu"
+    client:media="(max-width: 64em)"
+    items={navItems}
+    currentPath={currentPath}
+    cta={{ label: 'Faça parte', href: '/faca-parte' }}
+  />
+</SiteHeader>

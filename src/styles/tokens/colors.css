@@ -1,0 +1,16 @@
+:root{
+/* Brand — sampled from logo files */
+--flj-navy-900:#04161e;--flj-navy-800:#082c3b;--flj-navy-700:#1a3e4e;--flj-navy-600:#2f4453;--flj-navy-500:#3b4d5c;--flj-navy-300:#8a9aa5;--flj-navy-100:#dfe5e8;--flj-navy-50:#eef2f4;
+/* Accent — proposed "laser" orange for calls to action & highlights */
+--flj-laser-600:#d9430f;--flj-laser-500:#ff5a1f;--flj-laser-100:#ffe4d9;
+/* Neutrals */
+--flj-white:#ffffff;--flj-paper:#f5f3ee;--flj-gray-100:#ebe9e3;--flj-gray-200:#d9d6ce;--flj-gray-400:#9b978d;--flj-gray-600:#5c5a54;--flj-black:#0b0b0b;
+/* Semantic */
+--flj-green-600:#1f7a4d;--flj-green-100:#dcf1e5;--flj-yellow-500:#f2b705;--flj-yellow-100:#fdf1c7;--flj-red-600:#c62828;--flj-red-100:#fbe1e1;--flj-blue-600:#1d5fd1;--flj-blue-100:#dde8fb;
+/* Aliases */
+--brand-primary:var(--flj-navy-800);--brand-primary-hover:var(--flj-navy-700);--brand-primary-press:var(--flj-navy-900);--brand-accent:var(--flj-laser-500);--brand-accent-hover:var(--flj-laser-600);
+--surface-page:var(--flj-white);--surface-paper:var(--flj-paper);--surface-card:var(--flj-white);--surface-inverse:var(--flj-navy-800);--surface-muted:var(--flj-navy-50);
+--text-body:var(--flj-navy-800);--text-strong:var(--flj-navy-900);--text-muted:var(--flj-navy-500);--text-subtle:var(--flj-navy-300);--text-inverse:var(--flj-white);--text-accent:var(--flj-laser-600);
+--border-default:var(--flj-navy-800);--border-subtle:var(--flj-navy-100);--border-strong:var(--flj-navy-900);--focus-ring:var(--flj-laser-500);
+--status-success:var(--flj-green-600);--status-success-bg:var(--flj-green-100);--status-warning:var(--flj-yellow-500);--status-warning-bg:var(--flj-yellow-100);--status-danger:var(--flj-red-600);--status-danger-bg:var(--flj-red-100);--status-info:var(--flj-blue-600);--status-info-bg:var(--flj-blue-100);
+}

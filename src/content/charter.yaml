@@ -1,0 +1,44 @@
+# Fab Charter (/cultura) — 7 Q&A copied verbatim from the old Google Sites page
+# (pt-PT wording kept as-is: "tuas", "num", "expectável").
+# `answer` is markdown, rendered at load time to `answerHtml`.
+# `legacyId` = old Google Sites heading anchor, kept so /cultura#h.xxxx links still work.
+- id: o-que-e-um-fab-lab
+  question: "O que é um Fab Lab?"
+  answer: "Fab Labs são uma rede global de laboratórios locais que fomentam o espírito de inovação e criatividade oferecendo acesso a ferramentas de fabricação digital."
+  legacyId: h.s30h9o5n5bce
+  order: 1
+- id: o-que-esta-num-fab-lab
+  question: "O que está num Fab Lab?"
+  answer: "Fab Labs possuem um inventário comum com as capacidades essenciais para criar (quase) tudo, permitindo o compartilhamento de projetos entre pessoas."
+  legacyId: h.qhywsaqrs46s
+  order: 2
+- id: o-que-fornece-a-rede-fab-lab
+  question: "O que fornece a rede Fab Lab?"
+  answer: "Assistência operacional, educacional, técnica, financeira e logística para além do que está disponível localmente dentro de um laboratório."
+  legacyId: h.qtxo9rcj4bl4
+  order: 3
+- id: quem-pode-usar-um-fab-lab
+  question: "Quem pode usar um Fab Lab?"
+  answer: "Fab Labs estão disponíveis como um recurso para a comunidade, oferecendo acesso livre a indivíduos, assim como acesso à programação agendada."
+  legacyId: h.lw2ilqnkpgsj
+  order: 4
+- id: quais-sao-as-tuas-responsabilidades
+  question: "Quais são as tuas responsabilidades?"
+  answer: |
+    **Segurança**: Não ferir pessoas ou equipamento.
+
+    **Operações**: Ajudar com a limpeza, manutenção e melhoria do laboratório.
+
+    **Conhecimento**: Contribuir com documentação e instruções.
+  legacyId: h.633zvk8ui317
+  order: 5
+- id: quem-possui-as-criacoes-num-fab-lab
+  question: "Quem possui as criações num Fab Lab?"
+  answer: "Projetos e processos desenvolvidos em Fab Labs podem ser protegidos e vendidos sempre que desejado, mas devem permanecer disponíveis à comunidade para uso e aprendizagem."
+  legacyId: h.3s1l1cltr0xo
+  order: 6
+- id: como-podem-as-empresas-utilizar-um-fab-lab
+  question: "Como podem as empresas utilizar um Fab Lab?"
+  answer: "As atividades comerciais podem ser prototipadas e incubadas num Fab Lab, mas não devem conflitar com outros usos. Tais atividades devem crescer para além do laboratório, e é expectável que beneficiem os inventores e os Fab Labs que contribuem para o seu sucesso."
+  legacyId: h.8v4bcfi1nj5l
+  order: 7

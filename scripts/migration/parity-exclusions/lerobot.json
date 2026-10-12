@@ -1,0 +1,17 @@
+[
+  {
+    "text": "LeRobot Worldwide hackathon Countdown",
+    "reason": "dead-link",
+    "note": "huggingface.co/spaces/LeRobot-worldwide-hackathon/countdown counted down to the June 2025 event, which is over. Link dropped; TODO(old-site) comment left in src/pages/lerobot.astro."
+  },
+  {
+    "text": "Inscreva-se Agora",
+    "reason": "recap",
+    "note": "Sympla pre-registration CTA (sympla.com.br/evento/pre-inscricao-lerobot-arm-hackathon/2954399) for the finished June 2025 edition. Replaced by the non-link label \"Inscrições encerradas — edição 2025\"."
+  },
+  {
+    "text": "Conheça as outra edições no mundo",
+    "reason": "typo",
+    "note": "Heading rendered as \"Conheça as outras edições no mundo\" (agreement typo fixed, as requested in the migration brief)."
+  }
+]

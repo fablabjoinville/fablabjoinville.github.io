@@ -1,0 +1,246 @@
+---
+/**
+ * TEMPORARY lab page (/lab/headers): five alternative home headers (nav bar +
+ * hero) stacked for comparison. The real site header rendered by BaseLayout
+ * on top serves as the "atual" reference.
+ * noindex, excluded from Pagefind (data-pagefind-ignore) and from the sitemap
+ * (astro.config.mjs filter). Delete together with src/components/lab/ once a
+ * direction is chosen.
+ */
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import HeaderVariant1 from '@/components/lab/HeaderVariant1.astro';
+import HeaderVariant2 from '@/components/lab/HeaderVariant2.astro';
+import HeaderVariant3 from '@/components/lab/HeaderVariant3.astro';
+import HeaderVariant4 from '@/components/lab/HeaderVariant4.astro';
+import HeaderVariant5 from '@/components/lab/HeaderVariant5.astro';
+
+const variants = [
+  {
+    n: 1,
+    name: 'Refined split',
+    concept: 'Duas colunas enxutas, foto real até a borda e faixa de máquinas + horário',
+    Component: HeaderVariant1,
+  },
+  {
+    n: 2,
+    name: 'Navy band',
+    concept: 'Nav e hero numa única faixa navy, aba laranja no item ativo',
+    Component: HeaderVariant2,
+  },
+  {
+    n: 3,
+    name: 'Workshop bench grid',
+    concept: 'Nav e hero como uma folha técnica de células numeradas',
+    Component: HeaderVariant3,
+  },
+  {
+    n: 4,
+    name: 'Photo-first',
+    concept: 'Foto full-bleed com painel branco chanfrado sobreposto',
+    Component: HeaderVariant4,
+  },
+  {
+    n: 5,
+    name: 'Manifesto + marquee',
+    concept: 'Masthead editorial, manchete centralizada e faixa de fotos dos espaços',
+    Component: HeaderVariant5,
+  },
+];
+---
+
+<BaseLayout
+  title="Lab · Cabeçalhos"
+  description="Página temporária com alternativas de cabeçalho para a home do Fab Lab Joinville."
+  noindex
+>
+  <div data-pagefind-ignore="all">
+    <p class="lab-current">
+      <span aria-hidden="true">↑</span> ATUAL — cabeçalho em produção (referência)
+    </p>
+
+    <section class="lab-intro" aria-labelledby="lab-intro-title">
+      <div class="flj-container">
+        <p class="lab-intro__eyebrow">// LAB · TEMPORÁRIO</p>
+        <h2 id="lab-intro-title" class="lab-intro__title">Alternativas de cabeçalho</h2>
+        <p class="lab-intro__lead">
+          Cinco propostas de barra de navegação + hero para a home, empilhadas para comparação.
+          Cada variante é independente; os links são reais, mas menu e busca são estáticos.
+        </p>
+        <nav aria-label="Variantes" class="lab-jump">
+          <ol>
+            {
+              variants.map((v) => (
+                <li>
+                  <a href={`#variante-${v.n}`}>
+                    <span class="lab-jump__n">{String(v.n).padStart(2, '0')}</span>
+                    {v.name}
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+        </nav>
+      </div>
+    </section>
+
+    {
+      variants.map(({ n, name, concept, Component }) => (
+        <section id={`variante-${n}`} class="lab-variant" aria-label={`Variante ${n} — ${name}`}>
+          <div class="lab-label">
+            <div class="flj-container lab-label__inner">
+              <p class="lab-label__text">
+                <strong>VARIANTE {n} — {name}</strong>
+                <span class="lab-label__concept"> · {concept}</span>
+              </p>
+              <a class="lab-label__top" href="#conteudo">Topo ↑</a>
+            </div>
+          </div>
+          <Component />
+        </section>
+      ))
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .lab-current {
+    margin: 0;
+    padding: var(--space-2) var(--gutter);
+    background: var(--brand-accent);
+    color: var(--flj-navy-900);
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-align: center;
+  }
+
+  .lab-intro {
+    padding-block: var(--space-8);
+    background: var(--surface-paper);
+    border-bottom: var(--border-w) solid var(--border-default);
+  }
+
+  .lab-intro__eyebrow {
+    margin: 0;
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    color: var(--text-accent);
+  }
+
+  .lab-intro__title {
+    margin: var(--space-3) 0 0;
+    font: var(--type-h2);
+    letter-spacing: var(--ls-display);
+    text-transform: uppercase;
+    color: var(--text-strong);
+  }
+
+  .lab-intro__lead {
+    max-width: 60ch;
+    margin: var(--space-4) 0 0;
+    font: var(--type-body-lg);
+    color: var(--text-muted);
+  }
+
+  .lab-jump ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin: var(--space-6) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .lab-jump a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    border: var(--border-w) solid var(--border-default);
+    background: var(--surface-card);
+    color: var(--text-body);
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    text-decoration: none;
+    box-shadow: var(--shadow-offset-sm);
+    transition: transform 120ms ease, box-shadow 120ms ease;
+  }
+
+  .lab-jump a:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: var(--shadow-offset);
+  }
+
+  .lab-jump a:focus-visible {
+    outline: var(--border-w) solid var(--focus-ring);
+    outline-offset: var(--border-w);
+  }
+
+  .lab-jump__n {
+    color: var(--text-accent);
+  }
+
+  .lab-variant {
+    margin-top: var(--space-10);
+    border-top: var(--border-w) solid var(--border-default);
+    scroll-margin-top: var(--header-h);
+  }
+
+  .lab-variant:last-child {
+    margin-bottom: var(--space-10);
+    border-bottom: var(--border-w) solid var(--border-default);
+  }
+
+  .lab-label {
+    background: var(--surface-inverse);
+    color: var(--text-inverse);
+    border-bottom: var(--border-w) solid var(--border-strong);
+  }
+
+  .lab-label__inner {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding-block: var(--space-3);
+  }
+
+  .lab-label__text {
+    margin: 0;
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    line-height: var(--lh-snug);
+    text-transform: uppercase;
+  }
+
+  .lab-label__concept {
+    font-weight: var(--fw-regular);
+    color: var(--flj-navy-100);
+  }
+
+  .lab-label__top {
+    flex-shrink: 0;
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    color: var(--text-inverse);
+    text-decoration: none;
+  }
+
+  .lab-label__top:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 40em) {
+    .lab-intro {
+      padding-block: var(--space-7);
+    }
+
+    .lab-intro__title {
+      font-size: var(--fs-32);
+    }
+
+    .lab-variant {
+      margin-top: var(--space-8);
+    }
+  }
+</style>

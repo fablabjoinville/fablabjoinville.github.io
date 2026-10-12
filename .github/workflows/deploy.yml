@@ -1,0 +1,58 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  # Daily rebuild refreshes the Instagram feed (Behold) rendered at build time.
+  # GitHub disables scheduled workflows after 60 days without repository activity;
+  # the Sentry cron monitor below alerts when the daily run stops.
+  schedule:
+    - cron: '0 9 * * *'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # Org auth token (sntrys_…) used by @sentry/astro to upload source maps.
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      # Makes the Instagram loader fail the build instead of deploying an empty feed.
+      CI: 'true'
+      CONTENT_GUARD: strict
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Install, build, and upload site
+        uses: withastro/action@v6
+        with:
+          node-version: 24
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
+
+  cron-checkin:
+    # Heartbeat for the Sentry cron monitor "site-daily-rebuild" (created on first check-in).
+    if: github.event_name == 'schedule'
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sentry cron check-in
+        run: |
+          curl -fsS "https://o4506578567364608.ingest.us.sentry.io/api/4512239912288256/cron/site-daily-rebuild/a6f102c315ccfd60751c700250caf376/?status=ok" || true

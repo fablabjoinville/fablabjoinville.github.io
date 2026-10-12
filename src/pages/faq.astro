@@ -1,0 +1,95 @@
+---
+/**
+ * /faq — Perguntas e respostas (old Google Sites page /faq).
+ *
+ * Content: src/content/faq.yaml (7 Q&A, verbatim) + src/content/pages/faq.md
+ * (title, meta description, header). Hours and address are NOT taken from the
+ * old FAQ text (it contradicted the home page): the `{{horarios}}` and
+ * `{{endereco}}` placeholders in faq.yaml are filled here from src/data/site.ts.
+ * Old Google Sites anchors (#h.xxxx) keep working via `legacyId`.
+ */
+import { getEntry } from 'astro:content';
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import { Button } from '@/components/ui';
+import { CtaBand, PageHeader, QaList, Section, faqJsonLd, type QaItem } from '@/components/sections';
+import { getSorted } from '@/lib/content-guard';
+import { img } from '@/lib/images';
+import { site, fullAddress } from '@/data/site';
+
+const page = await getEntry('pages', 'faq');
+if (!page) throw new Error('Missing src/content/pages/faq.md');
+const { title, description, eyebrow, lead, headerImage, headerImageAlt } = page.data;
+
+const headerImg = headerImage
+  ? await img(headerImage, { sizes: '(min-width: 60em) 36rem, 100vw' })
+  : undefined;
+
+const escapeHtml = (s: string) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+const hoursHtml = `<ul>${site.hours
+  .map((h) => `<li><strong>${escapeHtml(h.days)}:</strong> ${escapeHtml(h.time)}</li>`)
+  .join('')}</ul>`;
+
+/** Fill the site.ts placeholders used in faq.yaml answers. */
+function fillPlaceholders(html: string): string {
+  return html
+    .replace(/<p>\s*\{\{horarios\}\}\s*<\/p>/g, hoursHtml)
+    .replace(/\{\{horarios\}\}/g, hoursHtml)
+    .replace(/\{\{endereco\}\}/g, escapeHtml(fullAddress));
+}
+
+const entries = await getSorted('faq');
+const items: QaItem[] = entries.map((entry) => ({
+  id: entry.id,
+  question: entry.data.question,
+  answerHtml: fillPlaceholders(entry.data.answerHtml),
+  legacyId: entry.data.legacyId,
+}));
+
+// Plain-text answers for JSON-LD: separate list items so they do not run together.
+const jsonLd = faqJsonLd(
+  items.map((item) => ({
+    question: item.question,
+    answerHtml: item.answerHtml.replace(/([^.;:!?\s])\s*<\/li>/g, '$1;</li>'),
+  })),
+);
+---
+
+<BaseLayout title={title} description={description} image={headerImage} imageAlt={headerImageAlt} jsonLd={jsonLd}>
+  <PageHeader
+    id="h.c753p1jfx7wh"
+    eyebrow={eyebrow}
+    title="Perguntas frequentes"
+    lead={lead}
+    image={headerImg}
+    imageAlt={headerImageAlt}
+  />
+
+  <Section id="perguntas" narrow>
+    <QaList items={items} headingLevel={2} />
+  </Section>
+
+  <CtaBand
+    id="faq-contato"
+    eyebrow="Ainda com dúvidas?"
+    title="Fale com a gente"
+    text={`Escreva para ${site.email} ou agende uma visita para conhecer o laboratório.`}
+  >
+    <Fragment slot="actions">
+      <Button
+        variant="accent"
+        iconRight="arrow-right"
+        href={site.links.visitBooking}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-track="visit-booking"
+      >
+        Agende a sua visita
+      </Button>
+      <Button variant="inverse" icon="mail" href={`mailto:${site.email}`} data-track="mailto-contact">
+        Enviar e-mail
+      </Button>
+    </Fragment>
+  </CtaBand>
+</BaseLayout>

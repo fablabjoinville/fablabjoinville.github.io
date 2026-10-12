@@ -1,0 +1,60 @@
+# LeRobot Arm Hackathon — Edição Joinville 2025: team project videos (old /lerobot page).
+# Google Drive file ids verified against scripts/migration/old-site.json (pages[lerobot].embeds).
+# `team` is the verbatim title shown above each embed on the old page.
+# Posters: src/assets/old-site/lerobot/video-*.jpg (Drive thumbnails, sz=w1280).
+- id: lapesp
+  team: "#0 - LAPESP"
+  driveId: 1YRJRasrvIcCIHPkxxjU-7Is0k14tfUMk
+  poster: ../assets/old-site/lerobot/video-lapesp.jpg
+  posterAlt: "Braço robótico SO-101 amarelo com garra azul sobre a bancada, no vídeo da equipe LAPESP"
+  aspect: "9/16"
+  duration: "1:36"
+  order: 0
+- id: laele
+  team: "#1 - L.A.E.L.E"
+  driveId: 17jvSR492Q19JxX6zn5SxENKl3LquQ8g6
+  poster: ../assets/old-site/lerobot/video-laele.jpg
+  posterAlt: "Abertura do vídeo da equipe L.A.E.L.E com o título SO-101 Force Feedback sobre uma foto das bancadas do hackathon"
+  aspect: "16/9"
+  duration: "1:38"
+  order: 1
+- id: neurogrip
+  team: "#2 - NeuroGrip"
+  driveId: 15fhCOSblrXei2XEjL3s6bytqdUw1QFHR
+  poster: ../assets/old-site/lerobot/video-neurogrip.jpg
+  posterAlt: "Quadro inicial do vídeo da equipe NeuroGrip: fundo preto com a bandeira do Brasil"
+  aspect: "16/9"
+  duration: "2:02"
+  order: 2
+- id: sborshchiki-fruktov
+  team: "#3 - Sbórshchiki frúktov"
+  driveId: 1CJJMX9XhSB4YWaAn64OGUlgegFHZ4sBL
+  poster: ../assets/old-site/lerobot/video-sborshchiki-fruktov.jpg
+  posterAlt: "Quadro inicial em tela preta do vídeo da equipe Sbórshchiki frúktov"
+  aspect: "16/9"
+  duration: "2:00"
+  order: 3
+- id: joao-sem-braco
+  team: "#4 - João Sem Braço"
+  driveId: 1oG6qx4Z035SP3lfTQQr-OzvgdEEyXsfO
+  poster: ../assets/old-site/lerobot/video-joao-sem-braco.jpg
+  posterAlt: "Braço robótico SO-101 montado na bancada ao lado de cartas de baralho, no vídeo da equipe João Sem Braço"
+  aspect: "9/16"
+  duration: "0:26"
+  order: 4
+- id: nexa
+  team: "#5 - NEXA"
+  driveId: 18Udd0e_x3Dj3HKY3JVHdpNJvKBgzF184
+  poster: ../assets/old-site/lerobot/video-nexa.jpg
+  posterAlt: "Integrante da equipe NEXA apresenta o projeto em uma mesa com dois braços robóticos SO-101 e um notebook"
+  aspect: "16/9"
+  duration: "1:15"
+  order: 5
+- id: big-hero-7
+  team: "#6 - Big Hero 7"
+  driveId: 1YuE-VGdY04pnoG1lw6Rt30nulgd_SW_Y
+  poster: ../assets/old-site/lerobot/video-big-hero-7.jpg
+  posterAlt: "Quadro inicial do vídeo da equipe Big Hero 7, com a placa do Ágora Tech Park ao fundo"
+  aspect: "9/16"
+  duration: "0:37"
+  order: 6

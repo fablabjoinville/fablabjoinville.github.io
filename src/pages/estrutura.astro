@@ -1,0 +1,111 @@
+---
+/**
+ * /estrutura — "Nossa estrutura" (migrated from the old Google Sites page).
+ *
+ * Copy: header + intro in src/content/pages/estrutura.md, the six resources in
+ * src/content/resources.yaml, testimonial and closing CTA below (all verbatim
+ * pt-BR from scripts/migration/old-site.json). Intentional edits are listed in
+ * scripts/migration/parity-exclusions/estrutura.json.
+ */
+import { getEntry } from 'astro:content';
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import { CardGrid, FeatureCard, PageHeader, Photo, Prose, Section, Testimonial } from '@/components/sections';
+import { Button } from '@/components/ui';
+import { getSorted } from '@/lib/content-guard';
+import { img } from '@/lib/images';
+import ctaPhoto from '@/assets/old-site/estrutura/cta-criancas-construindo.jpg';
+import joaoPhoto from '@/assets/old-site/estrutura/depoimento-joao-pedro-golynski.jpg';
+
+const page = await getEntry('pages', 'estrutura');
+if (!page) throw new Error('Missing src/content/pages/estrutura.md');
+const { title, description, eyebrow, lead, headerImage, headerImageAlt } = page.data;
+
+const headerImg = headerImage ? await img(headerImage, { sizes: '(min-width: 60em) 36rem, 100vw' }) : undefined;
+const joaoImg = await img(joaoPhoto, { widths: [160, 320], sizes: '5rem' });
+const ctaImg = await img(ctaPhoto, { sizes: '(min-width: 75em) 72rem, 100vw' });
+
+const resources = await Promise.all(
+  (await getSorted('resources')).map(async ({ id, data }) => ({
+    id,
+    title: data.title,
+    bodyHtml: data.bodyHtml,
+    imageAlt: data.imageAlt,
+    image: await img(data.image, { sizes: '(min-width: 60em) 25rem, (min-width: 40em) 50vw, 100vw' }),
+  })),
+);
+
+// Verbatim testimonial from the old page (four paragraphs, quotes included).
+const testimonialHtml = [
+  '“Desde agosto de 2020, o FabLab Joinville faz parte da minha trajetória. Mais do que o espaço em si, foram as pessoas que fizeram diferença. O Felipe Segui e o Alan Fachini foram dos primeiros a confiar em mim, o que abriu portas importantes em momentos-chave.',
+  'Na época da UFSC, liderando a Kosmos Rocketry (2021–2022), e depois no início da Outer Space, o FabLab esteve presente — seja nas oficinas de foguetes, no desenvolvimento dos primeiros MVPs ou nas conversas sobre caminhos técnicos e de negócio.',
+  'A equipe do conselho também teve um papel importante na fase atual, principalmente na implantação do 1º Laboratório de Foguetes do Sul do Brasil, que é um marco pessoal grande pra mim como engenheiro.',
+  'Se a Outer Space vem ganhando espaço em defesa e no Programa Espacial Brasileiro, o FabLab faz parte disso — principalmente pelas pessoas envolvidas. No fim, o que sustenta tudo são as conexões e a confiança construída ao longo do tempo.”',
+]
+  .map((p) => `<p>${p}</p>`)
+  .join('');
+---
+
+<BaseLayout title={title} description={description} image={headerImage} imageAlt={headerImageAlt}>
+  <PageHeader eyebrow={eyebrow} title={title} lead={lead} image={headerImg} imageAlt={headerImageAlt} />
+
+  <Section id="proposito" eyebrow="Associação sem fins lucrativos" narrow>
+    <Prose html={page.rendered?.html ?? ''} />
+  </Section>
+
+  <Section id="depoimento" eyebrow="Quem constrói com a gente" title="Depoimento: João Pedro Golynski" tone="muted">
+    <Testimonial
+      html={testimonialHtml}
+      name="João Pedro Golynski"
+      image={joaoImg}
+      imageAlt="Retrato de João Pedro Golynski"
+    />
+  </Section>
+
+  <Section id="recursos" eyebrow="Recursos" title="Temos uma estrutura para viabilizar suas ideias!" tone="paper">
+    <CardGrid as="ul" columns={3}>
+      {
+        resources.map((r) => (
+          <li>
+            <FeatureCard title={r.title} image={r.image} imageAlt={r.imageAlt} aspect="4/3">
+              <Prose html={r.bodyHtml} className="estrutura-recurso__text" />
+            </FeatureCard>
+          </li>
+        ))
+      }
+    </CardGrid>
+  </Section>
+
+  <Section
+    id="experimente"
+    eyebrow="Mão na massa"
+    title="Experimente, teste, construa, compartilhe."
+    lead="Materialize suas ideias com a gente!"
+    tone="inverse"
+  >
+    <Fragment slot="action">
+      <Button variant="accent" size="lg" iconRight="arrow-right" href="/faca-parte" data-track="estrutura-faca-parte">
+        Faça parte
+      </Button>
+    </Fragment>
+    <Photo
+      image={ctaImg}
+      alt="Duas crianças montando um carrinho de madeira com rodas e pregos em uma bancada do Fab Lab"
+      aspect="2/1"
+      onInverse
+      sizes="(min-width: 75em) 72rem, 100vw"
+    />
+  </Section>
+</BaseLayout>
+
+<style is:global>
+  /* Resource bodies use the card's own text style (Prose defaults to body-lg). */
+  .flj-prose.estrutura-recurso__text {
+    max-width: none;
+    font: inherit;
+    color: inherit;
+  }
+
+  .flj-prose.estrutura-recurso__text > * + * {
+    margin-top: var(--space-3);
+  }
+</style>
