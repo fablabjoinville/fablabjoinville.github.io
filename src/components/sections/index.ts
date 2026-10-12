@@ -37,5 +37,6 @@ export { ContactDetails, VisitCard, type ContactDetailsProps, type VisitCardProp
 export { default as ContactBlock } from './ContactBlock.astro';
 export { default as MachineStrip } from './MachineStrip.astro';
 export { default as PhotoHero } from './PhotoHero.astro';
+export { default as VisitMap } from './VisitMap.astro';
 export { slugify, linkAttrs, isExternal, stripHtml, type HeadingLevel } from './utils';
 export type { ResponsiveImage, ImageSource } from '@/lib/images';

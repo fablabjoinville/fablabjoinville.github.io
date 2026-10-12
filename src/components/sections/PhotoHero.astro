@@ -11,6 +11,7 @@
  * Props
  *  - image: ImageMetadata (required)      imageAlt: string (required)
  *  - caption?: string   mono tag on the photo, e.g. "Festival Maker · 2023"
+ *  - imagePosition?: string  CSS object-position for the cover crop (default "55% 40%")
  *  - lead?: string
  *  - id?: string        h1 id (default "hero-titulo")
  * Slots
@@ -26,11 +27,12 @@ export interface Props {
   image: ImageMetadata;
   imageAlt: string;
   caption?: string;
+  imagePosition?: string;
   lead?: string;
   id?: string;
 }
 
-const { image, imageAlt, caption, lead, id = 'hero-titulo' } = Astro.props;
+const { image, imageAlt, caption, imagePosition = '55% 40%', lead, id = 'hero-titulo' } = Astro.props;
 const hours = site.hours[0];
 const place = site.address.building.split(',')[0];
 ---
@@ -45,6 +47,7 @@ const place = site.address.building.split(',')[0];
       loading="eager"
       fetchpriority="high"
       class="photohero-photo"
+      style={{ objectPosition: imagePosition }}
     />
     {caption && <figcaption class="photohero-caption">{caption}</figcaption>}
   </figure>
@@ -135,7 +138,6 @@ const place = site.address.building.split(',')[0];
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 55% 40%;
   }
 
   .photohero-caption {
@@ -172,7 +174,7 @@ const place = site.address.building.split(',')[0];
   .photohero-panel {
     position: relative;
     isolation: isolate;
-    max-width: 42rem;
+    max-width: 46rem;
     margin-right: var(--photohero-shadow);
   }
 
@@ -208,7 +210,9 @@ const place = site.address.building.split(',')[0];
     margin: var(--space-4) 0 0;
     font-family: var(--font-display);
     font-weight: var(--fw-black);
-    font-size: clamp(1.625rem, 7.2vw, var(--fs-56));
+    font-size: clamp(1.875rem, 8.4vw, 4.25rem);
+    /* Monospace word gaps are a full glyph wide; tighten them so the words read as a block. */
+    word-spacing: -0.35em;
     line-height: var(--lh-tight);
     letter-spacing: var(--ls-display);
     text-transform: uppercase;
@@ -346,7 +350,7 @@ const place = site.address.building.split(',')[0];
     }
 
     .photohero-stage {
-      grid-template-columns: minmax(0, 42rem) minmax(15rem, 1fr);
+      grid-template-columns: minmax(0, 46rem) minmax(15rem, 1fr);
       grid-template-rows: var(--photohero-overlap) auto;
       column-gap: var(--space-7);
       row-gap: 0;

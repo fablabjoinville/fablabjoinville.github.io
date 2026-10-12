@@ -1,7 +1,7 @@
 ---
 /**
  * <MachineStrip /> — "// Do arquivo ao objeto": paper band with five square photos
- * of the lab's machines/spaces (offset-shadow frames, numbered mono captions),
+ * of the lab's machines/spaces (offset-shadow frames, titled captions),
  * linking to /estrutura#recursos. 5 columns on desktop; below 64em it becomes a
  * horizontal scroll-snap row (no JS). Promoted from the /lab/headers variant 5.
  *
@@ -25,31 +25,31 @@ const { eyebrow = 'Do arquivo ao objeto', id = 'maquinas' } = Astro.props;
 const machines = [
   {
     title: 'Corte a laser',
-    spec: 'Madeira · acrílico · tecido',
+    spec: 'Corte e gravação de precisão em madeira, acrílico e tecido.',
     image: laserSrc,
     alt: 'Duas pessoas operando a máquina de corte a laser Protolaser CO₂ no Fab Lab Joinville',
   },
   {
     title: 'Fresa CNC',
-    spec: 'Madeira · plástico · metais leves',
+    spec: 'Usinagem de madeira, plástico e metais leves com precisão milimétrica.',
     image: cncSrc,
     alt: 'Pessoa acompanhando a fresa CNC enquanto ela usina peças circulares em uma chapa de madeira',
   },
   {
     title: 'Impressoras 3D',
-    spec: 'Filamento · resina',
+    spec: 'Protótipos e peças complexas em filamento e resina.',
     image: printersSrc,
     alt: 'Impressoras 3D de filamento lado a lado na bancada, com peças verdes recém-impressas',
   },
   {
     title: 'Eletrônica',
-    spec: 'Solda · osciloscópios · fontes',
+    spec: 'Laboratório completo de eletrônica e produção de PCBs.',
     image: electronicsSrc,
     alt: 'Bancada de eletrônica com estação de solda, ferramentas penduradas e gavetas de componentes',
   },
   {
     title: 'Oficina',
-    spec: 'Ferramentas manuais e elétricas',
+    spec: 'Serras, furadeiras, lixadeiras e ferramentas manuais para montar e ajustar.',
     image: workshopSrc,
     alt: 'Três pessoas trabalhando em peças de madeira na bancada da oficina, com lixadeira e furadeira',
   },
@@ -61,14 +61,14 @@ const machines = [
     <div class="machines__bandhead">
       <h2 class="flj-eyebrow machines__title" id={`${id}-titulo`}>{eyebrow}</h2>
       <a class="machines__more" href="/estrutura#recursos" data-track="machines-estrutura">
-        Nossa estrutura <span aria-hidden="true">→</span>
+        Conheça nossa estrutura <span aria-hidden="true">→</span>
       </a>
     </div>
     <ul class="machines__strip" role="list" aria-label="Máquinas e espaços do laboratório">
       {
-        machines.map((m, i) => (
+        machines.map((m) => (
           <li class="machines__item">
-            <a class="machines__card" href="/estrutura#recursos" data-track={`machine-${i + 1}`}>
+            <a class="machines__card" href="/estrutura#recursos" data-track={`machine-${m.title.toLowerCase().replace(/\s+/g, '-')}`}>
               <span class="machines__frame">
                 <Image
                   src={m.image}
@@ -79,7 +79,6 @@ const machines = [
                 />
               </span>
               <span class="machines__caption">
-                <span class="machines__num">{String(i + 1).padStart(2, '0')}</span>
                 <span class="machines__name">{m.title}</span>
               </span>
               <span class="machines__spec">{m.spec}</span>
@@ -106,7 +105,6 @@ const machines = [
   .machines__band {
     background: var(--surface-paper);
     border-top: var(--border-w) solid var(--border-default);
-    border-bottom: var(--border-w) solid var(--border-default);
     padding-block: var(--space-7) var(--space-8);
   }
 
@@ -186,16 +184,10 @@ const machines = [
     text-transform: uppercase;
   }
 
-  .machines__num {
-    font: var(--type-label);
-    letter-spacing: var(--ls-label);
-    color: var(--text-muted);
-  }
-
   .machines__spec {
     display: block;
     margin-top: var(--space-1);
-    font: var(--fw-regular) var(--fs-12) / var(--lh-normal) var(--font-mono);
+    font: var(--type-small);
     color: var(--text-muted);
   }
 

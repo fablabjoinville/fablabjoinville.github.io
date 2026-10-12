@@ -15,11 +15,11 @@ import BaseLayout from '@/components/layout/BaseLayout.astro';
 import { Button } from '@/components/ui';
 import {
   CardGrid,
-  ContactBlock,
   FeatureCard,
   InstagramFeed,
   MachineStrip,
   PhotoHero,
+  VisitMap,
   Section,
 } from '@/components/sections';
 import { imgs } from '@/lib/images';
@@ -111,7 +111,7 @@ const explore = [
 ---
 
 <BaseLayout description={description} image={headerImage} imageAlt={headerImageAlt}>
-  <PhotoHero image={headerImage} imageAlt={headerImageAlt} caption="Festival Maker · 2023" lead={lead}>
+  <PhotoHero image={headerImage} imageAlt={headerImageAlt} imagePosition="62% 25%" lead={lead}>
     <Fragment slot="title">
       Construa <span class="photohero-title__aside">(quase)</span><br />
       qualquer coisa!
@@ -126,17 +126,18 @@ const explore = [
     </Fragment>
   </PhotoHero>
 
+  {/* Backgrounds alternate: hero white → strip paper → visit white → news paper → explore white. */}
   <MachineStrip />
 
   {/* Old contact embed: Contato / Localização / Horários / Agende a sua Visita (data from site.ts). */}
-  <ContactBlock />
+  <VisitMap />
   {
     /* TODO(old-site): "Procurando impressão 3D para engenharia?" + CTA "Saiba mais sobre o Print Lab" (/print-lab) — dropped: the page returns 404 on the old site and has no draft. Restore when a Print Lab page exists. */
   }
 
   {
     posts.length > 0 && (
-      <Section id="noticias" eyebrow="Notícias" title="Notícias recentes">
+      <Section id="noticias" title="Notícias recentes" tone="paper">
         <Fragment slot="action">
           <Button
             variant="secondary"
@@ -153,7 +154,7 @@ const explore = [
     )
   }
 
-  <Section id="explore" eyebrow="Explore" title="Conheça o Fab Lab" tone="paper">
+  <Section id="explore" title="Conheça o Fab Lab">
     <CardGrid columns={3} as="ul">
       {
         explore.map((card) => (

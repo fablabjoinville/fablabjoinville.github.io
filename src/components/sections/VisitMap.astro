@@ -1,0 +1,411 @@
+---
+/**
+ * <VisitMap /> — home "Visite o Fab Lab" section ("Mapa com cartão", chosen from
+ * /lab/contato, variant 1). Replaces ContactBlock on the home page.
+ *
+ * Concept: the map is the section. A tall, full-container-width OpenStreetMap
+ * embed carries the "where", and a single white info card (2px navy frame,
+ * hard navy offset shadow, chamfered top-right corner, the extruded-symbol
+ * motif) overlaps its left side and carries everything else: eyebrow, title,
+ * the migrated invitation sentence, the one accent CTA and a compact ruled
+ * list (Endereço · Horários · E-mail).
+ *
+ * How it removes the repetition: the old block showed the address twice
+ * ("Localização" + the map caption) and split e-mail / localização / horários /
+ * a navy "Agende a sua visita" card into four stacked blocks beside the map.
+ * Here every fact appears exactly once, inside one card: the address is a
+ * single line with the "Abrir no Google Maps" link next to it (the map has no
+ * caption), the three hour rows sit in one list, and the visit card's title,
+ * copy and CTA become the card's own header, so there is no second card.
+ *
+ * Layout: mobile-first. Below 64em the map sits on top (4:3, then 16:9) and the
+ * card stacks directly under it. From 64em the map is 28rem tall and the card
+ * overlaps its left side, hanging below the map if its content is taller. The
+ * card is capped at half the map minus its inset, so the centred OSM marker
+ * stays visible; its inset also keeps the OSM zoom controls (top-left) and
+ * attribution (bottom-right) uncovered.
+ *
+ * Static: the iframe is rendered directly (loading="lazy"), no island.
+ */
+import { Button, Icon } from '@/components/ui';
+import { site, fullAddress } from '@/data/site';
+
+interface Props {
+  /** Section id; defaults to "contato" (FAQ links to /#contato). */
+  id?: string;
+}
+
+const { id = 'contato' } = Astro.props;
+const titleId = `${id}-titulo`;
+
+// OSM embed framed so the marker sits in the RIGHT part of the map (≈75% across),
+// clear of the info card that overlaps the left side. The bbox is wide and short,
+// so Leaflet fits it by width and the marker keeps its horizontal position.
+const MARKER = { lat: -26.2347, lng: -48.88307 };
+const SPAN_LNG = 0.012;
+const SPAN_LAT = 0.003;
+// Leaflet rounds the zoom down to fit, which pulls the marker toward the centre,
+// so it is placed at 90% of the bbox to land at roughly 75–80% on screen.
+const MARKER_X = 0.9;
+const bbox = [
+  MARKER.lng - SPAN_LNG * MARKER_X,
+  MARKER.lat - SPAN_LAT / 2,
+  MARKER.lng + SPAN_LNG * (1 - MARKER_X),
+  MARKER.lat + SPAN_LAT / 2,
+]
+  .map((n) => n.toFixed(5))
+  .join('%2C');
+const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${MARKER.lat}%2C${MARKER.lng}`;
+---
+
+<section id={id} class="visitmap" aria-labelledby={titleId}>
+  <div class="flj-container">
+    <div class="visitmap-stage">
+      <div class="visitmap-map">
+        <iframe
+          class="visitmap-map__frame"
+          src={mapSrc}
+          title="Mapa de Localização Ágora Tech Park"
+          loading="lazy"
+          referrerpolicy="no-referrer"></iframe>
+      </div>
+
+      <div class="visitmap-card">
+        <div class="visitmap-card__frame">
+          <div class="visitmap-card__body">
+            <h2 id={titleId} class="visitmap-title">Agende a sua visita</h2>
+            <p class="visitmap-lead">
+              Quer conhecer as nossas tecnologias, desenvolver um projeto ou fazer uma visita guiada? Agende um
+              horário com a nossa equipe.
+            </p>
+            <div class="visitmap-cta">
+              <Button
+                variant="accent"
+                href={site.links.visitBooking}
+                target="_blank"
+                iconRight="arrow-up-right"
+                data-track="visit-booking"
+              >
+                Escolher data e horário
+              </Button>
+            </div>
+
+            <dl class="visitmap-facts">
+              <div class="visitmap-fact">
+                <dt class="visitmap-fact__label">
+                  <Icon name="map-pin" size={16} />
+                  Endereço
+                </dt>
+                <dd class="visitmap-fact__value">
+                  <address class="visitmap-address">{fullAddress}</address>
+                  <a
+                    class="visitmap-maplink"
+                    href={site.links.mapLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-track="map-open"
+                  >
+                    Abrir no Google Maps
+                    <Icon name="arrow-up-right" size={14} />
+                  </a>
+                </dd>
+              </div>
+
+              <div class="visitmap-fact">
+                <dt class="visitmap-fact__label">
+                  <Icon name="clock" size={16} />
+                  Horários
+                </dt>
+                <dd class="visitmap-fact__value">
+                  <ul class="visitmap-hours" role="list">
+                    {
+                      site.hours.map((h) => (
+                        <li class="visitmap-hours__row">
+                          <span class="visitmap-hours__days">{h.days}</span>
+                          <span class="visitmap-hours__time">{h.time}</span>
+                        </li>
+                      ))
+                    }
+                  </ul>
+                </dd>
+              </div>
+
+              <div class="visitmap-fact">
+                <dt class="visitmap-fact__label">
+                  <Icon name="mail" size={16} />
+                  E-mail
+                </dt>
+                <dd class="visitmap-fact__value">
+                  <a class="visitmap-email" href={`mailto:${site.email}`}>{site.email}</a>
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .visitmap {
+    /* Local knobs (all derived from tokens). */
+    --visitmap-cut: calc(var(--chamfer) * 2);
+    --visitmap-cut-inner: calc(var(--visitmap-cut) - var(--border-w) * 0.586);
+    --visitmap-shadow: var(--space-2);
+    --visitmap-inset: var(--space-7);
+    --visitmap-map-h: 28rem;
+
+    padding-block: var(--space-8);
+    background: var(--surface-page);
+    color: var(--text-body);
+    scroll-margin-top: var(--header-h);
+  }
+
+  /* ---------- Map ---------- */
+  .visitmap-map {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--surface-muted);
+    border: var(--border-w) solid var(--border-default);
+    border-radius: var(--radius-0);
+  }
+
+  .visitmap-map__frame {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  /* ---------- Card ---------- */
+  /* Card = offset navy shadow (::before) + navy frame (2px "border" that also
+     follows the chamfer) + white body. clip-path would cut a box-shadow, so the
+     hard shadow is its own chamfered layer. */
+  .visitmap-card {
+    position: relative;
+    z-index: 1;
+    isolation: isolate;
+    margin-top: calc(-1 * var(--border-w));
+    margin-right: var(--visitmap-shadow);
+  }
+
+  .visitmap-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--brand-primary);
+    transform: translate(var(--visitmap-shadow), var(--visitmap-shadow));
+    clip-path: polygon(0 0, calc(100% - var(--visitmap-cut)) 0, 100% var(--visitmap-cut), 100% 100%, 0 100%);
+  }
+
+  .visitmap-card__frame {
+    padding: var(--border-w);
+    background: var(--border-default);
+    clip-path: polygon(0 0, calc(100% - var(--visitmap-cut)) 0, 100% var(--visitmap-cut), 100% 100%, 0 100%);
+  }
+
+  .visitmap-card__body {
+    container-type: inline-size;
+    padding: var(--space-5);
+    background: var(--surface-card);
+    clip-path: polygon(
+      0 0,
+      calc(100% - var(--visitmap-cut-inner)) 0,
+      100% var(--visitmap-cut-inner),
+      100% 100%,
+      0 100%
+    );
+  }
+
+  .visitmap-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: var(--fw-black);
+    font-size: clamp(var(--fs-24), 6vw, var(--fs-32));
+    line-height: var(--lh-tight);
+    letter-spacing: var(--ls-display);
+    text-transform: uppercase;
+    color: var(--text-strong);
+  }
+
+  .visitmap-lead {
+    margin: var(--space-3) 0 0;
+    font: var(--type-body);
+    color: var(--text-body);
+  }
+
+  .visitmap-cta {
+    margin-top: var(--space-5);
+  }
+
+  .visitmap-cta :global(.flj-btn) {
+    width: 100%;
+  }
+
+  /* ---------- Ruled facts list ---------- */
+  .visitmap-facts {
+    margin: var(--space-5) 0 0;
+    border-top: var(--border-w) solid var(--border-default);
+  }
+
+  .visitmap-fact {
+    display: grid;
+    gap: var(--space-1);
+    padding-block: var(--space-3);
+    border-bottom: var(--border-w-thin) solid var(--border-subtle);
+  }
+
+  .visitmap-fact:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .visitmap-fact__label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .visitmap-fact__value {
+    margin: 0;
+    min-width: 0;
+    font: var(--type-small);
+    color: var(--text-body);
+  }
+
+  .visitmap-address {
+    font-style: normal;
+  }
+
+  .visitmap-maplink {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-top: var(--space-1);
+    font: var(--type-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--brand-primary);
+    text-decoration: none;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .visitmap-maplink:hover {
+    color: var(--text-accent);
+  }
+
+  .visitmap-hours {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .visitmap-hours__row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    column-gap: var(--space-3);
+  }
+
+  .visitmap-hours__row + .visitmap-hours__row {
+    margin-top: var(--space-1);
+  }
+
+  .visitmap-hours__days {
+    font-weight: var(--fw-semibold);
+  }
+
+  .visitmap-hours__time {
+    font: var(--type-code);
+    color: var(--text-body);
+  }
+
+  .visitmap-hours__row:last-child .visitmap-hours__time {
+    color: var(--text-muted);
+  }
+
+  .visitmap-email {
+    overflow-wrap: anywhere;
+    color: var(--brand-primary);
+    text-decoration: underline;
+    text-decoration-thickness: var(--border-w-thin);
+    text-underline-offset: 3px;
+  }
+
+  .visitmap-email:hover {
+    color: var(--text-accent);
+  }
+
+  /* Wide card: label column + value column. */
+  @container (min-width: 20rem) {
+    .visitmap-fact {
+      grid-template-columns: 6rem minmax(0, 1fr);
+      column-gap: var(--space-4);
+      align-items: baseline;
+    }
+
+    .visitmap-fact__label {
+      align-self: start;
+      padding-top: var(--space-1);
+    }
+  }
+
+  @media (min-width: 40em) {
+    .visitmap-map {
+      aspect-ratio: 16 / 9;
+    }
+
+    .visitmap-cta :global(.flj-btn) {
+      width: auto;
+    }
+  }
+
+  /* ---------- Desktop: card overlaps the map ---------- */
+  @media (min-width: 64em) {
+    .visitmap {
+      padding-block: var(--space-9);
+    }
+
+    .visitmap-stage {
+      display: grid;
+      /* Card column capped at half the map minus inset + breathing room, so the
+         OSM marker (centred in the embed) is never hidden. */
+      grid-template-columns:
+        var(--visitmap-inset)
+        min(28rem, calc(50% - var(--visitmap-inset) - var(--space-6)))
+        minmax(0, 1fr);
+      /* Rows 1–2 are the map (fixed height); row 3 absorbs any card overhang. */
+      grid-template-rows: var(--visitmap-inset) calc(var(--visitmap-map-h) - var(--visitmap-inset)) auto;
+    }
+
+    .visitmap-map {
+      grid-column: 1 / -1;
+      grid-row: 1 / 3;
+      aspect-ratio: auto;
+    }
+
+    .visitmap-card {
+      grid-column: 2;
+      grid-row: 2 / 4;
+      align-self: start;
+      margin: 0;
+    }
+
+    .visitmap-card__body {
+      padding: var(--space-6);
+    }
+
+    .visitmap-cta :global(.flj-btn) {
+      width: 100%;
+    }
+  }
+</style>
