@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { Heading, slugify, type HeadingLevel } from './utils';
+import { cx } from '@/lib/cx';
+import { Heading, headingIdFor, type HeadingLevel } from './utils';
 
 /**
  * <CtaBand> — full-bleed flat navy band with "// EYEBROW", uppercase title,
@@ -23,9 +24,9 @@ export interface CtaBandProps {
 }
 
 export function CtaBand({ title, eyebrow, text, actions, id, headingLevel = 2, className }: CtaBandProps) {
-  const headingId = `${id ?? (typeof title === 'string' ? slugify(title) : 'cta')}-titulo`;
+  const headingId = headingIdFor(id, title, 'cta');
   return (
-    <section id={id} className={['flj-ctaband', className].filter(Boolean).join(' ')} aria-labelledby={headingId}>
+    <section id={id} className={cx('flj-ctaband', className)} aria-labelledby={headingId}>
       <div className="flj-container flj-ctaband__inner">
         <div className="flj-ctaband__text">
           {eyebrow && <p className="flj-eyebrow flj-ctaband__eyebrow">{eyebrow}</p>}

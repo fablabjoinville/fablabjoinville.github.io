@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '@/components/layout/BaseLayout.astro';
 import { Button, Icon } from '@/components/ui';
-import { site } from '@/data/site';
+import { site, mailto } from '@/data/site';
 
 const links = site.nav.filter((item) => item.href !== '/');
 ---
@@ -22,7 +22,7 @@ const links = site.nav.filter((item) => item.href !== '/');
         </p>
         <div class="flj-notfound__actions">
           <Button variant="primary" size="lg" icon="arrow-left" href="/">Voltar ao início</Button>
-          <Button variant="secondary" size="lg" icon="mail" href={`mailto:${site.email}`}>
+          <Button variant="secondary" size="lg" icon="mail" href={mailto()}>
             Fale com a gente
           </Button>
         </div>

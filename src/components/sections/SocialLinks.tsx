@@ -1,5 +1,6 @@
 import { IconButton } from '@/components/ui';
 import { site } from '@/data/site';
+import { cx } from '@/lib/cx';
 
 /**
  * <SocialLinks> — row of square icon links for the profiles in
@@ -25,7 +26,7 @@ export function SocialLinks({ variant = 'light', only, size = 44, label = 'Redes
   const items = only ? site.social.filter((s) => only.includes(s.name)) : site.social;
   return (
     <ul
-      className={['flj-social', `flj-social--${variant}`, className].filter(Boolean).join(' ')}
+      className={cx('flj-social', `flj-social--${variant}`, className)}
       role="list"
       aria-label={label}
     >

@@ -2,6 +2,8 @@ import type * as React from 'react';
 import { Icon } from './Icon';
 import { pickDataAttributes, type DataAttributes } from './data-attributes';
 import './core.css';
+import { cx } from '@/lib/cx';
+import { relFor } from './rel';
 
 /**
  * Square icon-only button for toolbars, carousels, close actions. `label` is
@@ -47,7 +49,7 @@ export function IconButton({
   ...rest
 }: IconButtonProps) {
   const data = pickDataAttributes(rest);
-  const cls = ['flj-iconbtn', `flj-iconbtn--${variant}`, className].filter(Boolean).join(' ');
+  const cls = cx('flj-iconbtn', `flj-iconbtn--${variant}`, className);
   // Non-default sizes go through a CSS custom property; the default is in core.css.
   const sizedStyle =
     size !== DEFAULT_SIZE
@@ -56,7 +58,7 @@ export function IconButton({
   const glyph = <Icon name={icon} size={Math.round(size * 0.5)} />;
 
   if (href !== undefined) {
-    const linkRel = rel ?? (target === '_blank' ? 'noopener noreferrer' : undefined);
+    const linkRel = relFor(target, rel);
     return (
       <a
         {...data}

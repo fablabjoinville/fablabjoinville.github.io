@@ -1,8 +1,9 @@
 import type { ReactNode } from 'react';
 import { Button } from '@/components/ui';
 import type { ImageSource } from '@/lib/images';
+import { cx } from '@/lib/cx';
 import { Picture } from './Picture';
-import { Heading, isExternal, type HeadingLevel } from './utils';
+import { Heading, headingIdFor, isExternal, type HeadingLevel } from './utils';
 
 /**
  * <ProjectBlock> — one portfolio project: text column (eyebrow, title,
@@ -54,22 +55,21 @@ export function ProjectBlock({
   className,
   children,
 }: ProjectBlockProps) {
+  const headingId = headingIdFor(id, undefined, 'projeto');
   const [first, ...rest] = images;
   const hasMedia = Boolean(first || children);
-  const cls = [
+  const cls = cx(
     'flj-project',
     reverse && 'flj-project--reverse',
     !hasMedia && 'flj-project--text-only',
     className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  );
 
   return (
-    <article id={id} className={cls} aria-labelledby={`${id}-titulo`}>
+    <article id={id} className={cls} aria-labelledby={headingId}>
       <div className="flj-project__text">
         {eyebrow && <p className="flj-eyebrow">{eyebrow}</p>}
-        <Heading level={headingLevel} id={`${id}-titulo`} className="flj-project__title">
+        <Heading level={headingLevel} id={headingId} className="flj-project__title">
           {title}
         </Heading>
         <div className="flj-prose flj-project__body" dangerouslySetInnerHTML={{ __html: html }} />

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { IconButton } from '../core/IconButton';
 import './feedback.css';
+import { cx } from '@/lib/cx';
 
 /** Modal dialog with title bar, body and actions. */
 export interface DialogProps {
@@ -14,10 +15,6 @@ export interface DialogProps {
   inline?: boolean;
   className?: string;
   style?: React.CSSProperties;
-}
-
-function cx(...parts: Array<string | false | null | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 /**

@@ -8,32 +8,27 @@
  * src/content/projects/*.md (one file per project/team; `kind` = projeto | incubada).
  * Each project is anchored by its entry id (e.g. /portfolio#face-shields).
  */
-import { getEntry } from 'astro:content';
 import BaseLayout from '@/components/layout/BaseLayout.astro';
 import { CardGrid, FeatureCard, PageHeader, ProjectBlock, Prose, Section } from '@/components/sections';
 import { VideoFacade } from '@/components/islands/VideoFacade';
 import { getSorted } from '@/lib/content-guard';
-import { img } from '@/lib/images';
+import { SIZES, img } from '@/lib/images';
+import { loadPage } from '@/lib/page';
 import aftermovieSrc from '@/assets/old-site/portfolio/lerobot-aftermovie.jpg';
 
-const page = await getEntry('pages', 'portfolio');
-if (!page) throw new Error('Missing src/content/pages/portfolio.md');
-const { title, description, eyebrow, lead, headerImage, headerImageAlt } = page.data;
-
-const headerImg = headerImage
-  ? await img(headerImage, { sizes: '(min-width: 60em) 36rem, 100vw' })
-  : undefined;
-
-const poster = await img(aftermovieSrc, { sizes: '(min-width: 60em) 34rem, 100vw' });
+const [{ entry: page, data, headerImg }, poster, entries] = await Promise.all([
+  loadPage('portfolio'),
+  img(aftermovieSrc, { sizes: SIZES.project }),
+  getSorted('projects'),
+]);
+const { title, description, eyebrow, lead, headerImage, headerImageAlt } = data;
 const posterAlt =
   'Participante sorri ao lado de um braço robótico amarelo durante o LeRobot Arm Hackathon em Joinville.';
-
-const entries = await getSorted('projects');
 
 async function prepare(entry: (typeof entries)[number]) {
   const images = await Promise.all(
     entry.data.images.map(async ({ src, alt }) => ({
-      image: await img(src, { sizes: '(min-width: 60em) 34rem, 100vw' }),
+      image: await img(src, { sizes: SIZES.project }),
       alt,
     })),
   );
@@ -53,8 +48,10 @@ async function prepare(entry: (typeof entries)[number]) {
   };
 }
 
-const projects = await Promise.all(entries.filter((e) => e.data.kind === 'projeto').map(prepare));
-const teams = await Promise.all(entries.filter((e) => e.data.kind === 'incubada').map(prepare));
+const [projects, teams] = await Promise.all([
+  Promise.all(entries.filter((e) => e.data.kind === 'projeto').map(prepare)),
+  Promise.all(entries.filter((e) => e.data.kind === 'incubada').map(prepare)),
+]);
 ---
 
 <BaseLayout title="Portfólio" description={description} image={headerImage} imageAlt={headerImageAlt}>

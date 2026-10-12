@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { Heading, slugify, type HeadingLevel } from './utils';
+import { cx } from '@/lib/cx';
+import { Heading, headingIdFor, type HeadingLevel } from './utils';
 
 /**
  * <Section> — page band with the DS rhythm (96px / --space-9 block padding),
@@ -45,12 +46,8 @@ export function Section({
   className,
   children,
 }: SectionProps) {
-  const headingId = title
-    ? `${id ?? (typeof title === 'string' ? slugify(title) : 'secao')}-titulo`
-    : undefined;
-  const cls = ['flj-section', `flj-section--${tone}`, narrow && 'flj-section--narrow', className]
-    .filter(Boolean)
-    .join(' ');
+  const headingId = title ? headingIdFor(id, title, 'secao') : undefined;
+  const cls = cx('flj-section', `flj-section--${tone}`, narrow && 'flj-section--narrow', className);
   const hasHeader = Boolean(eyebrow || title || action || lead);
 
   return (

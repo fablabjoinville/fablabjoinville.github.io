@@ -32,29 +32,30 @@ import charterSrc from '@/assets/old-site/sobre/rede-fablabs-mapa.jpg';
 import portfolioSrc from '@/assets/old-site/portfolio/banner.jpg';
 import lerobotSrc from '@/assets/old-site/portfolio/lerobot-aftermovie.jpg';
 
-// Fails the build when a migrated collection has the wrong number of entries.
-await assertCounts();
-
-const page = await getEntry('pages', 'home');
+// assertCounts() fails the build when a migrated collection has the wrong number of entries.
+const [, page, photos, instagram] = await Promise.all([
+  assertCounts(),
+  getEntry('pages', 'home'),
+  imgs(
+    {
+      sobre: sobreSrc,
+      facaParte: facaParteSrc,
+      estrutura: estruturaSrc,
+      charter: charterSrc,
+      portfolio: portfolioSrc,
+      lerobot: lerobotSrc,
+    },
+    { widths: [480, 800, 1200] },
+  ),
+  getCollection('instagram'),
+]);
 if (!page) throw new Error('Missing src/content/pages/home.md');
 const { description, lead, headerImage, headerImageAlt } = page.data;
 if (!lead || !headerImage || !headerImageAlt) {
   throw new Error('src/content/pages/home.md needs lead, headerImage and headerImageAlt');
 }
 
-const photos = await imgs(
-  {
-    sobre: sobreSrc,
-    facaParte: facaParteSrc,
-    estrutura: estruturaSrc,
-    charter: charterSrc,
-    portfolio: portfolioSrc,
-    lerobot: lerobotSrc,
-  },
-  { widths: [480, 800, 1200] },
-);
-
-const posts = (await getCollection('instagram')).map((entry) => entry.data);
+const posts = instagram.map((entry) => entry.data);
 
 const explore = [
   {

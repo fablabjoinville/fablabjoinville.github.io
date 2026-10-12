@@ -3,7 +3,7 @@
  * <ContactBlock /> — contact / location / hours / visit booking section
  * (old home "Contato" embed), rebuilt from src/data/site.ts.
  *
- * .astro (not TSX) so it can hydrate the map island: <MapEmbed client:visible/>.
+ * .astro (not TSX); the map is a static <MapEmbed /> (no client directive).
  *
  * Props
  *  - showMap?: boolean        (default true) click-to-load Google Map
@@ -53,7 +53,6 @@ const subLevel = (headingLevel + 1) as HeadingLevel;
       showMap && (
         <div class="flj-contactblock__map">
           <MapEmbed
-            client:visible
             src={site.links.mapEmbed}
             title="Mapa de Localização Ágora Tech Park"
             href={site.links.mapLink}

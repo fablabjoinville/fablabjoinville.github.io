@@ -1,5 +1,6 @@
 import { Button, Icon } from '@/components/ui';
-import { site } from '@/data/site';
+import { addressLines, mailto, site } from '@/data/site';
+import { cx } from '@/lib/cx';
 import { Heading, type HeadingLevel } from './utils';
 
 /**
@@ -19,15 +20,14 @@ export interface ContactDetailsProps {
 }
 
 export function ContactDetails({ headingLevel = 3, className }: ContactDetailsProps) {
-  const { address } = site;
   return (
-    <div className={['flj-contact', className].filter(Boolean).join(' ')}>
+    <div className={cx('flj-contact', className)}>
       <div className="flj-contact__item">
         <Heading level={headingLevel} className="flj-contact__label">
           <Icon name="mail" size={18} />
           E-mail
         </Heading>
-        <a className="flj-contact__email" href={`mailto:${site.email}`} data-track="mailto-contact">
+        <a className="flj-contact__email" href={mailto()} data-track="mailto-contact">
           {site.email}
         </a>
       </div>
@@ -37,11 +37,11 @@ export function ContactDetails({ headingLevel = 3, className }: ContactDetailsPr
           Localização
         </Heading>
         <address className="flj-contact__address">
-          {address.building}
+          {addressLines[0]}
           <br />
-          {address.street},
+          {addressLines[1]},
           <br />
-          {address.district}, {address.city}/{address.state}.
+          {addressLines[2]}.
         </address>
       </div>
       <div className="flj-contact__item">
@@ -69,7 +69,7 @@ export interface VisitCardProps {
 
 export function VisitCard({ headingLevel = 3, className }: VisitCardProps) {
   return (
-    <div className={['flj-visit', className].filter(Boolean).join(' ')}>
+    <div className={cx('flj-visit', className)}>
       <p className="flj-eyebrow flj-visit__eyebrow">Conheça o Espaço</p>
       <Heading level={headingLevel} className="flj-visit__title">
         Agende a sua Visita

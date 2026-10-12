@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import type { ImageSource } from '@/lib/images';
+import { cx } from '@/lib/cx';
 import { Picture } from './Picture';
 
 /**
@@ -38,15 +39,13 @@ export function Photo({
   priority,
   className,
 }: PhotoProps) {
-  const cls = [
+  const cls = cx(
     'flj-photo',
     `flj-photo--${frame}`,
     onInverse && 'flj-photo--on-inverse',
     aspect && 'flj-photo--cropped',
     className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  );
   const style = aspect ? ({ '--flj-photo-aspect': aspect.replace('/', ' / ') } as CSSProperties) : undefined;
 
   return (

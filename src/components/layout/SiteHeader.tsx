@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { Button } from '@/components/ui';
 import { site } from '@/data/site';
-import { isActivePath } from '@/data/paths';
+import { navLinkProps } from '@/data/paths';
 import { brandMark } from '@/data/brand';
 
 const logo = brandMark('marca-azul.svg');
@@ -43,20 +43,13 @@ export function SiteHeader({ currentPath, search, menu }: SiteHeaderProps) {
           <ul className="flj-header__list" role="list">
             {site.nav
               .filter((item) => item.href !== CTA_HREF)
-              .map((item) => {
-                const active = isActivePath(currentPath, item.href);
-                return (
-                  <li key={item.href}>
-                    <a
-                      className={`flj-header__link${active ? ' flj-header__link--active' : ''}`}
-                      href={item.href}
-                      aria-current={active ? 'page' : undefined}
-                    >
-                      {item.label}
-                    </a>
-                  </li>
-                );
-              })}
+              .map((item) => (
+                <li key={item.href}>
+                  <a {...navLinkProps(currentPath, item.href, 'flj-header__link')} href={item.href}>
+                    {item.label}
+                  </a>
+                </li>
+              ))}
           </ul>
         </nav>
         <div className="flj-header__actions">

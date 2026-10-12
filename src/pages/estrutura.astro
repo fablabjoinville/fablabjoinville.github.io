@@ -7,32 +7,32 @@
  * pt-BR from scripts/migration/old-site.json). Intentional edits are listed in
  * scripts/migration/parity-exclusions/estrutura.json.
  */
-import { getEntry } from 'astro:content';
 import BaseLayout from '@/components/layout/BaseLayout.astro';
 import { CardGrid, FeatureCard, PageHeader, Photo, Prose, Section, Testimonial } from '@/components/sections';
 import { Button } from '@/components/ui';
 import { getSorted } from '@/lib/content-guard';
-import { img } from '@/lib/images';
+import { SIZES, img } from '@/lib/images';
+import { loadPage } from '@/lib/page';
 import ctaPhoto from '@/assets/old-site/estrutura/cta-criancas-construindo.jpg';
 import joaoPhoto from '@/assets/old-site/estrutura/depoimento-joao-pedro-golynski.jpg';
 
-const page = await getEntry('pages', 'estrutura');
-if (!page) throw new Error('Missing src/content/pages/estrutura.md');
-const { title, description, eyebrow, lead, headerImage, headerImageAlt } = page.data;
-
-const headerImg = headerImage ? await img(headerImage, { sizes: '(min-width: 60em) 36rem, 100vw' }) : undefined;
-const joaoImg = await img(joaoPhoto, { widths: [160, 320], sizes: '5rem' });
-const ctaImg = await img(ctaPhoto, { sizes: '(min-width: 75em) 72rem, 100vw' });
-
-const resources = await Promise.all(
-  (await getSorted('resources')).map(async ({ id, data }) => ({
-    id,
-    title: data.title,
-    bodyHtml: data.bodyHtml,
-    imageAlt: data.imageAlt,
-    image: await img(data.image, { sizes: '(min-width: 60em) 25rem, (min-width: 40em) 50vw, 100vw' }),
-  })),
-);
+const [{ entry: page, data, headerImg }, joaoImg, ctaImg, resources] = await Promise.all([
+  loadPage('estrutura'),
+  img(joaoPhoto, { widths: [160, 320], sizes: '5rem' }),
+  img(ctaPhoto, { sizes: SIZES.full }),
+  getSorted('resources').then((entries) =>
+    Promise.all(
+      entries.map(async ({ id, data }) => ({
+        id,
+        title: data.title,
+        bodyHtml: data.bodyHtml,
+        imageAlt: data.imageAlt,
+        image: await img(data.image, { sizes: SIZES.card }),
+      })),
+    ),
+  ),
+]);
+const { title, description, eyebrow, lead, headerImage, headerImageAlt } = data;
 
 // Verbatim testimonial from the old page (four paragraphs, quotes included).
 const testimonialHtml = [
@@ -92,7 +92,7 @@ const testimonialHtml = [
       alt="Duas crianças montando um carrinho de madeira com rodas e pregos em uma bancada do Fab Lab"
       aspect="2/1"
       onInverse
-      sizes="(min-width: 75em) 72rem, 100vw"
+      sizes={SIZES.full}
     />
   </Section>
 </BaseLayout>

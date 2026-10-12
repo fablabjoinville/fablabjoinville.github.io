@@ -11,7 +11,7 @@
  * directly and add a client directive:
  *   import { VideoFacade } from '@/components/islands/VideoFacade';
  *   import { Carousel } from '@/components/islands/Carousel';
- *   import { MapEmbed } from '@/components/islands/MapEmbed';
+ *   import { MapEmbed } from '@/components/islands/MapEmbed'; (static, no client directive)
  * Islands themselves must never import this barrel (it contains an .astro file);
  * they import '@/components/sections/Picture' directly.
  */

@@ -1,6 +1,7 @@
 import { useId } from "react";
 import type { CSSProperties } from "react";
 import "./forms.css";
+import { cx } from "@/lib/cx";
 
 /**
  * Text field with mono uppercase label; focus shows an orange offset shadow.
@@ -40,13 +41,11 @@ export function Input({
   const id = useId();
   const messageId = `${id}-msg`;
   const message = error || hint;
-  const controlClass = [
+  const controlClass = cx(
     "flj-input",
     multiline && "flj-input--multiline",
     error && "flj-input--error",
-  ]
-    .filter(Boolean)
-    .join(" ");
+  );
 
   const shared = {
     id,
@@ -59,7 +58,7 @@ export function Input({
   };
 
   return (
-    <div className={["flj-field", className].filter(Boolean).join(" ")} style={style}>
+    <div className={cx("flj-field", className)} style={style}>
       {label && (
         <label className="flj-field__label" htmlFor={id}>
           {label}
@@ -73,9 +72,7 @@ export function Input({
       {message && (
         <span
           id={messageId}
-          className={["flj-field__message", error && "flj-field__message--error"]
-            .filter(Boolean)
-            .join(" ")}
+          className={cx("flj-field__message", error && "flj-field__message--error")}
           role={error ? "alert" : undefined}
         >
           {message}

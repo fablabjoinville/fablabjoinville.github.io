@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import type { ImageSource } from '@/lib/images';
 import { Photo } from './Photo';
+import { headingIdFor } from './utils';
 
 /**
  * <Hero> — home hero per the UI kit (Home.jsx): white band with a 2px bottom
@@ -25,12 +26,13 @@ export interface HeroProps {
 }
 
 export function Hero({ eyebrow, title, lead, actions, image, imageAlt, children }: HeroProps) {
+  const headingId = headingIdFor('hero', undefined, 'hero');
   return (
-    <section className="flj-hero" aria-labelledby="hero-titulo">
+    <section className="flj-hero" aria-labelledby={headingId}>
       <div className="flj-container flj-hero__grid">
         <div className="flj-hero__text">
           {eyebrow && <p className="flj-eyebrow flj-hero__eyebrow">{eyebrow}</p>}
-          <h1 id="hero-titulo" className="flj-hero__title">
+          <h1 id={headingId} className="flj-hero__title">
             {title}
           </h1>
           <p className="flj-hero__lead">{lead}</p>

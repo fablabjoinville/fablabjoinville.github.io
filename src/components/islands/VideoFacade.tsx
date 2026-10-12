@@ -1,7 +1,8 @@
 import { useState, type MouseEvent } from 'react';
-import * as Sentry from '@sentry/react';
+import { metrics } from '@sentry/react';
 import { Icon } from '@/components/ui';
 import type { ImageSource } from '@/lib/images';
+import { linkAttrs } from '@/components/sections/utils';
 import { Picture } from '@/components/sections/Picture';
 import { withIslandBoundary } from './IslandBoundary';
 
@@ -23,7 +24,7 @@ import { withIslandBoundary } from './IslandBoundary';
  * the embed (youtube-nocookie.com/embed/<id>?autoplay=1 or
  * drive.google.com/file/d/<id>/preview).
  *
- * Telemetry: Sentry.metrics.count('video_play', 1, { attributes: { provider, video_id } }).
+ * Telemetry: metrics.count('video_play', 1, { attributes: { provider, video_id } }).
  */
 export type VideoFacadeProps = {
   provider: 'youtube' | 'drive';
@@ -61,7 +62,7 @@ function VideoFacadeImpl({ provider, id, title, poster, posterAlt, aspect = '16/
     event.preventDefault();
     setPlaying(true);
     try {
-      Sentry.metrics.count('video_play', 1, { attributes: { provider, video_id: id } });
+      metrics.count('video_play', 1, { attributes: { provider, video_id: id } });
     } catch {
       // Telemetry must never block playback.
     }
@@ -86,9 +87,7 @@ function VideoFacadeImpl({ provider, id, title, poster, posterAlt, aspect = '16/
     <div className={cls}>
       <a
         className="flj-video__facade"
-        href={page}
-        target="_blank"
-        rel="noopener noreferrer"
+        {...linkAttrs(page)}
         onClick={onClick}
         aria-label={`Reproduzir vídeo: ${title}`}
       >

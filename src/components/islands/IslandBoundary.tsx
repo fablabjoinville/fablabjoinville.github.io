@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react';
-import * as Sentry from '@sentry/react';
+import { logger, withErrorBoundary } from '@sentry/react';
 
 /**
  * Wrap a hydrated island in a Sentry error boundary.
@@ -16,7 +16,7 @@ export function withIslandBoundary<P extends Record<string, unknown>>(
   Component: ComponentType<P>,
   name: string,
 ) {
-  const Wrapped = Sentry.withErrorBoundary(Component, {
+  const Wrapped = withErrorBoundary(Component, {
     fallback: (
       <span className="flj-island-fallback" role="status">
         Este recurso não pôde ser carregado. Recarregue a página.
@@ -26,7 +26,7 @@ export function withIslandBoundary<P extends Record<string, unknown>>(
       scope.setTag('island', name);
     },
     onError: (error, _componentStack, eventId) => {
-      Sentry.logger.warn(Sentry.logger.fmt`Island "${name}" crashed and rendered its fallback`, {
+      logger.warn(logger.fmt`Island "${name}" crashed and rendered its fallback`, {
         island: name,
         eventId,
         error: error instanceof Error ? error.message : String(error),

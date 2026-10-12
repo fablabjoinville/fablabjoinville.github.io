@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Icon } from '@/components/ui';
 import type { ImageSource } from '@/lib/images';
+import { cx } from '@/lib/cx';
 import { Picture } from './Picture';
 
 /**
@@ -25,7 +26,7 @@ export interface TestimonialProps {
 
 export function Testimonial({ quote, html, name, role, image, imageAlt, className }: TestimonialProps) {
   return (
-    <figure className={['flj-testimonial', className].filter(Boolean).join(' ')}>
+    <figure className={cx('flj-testimonial', className)}>
       <Icon name="quote" size={40} className="flj-testimonial__glyph" />
       {html !== undefined ? (
         <blockquote className="flj-testimonial__quote" dangerouslySetInnerHTML={{ __html: html }} />

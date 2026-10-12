@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { cx } from '@/lib/cx';
 
 /**
  * <CardGrid> — responsive grid: 1 column on phones, 2 from 40em, `columns`
@@ -17,7 +18,7 @@ export interface CardGridProps {
 }
 
 export function CardGrid({ columns = 3, as: Element = 'div', className, children }: CardGridProps) {
-  const cls = ['flj-grid', `flj-grid--${columns}`, className].filter(Boolean).join(' ');
+  const cls = cx('flj-grid', `flj-grid--${columns}`, className);
   return (
     <Element className={cls} role={Element === 'ul' ? 'list' : undefined}>
       {children}

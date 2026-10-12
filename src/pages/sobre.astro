@@ -11,43 +11,46 @@ import { CardGrid, LogoGrid, PageHeader, PersonCard, Photo, Picture, Prose, Sect
 import { Button } from '@/components/ui';
 import { site } from '@/data/site';
 import { getSorted } from '@/lib/content-guard';
-import { img } from '@/lib/images';
+import { SIZES, img } from '@/lib/images';
 import { getEntry } from 'astro:content';
 import mapaSrc from '@/assets/old-site/sobre/rede-fablabs-mapa.jpg';
 import associacao1Src from '@/assets/old-site/sobre/associacao-1.jpg';
 import associacao2Src from '@/assets/old-site/sobre/associacao-2.jpg';
 import simboloSrc from '@/assets/old-site/sobre/marca-simbolo-3d.png';
 
-const page = await getEntry('pages', 'sobre');
+const PERSON_SIZES = '(min-width: 75em) 17rem, (min-width: 60em) 30vw, (min-width: 40em) 50vw, 100vw';
+
+const [page, mapa, associacao1, associacao2, simbolo, team, sponsors] = await Promise.all([
+  getEntry('pages', 'sobre'),
+  img(mapaSrc, { sizes: SIZES.half }),
+  img(associacao1Src, { sizes: SIZES.half }),
+  img(associacao2Src, { sizes: SIZES.half }),
+  img(simboloSrc, { widths: [240, 480], sizes: '(min-width: 60em) 18rem, 50vw' }),
+  getSorted('team').then((entries) =>
+    Promise.all(
+      entries.map(async ({ data }) => ({
+        ...data,
+        image: await img(data.photo, { widths: [320, 480, 640], sizes: PERSON_SIZES }),
+      })),
+    ),
+  ),
+  getSorted('sponsors').then((entries) =>
+    Promise.all(
+      entries.map(async ({ data }) => ({
+        name: data.name,
+        href: data.url,
+        image: await img(data.logo, { widths: [240, 480], sizes: '(min-width: 60em) 12rem, 50vw' }),
+      })),
+    ),
+  ),
+]);
 if (!page) throw new Error('Missing src/content/pages/sobre.md');
 const { title, description, eyebrow, lead, headerImage, headerImageAlt } = page.data;
 
-const PERSON_SIZES = '(min-width: 75em) 17rem, (min-width: 60em) 30vw, (min-width: 40em) 50vw, 100vw';
-const HALF_SIZES = '(min-width: 60em) 36rem, 100vw';
-
-const banner = headerImage ? await img(headerImage, { sizes: HALF_SIZES }) : undefined;
-const mapa = await img(mapaSrc, { sizes: HALF_SIZES });
-const associacao1 = await img(associacao1Src, { sizes: HALF_SIZES });
-const associacao2 = await img(associacao2Src, { sizes: HALF_SIZES });
-const simbolo = await img(simboloSrc, { widths: [240, 480], sizes: '(min-width: 60em) 18rem, 50vw' });
-
-const team = await Promise.all(
-  (await getSorted('team')).map(async ({ data }) => ({
-    ...data,
-    image: await img(data.photo, { widths: [320, 480, 640], sizes: PERSON_SIZES }),
-  })),
-);
+const banner = headerImage ? await img(headerImage, { sizes: SIZES.half }) : undefined;
 const equipe = team.filter((p) => p.group === 'equipe');
 const diretivo = team.filter((p) => p.group === 'diretivo');
 const fiscal = team.filter((p) => p.group === 'fiscal');
-
-const sponsors = await Promise.all(
-  (await getSorted('sponsors')).map(async ({ data }) => ({
-    name: data.name,
-    href: data.url,
-    image: await img(data.logo, { widths: [240, 480], sizes: '(min-width: 60em) 12rem, 50vw' }),
-  })),
-);
 
 const principios = [
   'Autonomia (liberdade + responsabilidade)',
@@ -128,7 +131,7 @@ const jsonLd = {
         <Photo
           image={mapa}
           alt="Mapa-múndi com a localização dos laboratórios da rede mundial de Fab Labs (abre o mapa interativo em fablabs.io)"
-          sizes={HALF_SIZES}
+          sizes={SIZES.half}
         />
       </a>
     </div>
@@ -185,13 +188,13 @@ const jsonLd = {
         <Photo
           image={associacao1}
           alt="Estande do Fab Lab Joinville em um evento, visto do alto, com visitantes circulando pelo pavilhão."
-          sizes={HALF_SIZES}
+          sizes={SIZES.half}
         />
         <Photo
           image={associacao2}
           alt="Voluntários do Fab Lab Joinville reunidos com crianças e famílias, que mostram as peças feitas em uma oficina."
           frame="plain"
-          sizes={HALF_SIZES}
+          sizes={SIZES.half}
         />
       </div>
     </div>

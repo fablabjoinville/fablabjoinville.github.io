@@ -14,40 +14,38 @@
  * The old yellow/black wave backgrounds are replaced by flat DS bands with a
  * solid laser-orange rule (no LeRobot yellow, no gradients).
  */
-import { getEntry } from 'astro:content';
 import BaseLayout from '@/components/layout/BaseLayout.astro';
 import { Badge, Button, Card, Icon } from '@/components/ui';
 import { CardGrid, Hero, Photo, Section } from '@/components/sections';
 import { MapEmbed } from '@/components/islands/MapEmbed';
 import { VideoFacade } from '@/components/islands/VideoFacade';
 import { getSorted } from '@/lib/content-guard';
-import { img } from '@/lib/images';
+import { SIZES, img } from '@/lib/images';
+import { loadPage } from '@/lib/page';
+import { linkAttrs } from '@/components/sections/utils';
 import { site } from '@/data/site';
 import aftermoviePoster from '@/assets/old-site/portfolio/lerobot-aftermovie.jpg';
 import mascotPrizes from '@/assets/old-site/lerobot/mascote-premiacoes.png';
 import timeline from '@/assets/old-site/lerobot/cronograma.png';
 import sponsors from '@/assets/old-site/lerobot/realizacao-patrocinio.png';
 
-const page = await getEntry('pages', 'lerobot');
-if (!page) throw new Error('Missing src/content/pages/lerobot.md');
-const { title, description, eyebrow, lead, headerImage, headerImageAlt } = page.data;
+const [{ data }, videos] = await Promise.all([loadPage('lerobot', { headerImage: false }), getSorted('lerobotVideos')]);
+const { title, description, eyebrow, lead, headerImage, headerImageAlt } = data;
 if (!headerImage || !lead || !eyebrow) {
   throw new Error('src/content/pages/lerobot.md needs eyebrow, lead and headerImage');
 }
 
-const videos = await getSorted('lerobotVideos');
-
 const [heroImg, aftermovieImg, prizesImg, timelineImg, sponsorsImg, posters] = await Promise.all([
-  img(headerImage, { widths: [480, 800], sizes: '(min-width: 60em) 36rem, 100vw' }),
+  img(headerImage, { widths: [480, 800], sizes: SIZES.half }),
   img(aftermoviePoster, { widths: [480, 800, 1280], sizes: '(min-width: 60em) 48rem, 100vw' }),
   img(mascotPrizes, { widths: [400, 600], sizes: '(min-width: 60em) 24rem, 80vw' }),
-  img(timeline, { widths: [640, 960, 1280], sizes: '(min-width: 75em) 72rem, 100vw' }),
+  img(timeline, { widths: [640, 960, 1280], sizes: SIZES.full }),
   img(sponsors, { widths: [400, 600], sizes: '(min-width: 40em) 36rem, 100vw' }),
   Promise.all(
     videos.map((v) =>
       img(v.data.poster, {
         widths: v.data.aspect === '9/16' ? [360, 720] : [480, 800, 1280],
-        sizes: v.data.aspect === '9/16' ? '(min-width: 60em) 12rem, 60vw' : '(min-width: 60em) 36rem, 100vw',
+        sizes: v.data.aspect === '9/16' ? '(min-width: 60em) 12rem, 60vw' : SIZES.half,
       }),
     ),
   ),
@@ -109,9 +107,7 @@ const eventJsonLd = {
       <Button
         variant="secondary"
         icon="github"
-        href="https://github.com/huggingface/lerobot"
-        target="_blank"
-        rel="noopener noreferrer"
+        {...linkAttrs('https://github.com/huggingface/lerobot')}
         data-track="lerobot-github"
       >
         + Sobre Le Robot
@@ -191,9 +187,7 @@ const eventJsonLd = {
       <CardGrid columns={2} as="ul">
         <Card
           as="li"
-          href="https://huggingface.co/spaces/LeRobot-worldwide-hackathon/worldwide-map"
-          target="_blank"
-          rel="noopener noreferrer"
+          {...linkAttrs('https://huggingface.co/spaces/LeRobot-worldwide-hackathon/worldwide-map')}
           data-track="lerobot-worldwide-map"
         >
           <span class="lr-link">
@@ -221,7 +215,6 @@ const eventJsonLd = {
           <Badge tone="neutral">Inscrições encerradas — edição 2025</Badge>
         </div>
         <MapEmbed
-          client:visible
           src={site.links.mapEmbed}
           title="Mapa: Fab Lab Joinville no Ágora Tech Park"
           href={site.links.mapLink}

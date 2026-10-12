@@ -57,6 +57,20 @@ export interface ImgOptions {
   format?: 'webp' | 'avif';
 }
 
+/** Named `sizes` presets (each reproduces a string repeated across pages/sections). */
+export const SIZES = {
+  /** Half-width image beside text (page headers, heroes). */
+  half: '(min-width: 60em) 36rem, 100vw',
+  /** Full container width (carousel slides, CTA photos). */
+  full: '(min-width: 75em) 72rem, 100vw',
+  /** Three-column card image. */
+  card: '(min-width: 60em) 25rem, (min-width: 40em) 50vw, 100vw',
+  /** Project block / portfolio images. */
+  project: '(min-width: 60em) 34rem, 100vw',
+  /** Video poster. */
+  video: '(min-width: 60em) 40rem, 100vw',
+} as const;
+
 const DEFAULT_WIDTHS = [480, 800, 1200, 1600] as const;
 const DEFAULT_SIZES = '100vw';
 const PASSTHROUGH_FORMATS = new Set(['svg', 'gif']);

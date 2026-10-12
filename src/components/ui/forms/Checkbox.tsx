@@ -1,6 +1,7 @@
 import { useId } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import "./forms.css";
+import { cx } from "@/lib/cx";
 
 /** Square 2px-outlined checkbox. Controlled or uncontrolled. */
 export interface CheckboxProps {
@@ -28,7 +29,7 @@ export function Checkbox({
   return (
     <label
       htmlFor={id}
-      className={["flj-check", disabled && "flj-check--disabled", className].filter(Boolean).join(" ")}
+      className={cx("flj-check", disabled && "flj-check--disabled", className)}
       style={style}
     >
       <input

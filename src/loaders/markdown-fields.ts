@@ -21,12 +21,12 @@ export function withMarkdownFields(loader: Loader, fields: readonly string[]): L
         ...context,
         parseData: async (props) => {
           const data: Record<string, unknown> = { ...props.data };
-          for (const field of fields) {
-            const value = data[field];
-            if (typeof value === 'string') {
-              data[`${field}Html`] = (await context.renderMarkdown(value)).html;
-            }
-          }
+          await Promise.all(
+            fields.map(async (field) => {
+              const value = data[field];
+              if (typeof value === 'string') data[`${field}Html`] = (await context.renderMarkdown(value)).html;
+            }),
+          );
           return context.parseData({ ...props, data: data as typeof props.data });
         },
       }),

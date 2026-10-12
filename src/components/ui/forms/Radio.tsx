@@ -1,6 +1,7 @@
 import { useId } from "react";
 import type { CSSProperties } from "react";
 import "./forms.css";
+import { cx } from "@/lib/cx";
 
 export type RadioOption = string | { value: string; label: string };
 
@@ -33,13 +34,11 @@ export function Radio({
   return (
     <div
       role="radiogroup"
-      className={[
+      className={cx(
         "flj-radio-group",
         direction === "row" && "flj-radio-group--row",
         className,
-      ]
-        .filter(Boolean)
-        .join(" ")}
+      )}
       style={style}
     >
       {options.map((o, i) => {

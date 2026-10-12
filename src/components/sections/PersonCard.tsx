@@ -1,5 +1,6 @@
 import { IconButton } from '@/components/ui';
 import type { ImageSource } from '@/lib/images';
+import { cx } from '@/lib/cx';
 import { Picture } from './Picture';
 import { Heading, type HeadingLevel } from './utils';
 
@@ -28,7 +29,7 @@ export interface PersonCardProps {
 
 export function PersonCard({ name, role, image, imageAlt, linkedin, headingLevel = 3, className }: PersonCardProps) {
   return (
-    <article className={['flj-person', className].filter(Boolean).join(' ')}>
+    <article className={cx('flj-person', className)}>
       <div className="flj-person__media">
         {image ? (
           <Picture

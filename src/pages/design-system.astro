@@ -25,7 +25,7 @@ import {
   Toast,
   Tooltip,
 } from '@/components/ui';
-import { site } from '@/data/site';
+import { site, mailto } from '@/data/site';
 import {
   CardGrid,
   ContactBlock,
@@ -48,7 +48,7 @@ import {
 } from '@/components/sections';
 import { Carousel } from '@/components/islands/Carousel';
 import { VideoFacade } from '@/components/islands/VideoFacade';
-import { img, imgs } from '@/lib/images';
+import { SIZES, img, imgs } from '@/lib/images';
 import { getCollection } from 'astro:content';
 import heroSrc from '@/assets/old-site/home/hero.jpg';
 import bannerSrc from '@/assets/old-site/estrutura/banner.jpg';
@@ -60,12 +60,15 @@ import aftermovieSrc from '@/assets/old-site/portfolio/lerobot-aftermovie.jpg';
 import simbolo from '@/assets/brand/simbolo-cor.svg';
 
 const tones = ['neutral', 'primary', 'accent', 'success', 'warning', 'danger', 'info'] as const;
-const hero = await img(heroSrc, { sizes: '(min-width: 60em) 36rem, 100vw' });
-const banner = await img(bannerSrc, { sizes: '(min-width: 60em) 36rem, 100vw' });
-const photos = await imgs({ laser: laserSrc, print: printSrc, cnc: cncSrc });
-const joao = await img(joaoSrc, { widths: [160, 320], sizes: '5rem' });
-const poster = await img(aftermovieSrc, { sizes: '(min-width: 60em) 40rem, 100vw' });
-const posts = (await getCollection('instagram')).map((e) => e.data);
+const [hero, banner, photos, joao, poster, instagramEntries] = await Promise.all([
+  img(heroSrc, { sizes: SIZES.half }),
+  img(bannerSrc, { sizes: SIZES.half }),
+  imgs({ laser: laserSrc, print: printSrc, cnc: cncSrc }),
+  img(joaoSrc, { widths: [160, 320], sizes: '5rem' }),
+  img(aftermovieSrc, { sizes: SIZES.video }),
+  getCollection('instagram'),
+]);
+const posts = instagramEntries.map((e) => e.data);
 const demoQa = [
   {
     id: 'pergunta-exemplo',
@@ -405,7 +408,7 @@ const icons = ['printer', 'scissors', 'bot', 'cpu', 'wrench', 'users', 'calendar
 
   <Section eyebrow="Planos" title="PricingCard" id="demo-pricing">
     <CardGrid columns={3}>
-      <PricingCard name="Corporate Maker" description="Sem preço, CTA mailto." image={photos.laser} imageAlt="Corte a laser" prices={[]} cta={{ label: 'Entre em contato!', href: `mailto:${site.email}`, track: 'demo-mailto' }} />
+      <PricingCard name="Corporate Maker" description="Sem preço, CTA mailto." image={photos.laser} imageAlt="Corte a laser" prices={[]} cta={{ label: 'Entre em contato!', href: mailto(), track: 'demo-mailto' }} />
       <PricingCard name="Lab Maker" description="Dois preços." prices={[{ amount: 'R$ 100,00', period: '/mês' }, { amount: 'R$ 1.000,00', period: '/ano' }]} cta={{ label: 'Fazer parte!', href: site.links.membershipForm, track: 'demo-form' }} />
     </CardGrid>
   </Section>

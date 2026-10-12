@@ -2,6 +2,8 @@ import type * as React from 'react';
 import type { CSSProperties, KeyboardEvent, ReactNode } from 'react';
 import { pickDataAttributes, type DataAttributes } from '../core/data-attributes';
 import './display.css';
+import { cx } from '@/lib/cx';
+import { relFor } from '../core/rel';
 
 export type CardVariant = 'outline' | 'paper' | 'inverse';
 
@@ -44,14 +46,12 @@ export function Card({
 }: CardProps) {
   const data = pickDataAttributes(rest);
   const isInteractive = Boolean(interactive || href || onClick);
-  const cls = [
+  const cls = cx(
     'flj-card',
     `flj-card--${variant}`,
     isInteractive && 'flj-card--interactive',
     className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  );
 
   const mergedStyle: CSSProperties | undefined =
     padding === undefined
@@ -67,7 +67,7 @@ export function Card({
         {...data}
         href={href}
         target={target}
-        rel={rel ?? (target === '_blank' ? 'noopener noreferrer' : undefined)}
+        rel={relFor(target, rel)}
         className={cls}
         style={mergedStyle}
         onClick={onClick ? () => onClick() : undefined}

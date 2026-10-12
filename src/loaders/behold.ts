@@ -96,15 +96,20 @@ export const beholdLoader: Loader = {
       .slice(0, LIMIT);
 
     store.clear();
-    for (const raw of sorted) {
-      const id = String(raw.id ?? '');
-      if (!id) continue;
-      try {
-        const data = await parseData({ id, data: raw });
-        store.set({ id, data, digest: generateDigest(data) });
-      } catch (error) {
-        logger.warn(`Skipping Instagram post ${id}: ${error instanceof Error ? error.message : String(error)}`);
-      }
+    const results = await Promise.all(
+      sorted.map(async (raw) => {
+        const id = String(raw.id ?? '');
+        if (!id) return undefined;
+        try {
+          return { id, data: await parseData({ id, data: raw }) };
+        } catch (error) {
+          logger.warn(`Skipping Instagram post ${id}: ${error instanceof Error ? error.message : String(error)}`);
+          return undefined;
+        }
+      }),
+    );
+    for (const result of results) {
+      if (result) store.set({ id: result.id, data: result.data, digest: generateDigest(result.data) });
     }
     meta.set('lastFetched', new Date().toISOString());
     logger.info(`Loaded ${store.keys().length} Instagram posts from Behold.`);

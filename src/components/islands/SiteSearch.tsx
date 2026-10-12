@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import * as Sentry from '@sentry/react';
+import { logger } from '@sentry/react';
 import { Dialog, Icon } from '@/components/ui';
 import { withIslandBoundary } from './IslandBoundary';
 
@@ -94,7 +94,7 @@ function SiteSearchImpl({ bundlePath = '/pagefind/' }: SiteSearchProps) {
     } catch (error) {
       setStatus('unavailable');
       if (import.meta.env.PROD) {
-        Sentry.logger.warn('Pagefind UI failed to load', {
+        logger.warn('Pagefind UI failed to load', {
           bundlePath,
           error: error instanceof Error ? error.message : String(error),
         });

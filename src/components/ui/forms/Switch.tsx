@@ -1,6 +1,7 @@
 import { useId } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import "./forms.css";
+import { cx } from "@/lib/cx";
 
 /** Square-track toggle switch for immediate on/off settings. */
 export interface SwitchProps {
@@ -28,7 +29,7 @@ export function Switch({
   return (
     <label
       htmlFor={id}
-      className={["flj-switch", disabled && "flj-switch--disabled", className].filter(Boolean).join(" ")}
+      className={cx("flj-switch", disabled && "flj-switch--disabled", className)}
       style={style}
     >
       <input

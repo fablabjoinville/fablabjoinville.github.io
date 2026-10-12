@@ -1,5 +1,6 @@
 import type * as React from 'react';
 import type { ImageSource } from '@/lib/images';
+import { cx } from '@/lib/cx';
 import { Picture } from './Picture';
 
 /**
@@ -26,15 +27,13 @@ export interface GalleryProps {
 }
 
 export function Gallery({ images, columns = 3, aspect = '4/3', featured, className }: GalleryProps) {
-  const cls = [
+  const cls = cx(
     'flj-gallery',
     `flj-gallery--${columns}`,
     featured && 'flj-gallery--featured',
     aspect !== 'auto' && 'flj-gallery--cropped',
     className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  );
   const style = aspect === 'auto' ? undefined : { '--flj-gallery-aspect': aspect.replace('/', ' / ') };
   return (
     <ul className={cls} role="list" style={style as React.CSSProperties | undefined}>

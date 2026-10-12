@@ -1,6 +1,7 @@
 import { useId } from "react";
 import type { CSSProperties } from "react";
 import "./forms.css";
+import { cx } from "@/lib/cx";
 
 export type SelectOption = string | { value: string; label: string };
 
@@ -30,7 +31,7 @@ export function Select({
   const valueProps = value !== undefined ? { value } : { defaultValue };
 
   return (
-    <div className={["flj-field", className].filter(Boolean).join(" ")} style={style}>
+    <div className={cx("flj-field", className)} style={style}>
       {label && (
         <label className="flj-field__label" htmlFor={id}>
           {label}

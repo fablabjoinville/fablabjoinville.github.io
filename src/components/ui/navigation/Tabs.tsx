@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import type { CSSProperties, KeyboardEvent } from "react";
 import "./navigation.css";
+import { cx } from "@/lib/cx";
 
 export type TabItem = string | { value: string; label: string };
 
@@ -51,7 +52,7 @@ export function Tabs({ tabs = [], value, defaultValue, onChange, className, styl
     <div
       role="tablist"
       aria-orientation="horizontal"
-      className={["flj-tabs", className].filter(Boolean).join(" ")}
+      className={cx("flj-tabs", className)}
       style={style}
       onKeyDown={onKeyDown}
     >
@@ -68,7 +69,7 @@ export function Tabs({ tabs = [], value, defaultValue, onChange, className, styl
             role="tab"
             aria-selected={on}
             tabIndex={on ? 0 : -1}
-            className={["flj-tabs__tab", on && "flj-tabs__tab--selected"].filter(Boolean).join(" ")}
+            className={cx("flj-tabs__tab", on && "flj-tabs__tab--selected")}
             onClick={() => select(v)}
           >
             {tabLabel(t)}

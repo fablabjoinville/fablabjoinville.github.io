@@ -1,13 +1,13 @@
 import { Icon } from '@/components/ui';
-import { withIslandBoundary } from './IslandBoundary';
+import { linkAttrs } from '@/components/sections/utils';
 
 /**
  * <MapEmbed /> — OpenStreetMap embed (no cookies or tracking, so it loads
  * directly — lazily — instead of behind a click-to-load placeholder).
  *
  * Renders the <iframe> plus a caption bar with the address and an "Abrir no
- * Google Maps" link. OSM attribution is shown inside the embed itself. Fully static: works without hydration (kept in islands/ for the
- * existing `client:visible` call sites).
+ * Google Maps" link. OSM attribution is shown inside the embed itself. Fully static: a plain React component with no hooks or state, so it
+ * is rendered to HTML at build time. Use it WITHOUT a `client:` directive.
  *
  * Props (all serialisable)
  *  - src: string      OSM embed URL (site.links.mapEmbed)
@@ -26,7 +26,7 @@ export type MapEmbedProps = {
   aspect?: string;
 };
 
-function MapEmbedImpl({ src, title, href, address, aspect = '4/3' }: MapEmbedProps) {
+export function MapEmbed({ src, title, href, address, aspect = '4/3' }: MapEmbedProps) {
   const style = { aspectRatio: aspect.replace('/', ' / ') };
   return (
     <figure className="flj-map">
@@ -42,7 +42,7 @@ function MapEmbedImpl({ src, title, href, address, aspect = '4/3' }: MapEmbedPro
         )}
         <span className="flj-map__meta">
           {href && (
-            <a className="flj-map__link" href={href} target="_blank" rel="noopener noreferrer" data-track="map-open">
+            <a className="flj-map__link" {...linkAttrs(href)} data-track="map-open">
               Abrir no Google Maps
               <Icon name="arrow-up-right" size={16} />
             </a>
@@ -52,5 +52,3 @@ function MapEmbedImpl({ src, title, href, address, aspect = '4/3' }: MapEmbedPro
     </figure>
   );
 }
-
-export const MapEmbed = withIslandBoundary(MapEmbedImpl, 'MapEmbed');

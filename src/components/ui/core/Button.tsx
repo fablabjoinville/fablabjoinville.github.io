@@ -2,6 +2,8 @@ import type * as React from 'react';
 import { Icon } from './Icon';
 import { pickDataAttributes, type DataAttributes } from './data-attributes';
 import './core.css';
+import { cx } from '@/lib/cx';
+import { relFor } from './rel';
 
 /**
  * Uppercase mono button. On hover it lifts and reveals a hard offset shadow
@@ -60,15 +62,13 @@ export function Button({
   ...rest
 }: ButtonProps) {
   const data = pickDataAttributes(rest);
-  const cls = [
+  const cls = cx(
     'flj-btn',
     `flj-btn--${variant}`,
     `flj-btn--${size}`,
     fullWidth && 'flj-btn--full',
     className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  );
   const iconSize = ICON_SIZE[size] ?? ICON_SIZE.md;
   const content = (
     <>
@@ -79,7 +79,7 @@ export function Button({
   );
 
   if (href !== undefined) {
-    const linkRel = rel ?? (target === '_blank' ? 'noopener noreferrer' : undefined);
+    const linkRel = relFor(target, rel);
     return (
       <a
         {...data}

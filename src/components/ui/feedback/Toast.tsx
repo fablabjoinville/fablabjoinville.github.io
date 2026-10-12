@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Icon } from '../core/Icon';
 import './feedback.css';
+import { cx } from '@/lib/cx';
 
 export type ToastTone = 'success' | 'info' | 'warning' | 'danger';
 
@@ -22,7 +23,7 @@ const TONE_ICON: Record<ToastTone, string> = {
 };
 
 export function Toast({ tone = 'success', title, children, onClose, className, style }: ToastProps) {
-  const classes = ['flj-toast', `flj-toast--${tone}`, className].filter(Boolean).join(' ');
+  const classes = cx('flj-toast', `flj-toast--${tone}`, className);
   return (
     <div role="status" className={classes} style={style}>
       <span className="flj-toast__icon">

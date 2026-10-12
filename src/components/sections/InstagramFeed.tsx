@@ -1,6 +1,8 @@
 import { Icon } from '@/components/ui';
 import type { InstagramPost } from '@/loaders/behold';
-import { Heading, type HeadingLevel } from './utils';
+import { instagramUrl } from '@/data/site';
+import { cx } from '@/lib/cx';
+import { Heading, linkAttrs, type HeadingLevel } from './utils';
 
 /**
  * <InstagramFeed> — static grid (up to `limit`, default 6) of Instagram posts
@@ -57,7 +59,7 @@ export function InstagramFeed({ posts, limit = 6, headingLevel = 3, emptyText, c
     return (
       <p className="flj-insta__empty">
         {emptyText ?? 'Acompanhe as novidades do Fab Lab Joinville no Instagram: '}
-        <a href="https://www.instagram.com/fablabjoinville" target="_blank" rel="noopener noreferrer" data-track="instagram">
+        <a {...linkAttrs(instagramUrl)} data-track="instagram">
           @fablabjoinville
         </a>
       </p>
@@ -65,7 +67,7 @@ export function InstagramFeed({ posts, limit = 6, headingLevel = 3, emptyText, c
   }
 
   return (
-    <ul className={['flj-insta', className].filter(Boolean).join(' ')} role="list">
+    <ul className={cx('flj-insta', className)} role="list">
       {list.map((post) => {
         const date = new Date(post.timestamp);
         const valid = !Number.isNaN(date.getTime());
@@ -80,9 +82,7 @@ export function InstagramFeed({ posts, limit = 6, headingLevel = 3, emptyText, c
           <li key={post.id} className="flj-insta__item">
             <a
               className="flj-insta__link"
-              href={post.permalink}
-              target="_blank"
-              rel="noopener noreferrer"
+              {...linkAttrs(post.permalink)}
               data-track="instagram-post"
             >
               <div className="flj-insta__media">

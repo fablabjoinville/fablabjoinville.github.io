@@ -1,6 +1,8 @@
 import { Icon, IconButton } from '@/components/ui';
-import { site } from '@/data/site';
+import { addressLines, mailto, site } from '@/data/site';
 import { brandMark } from '@/data/brand';
+import { cx } from '@/lib/cx';
+import { linkAttrs } from '@/components/sections/utils';
 
 const logo = brandMark('marca-branco.svg');
 
@@ -11,10 +13,9 @@ export interface SiteFooterProps {
 /** Static navy footer: brand (logo, e-mail, social) | address | hours + visit booking | navigation. No client JS. */
 export function SiteFooter({ className }: SiteFooterProps) {
   const year = new Date().getFullYear();
-  const { address } = site;
 
   return (
-    <footer className={className ? `flj-footer ${className}` : 'flj-footer'}>
+    <footer className={cx('flj-footer', className)}>
       <div className="flj-footer__grid flj-container">
         <div className="flj-footer__brand">
           <a href="/" aria-label={`${site.name} — página inicial`}>
@@ -32,7 +33,7 @@ export function SiteFooter({ className }: SiteFooterProps) {
               <span className="flj-wordmark flj-footer__logo">{site.name}</span>
             )}
           </a>
-          <a className="flj-footer__item" href={`mailto:${site.email}`} data-track="footer-email">
+          <a className="flj-footer__item" href={mailto()} data-track="footer-email">
             <Icon name="mail" size={16} />
             <span>{site.email}</span>
           </a>
@@ -61,17 +62,15 @@ export function SiteFooter({ className }: SiteFooterProps) {
             Endereço
           </h2>
           <address className="flj-footer__address">
-            {address.building}
+            {addressLines[0]}
             <br />
-            {address.street}
+            {addressLines[1]}
             <br />
-            {address.district}, {address.city}/{address.state}
+            {addressLines[2]}
           </address>
           <a
             className="flj-footer__item"
-            href={site.links.mapLink}
-            target="_blank"
-            rel="noopener noreferrer"
+            {...linkAttrs(site.links.mapLink)}
             data-track="footer-map"
           >
             <Icon name="map-pin" size={16} />
@@ -93,9 +92,7 @@ export function SiteFooter({ className }: SiteFooterProps) {
           </dl>
           <a
             className="flj-footer__item"
-            href={site.links.visitBooking}
-            target="_blank"
-            rel="noopener noreferrer"
+            {...linkAttrs(site.links.visitBooking)}
             data-track="footer-visit-booking"
           >
             <Icon name="calendar" size={16} />
@@ -123,9 +120,7 @@ export function SiteFooter({ className }: SiteFooterProps) {
             © {year} Associação {site.name}
           </p>
           <a
-            href={site.links.fablabNetwork}
-            target="_blank"
-            rel="noopener noreferrer"
+            {...linkAttrs(site.links.fablabNetwork)}
             data-track="footer-fablabs-network"
           >
             Parte da rede mundial de Fab Labs

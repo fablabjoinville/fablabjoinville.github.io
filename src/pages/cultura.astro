@@ -5,21 +5,14 @@
  * Copy lives in src/content/pages/cultura.md (header) and src/content/charter.yaml (Q&A).
  * Old heading anchors (#h.xxxx) keep working through QaList `legacyId`.
  */
-import { getEntry } from 'astro:content';
 import BaseLayout from '@/components/layout/BaseLayout.astro';
 import { PageHeader, QaList, Section } from '@/components/sections';
 import { getSorted } from '@/lib/content-guard';
-import { img } from '@/lib/images';
+import { loadPage } from '@/lib/page';
 
-const page = await getEntry('pages', 'cultura');
-if (!page) throw new Error('Missing src/content/pages/cultura.md');
-const { title, description, eyebrow, lead, headerImage, headerImageAlt } = page.data;
+const [{ data, headerImg }, charter] = await Promise.all([loadPage('cultura'), getSorted('charter')]);
+const { title, description, eyebrow, lead, headerImage, headerImageAlt } = data;
 
-const headerImg = headerImage
-  ? await img(headerImage, { sizes: '(min-width: 60em) 36rem, 100vw' })
-  : undefined;
-
-const charter = await getSorted('charter');
 const items = charter.map(({ id, data }) => ({
   id,
   question: data.question,

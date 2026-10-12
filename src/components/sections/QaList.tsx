@@ -1,4 +1,5 @@
 import { Icon } from '@/components/ui';
+import { cx } from '@/lib/cx';
 import { Heading, stripHtml, type HeadingLevel } from './utils';
 
 /**
@@ -38,7 +39,7 @@ const OPEN_FROM_HASH = `(function(){function o(){var h=location.hash.slice(1);if
 
 export function QaList({ items, headingLevel = 3, openFirst, className }: QaListProps) {
   return (
-    <div className={['flj-qa', className].filter(Boolean).join(' ')}>
+    <div className={cx('flj-qa', className)}>
       {items.map((item, i) => (
         <details key={item.id} id={item.id} className="flj-qa__item" open={openFirst && i === 0 ? true : undefined}>
           <summary className="flj-qa__summary">

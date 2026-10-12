@@ -2,6 +2,7 @@ import type { CSSProperties, ReactNode } from 'react';
 import { Badge, type BadgeTone } from './Badge';
 import { Icon } from '../core/Icon';
 import './display.css';
+import { cx } from '@/lib/cx';
 
 /** Image source: a URL string, or an object shaped like Astro's ImageMetadata. */
 export type EventCardImage = string | { src: string; width?: number; height?: number };
@@ -45,7 +46,7 @@ export function EventCard({
   style,
 }: EventCardProps) {
   const interactive = Boolean(href || onClick);
-  const cls = ['flj-event', interactive && 'flj-event--interactive', className].filter(Boolean).join(' ');
+  const cls = cx('flj-event', interactive && 'flj-event--interactive', className);
   const img = typeof image === 'string' ? { src: image } : image;
 
   let titleContent: ReactNode = title;

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { Button, Icon } from '@/components/ui';
-import { isActivePath } from '@/data/paths';
+import { navLinkProps } from '@/data/paths';
 import { withIslandBoundary } from './IslandBoundary';
 
 export type MobileNavProps = {
@@ -89,21 +89,17 @@ function MobileNavImpl({ items, currentPath, cta }: MobileNavProps) {
         <nav aria-label="Menu principal">
           <p className="flj-mnav__eyebrow flj-eyebrow">Menu</p>
           <ul className="flj-mnav__list" role="list">
-            {items.map((item) => {
-              const active = isActivePath(currentPath, item.href);
-              return (
-                <li key={item.href}>
-                  <a
-                    className={`flj-mnav__link${active ? ' flj-mnav__link--active' : ''}`}
-                    href={item.href}
-                    aria-current={active ? 'page' : undefined}
-                    onClick={() => close(false)}
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              );
-            })}
+            {items.map((item) => (
+              <li key={item.href}>
+                <a
+                  {...navLinkProps(currentPath, item.href, 'flj-mnav__link')}
+                  href={item.href}
+                  onClick={() => close(false)}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
           </ul>
           {cta && (
             <div className="flj-mnav__cta" data-track="mobile_nav_cta">

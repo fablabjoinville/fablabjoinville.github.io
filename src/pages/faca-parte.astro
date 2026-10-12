@@ -14,44 +14,42 @@
  *
  * Intentional edits are listed in scripts/migration/parity-exclusions/faca-parte.json.
  */
-import { getEntry } from 'astro:content';
 import BaseLayout from '@/components/layout/BaseLayout.astro';
 import { Button } from '@/components/ui';
 import { CardGrid, CtaBand, FeatureCard, PageHeader, PricingCard, Section } from '@/components/sections';
 import { Carousel } from '@/components/islands/Carousel';
 import { getSorted } from '@/lib/content-guard';
-import { img } from '@/lib/images';
-import { site, instagramUrl } from '@/data/site';
+import { SIZES, img } from '@/lib/images';
+import { loadPage } from '@/lib/page';
+import { linkAttrs } from '@/components/sections/utils';
+import { instagramUrl, mailto } from '@/data/site';
 
-const page = await getEntry('pages', 'faca-parte');
-if (!page) throw new Error('Missing src/content/pages/faca-parte.md');
-const { title, description, eyebrow, lead, headerImage, headerImageAlt } = page.data;
-
-const headerImg = headerImage
-  ? await img(headerImage, { sizes: '(min-width: 60em) 36rem, 100vw' })
-  : undefined;
+const [{ data, headerImg }, benefits, memberships] = await Promise.all([
+  loadPage('faca-parte'),
+  getSorted('benefits'),
+  getSorted('memberships'),
+]);
+const { title, description, eyebrow, lead, headerImage, headerImageAlt } = data;
 
 // Benefits carousel. The caption text is baked into the photos, so it is
 // carried by the alt text (which repeats it) instead of a visible figcaption
 // that would duplicate the text drawn on the image.
-const benefits = await getSorted('benefits');
 const slides = await Promise.all(
   benefits.map(async (b) => ({
-    image: await img(b.data.image, { sizes: '(min-width: 75em) 72rem, 100vw' }),
+    image: await img(b.data.image, { sizes: SIZES.full }),
     alt: b.data.imageAlt,
   })),
 );
 
 // Membership plans. "Fazer parte!" (Lab Maker) is the single accent CTA.
 const ACCENT_PLAN = 'lab-maker';
-const memberships = await getSorted('memberships');
 const plans = await Promise.all(
   memberships.map(async (m) => ({
     id: m.id,
     name: m.data.name,
     description: m.data.body,
     image: m.data.image
-      ? await img(m.data.image, { sizes: '(min-width: 60em) 25rem, (min-width: 40em) 50vw, 100vw' })
+      ? await img(m.data.image, { sizes: SIZES.card })
       : undefined,
     imageAlt: m.data.imageAlt,
     prices: m.data.prices,
@@ -63,7 +61,10 @@ const plans = await Promise.all(
 );
 
 // "Nós fazemos acontecer!" — old mailto with prefilled subject/body (verbatim).
-const fazerAcontecerHref = `mailto:${site.email}?subject=Fazer%20Acontecer&body=Descrever%20sua%20ideia%20e/ou%20a%20projeto%20para%20uso%20do%20laborat%C3%B3rio`;
+const fazerAcontecerHref = mailto(
+  'Fazer Acontecer',
+  'Descrever sua ideia e/ou a projeto para uso do laboratório',
+);
 
 // "Fale com a gente!" — old link went through google.com/url to Instagram
 // (with an ?igsh= share parameter, dropped); use the profile from site.ts.
@@ -153,9 +154,7 @@ const contribua = [
         size="lg"
         icon="instagram"
         iconRight="arrow-up-right"
-        href={instagramUrl}
-        target="_blank"
-        rel="noopener noreferrer"
+        {...linkAttrs(instagramUrl)}
         data-track="instagram"
       >
         Fale com a gente!

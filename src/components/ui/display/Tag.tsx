@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react';
 import './display.css';
+import { cx } from '@/lib/cx';
 
 /** Pill-shaped filter chip / topic tag. */
 export interface TagProps {
@@ -12,15 +13,13 @@ export interface TagProps {
 }
 
 export function Tag({ children, selected, onClick, onRemove, className, style }: TagProps) {
-  const cls = [
+  const cls = cx(
     'flj-tag',
     selected && 'flj-tag--selected',
     onClick && 'flj-tag--clickable',
     onRemove && 'flj-tag--removable',
     className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  );
 
   const removeLabel =
     typeof children === 'string' || typeof children === 'number' ? `Remover ${children}` : 'Remover';

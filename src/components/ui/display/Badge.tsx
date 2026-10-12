@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react';
 import './display.css';
+import { cx } from '@/lib/cx';
 
 export type BadgeTone = 'neutral' | 'primary' | 'accent' | 'success' | 'warning' | 'danger' | 'info';
 
@@ -12,7 +13,7 @@ export interface BadgeProps {
 }
 
 export function Badge({ tone = 'neutral', children, className, style }: BadgeProps) {
-  const cls = ['flj-badge', `flj-badge--${tone}`, className].filter(Boolean).join(' ');
+  const cls = cx('flj-badge', `flj-badge--${tone}`, className);
   return (
     <span className={cls} style={style}>
       {children}

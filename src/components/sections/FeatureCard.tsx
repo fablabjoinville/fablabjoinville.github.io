@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Card, Icon, Tag } from '@/components/ui';
 import type { ImageSource } from '@/lib/images';
+import { cx } from '@/lib/cx';
 import { Picture } from './Picture';
 import { Heading, type HeadingLevel } from './utils';
 
@@ -56,7 +57,7 @@ export function FeatureCard({
       href={href}
       target={external ? '_blank' : undefined}
       data-track={track}
-      className={['flj-feature', className].filter(Boolean).join(' ')}
+      className={cx('flj-feature', className)}
     >
       {image && (
         <div className="flj-feature__media" style={{ aspectRatio: aspect.replace('/', ' / ') }}>

@@ -28,7 +28,8 @@
  * Static: the iframe is rendered directly (loading="lazy"), no island.
  */
 import { Button, Icon } from '@/components/ui';
-import { site, fullAddress } from '@/data/site';
+import { linkAttrs } from './utils';
+import { site, fullAddress, mailto } from '@/data/site';
 
 interface Props {
   /** Section id; defaults to "contato" (FAQ links to /#contato). */
@@ -100,9 +101,7 @@ const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&lay
                   <address class="visitmap-address">{fullAddress}</address>
                   <a
                     class="visitmap-maplink"
-                    href={site.links.mapLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    {...linkAttrs(site.links.mapLink)}
                     data-track="map-open"
                   >
                     Abrir no Google Maps
@@ -136,7 +135,7 @@ const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&lay
                   E-mail
                 </dt>
                 <dd class="visitmap-fact__value">
-                  <a class="visitmap-email" href={`mailto:${site.email}`}>{site.email}</a>
+                  <a class="visitmap-email" href={mailto()}>{site.email}</a>
                 </dd>
               </div>
             </dl>

@@ -5,6 +5,7 @@
  *  - `isExternal(href)`         true for http(s) URLs
  *  - `linkAttrs(href)`          { href, target?, rel? } — external links open in a
  *                               new tab with rel="noopener noreferrer"
+ *  - `headingIdFor(id, title, fallback)`  `${id ?? slugify(title) ?? fallback}-titulo`
  *  - `stripHtml(html)`          plain text (tags removed, basic entities decoded)
  *  - `Heading` / `HeadingLevel` dynamic h1..h6 element
  */
@@ -27,6 +28,11 @@ export function isExternal(href: string): boolean {
 
 export function linkAttrs(href: string): { href: string; target?: '_blank'; rel?: string } {
   return isExternal(href) ? { href, target: '_blank', rel: 'noopener noreferrer' } : { href };
+}
+
+/** Heading id for a section: `${id ?? slug(title) ?? fallback}-titulo`. */
+export function headingIdFor(id: string | undefined, title: unknown, fallback: string): string {
+  return `${id ?? (typeof title === 'string' ? slugify(title) : fallback)}-titulo`;
 }
 
 const ENTITIES: Record<string, string> = {

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Button } from '@/components/ui';
 import type { ImageSource } from '@/lib/images';
+import { cx } from '@/lib/cx';
 import { Picture } from './Picture';
 import { Heading, isExternal, type HeadingLevel } from './utils';
 
@@ -60,7 +61,7 @@ export function PricingCard({
 }: PricingCardProps) {
   const external = cta ? isExternal(cta.href) : false;
   return (
-    <article className={['flj-pricing', className].filter(Boolean).join(' ')}>
+    <article className={cx('flj-pricing', className)}>
       {image && (
         <div className="flj-pricing__media">
           <Picture

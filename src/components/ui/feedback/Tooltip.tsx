@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './feedback.css';
+import { cx } from '@/lib/cx';
 
 /** Mono tooltip on hover. */
 export interface TooltipProps {
@@ -32,15 +33,13 @@ export function Tooltip({ content, children, placement = 'top', open, className,
     describedOnWrapper = false;
   }
 
-  const classes = [
+  const classes = cx(
     'flj-tooltip',
     `flj-tooltip--${placement}`,
     open === true && 'flj-tooltip--open',
     open === false && 'flj-tooltip--closed',
     className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  );
 
   return (
     <span className={classes} style={style} aria-describedby={describedOnWrapper ? tipId : undefined}>

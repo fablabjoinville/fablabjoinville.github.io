@@ -149,6 +149,20 @@ export type SocialLink = (typeof site.social)[number];
 /** Instagram profile URL (single source for pages that link to it). */
 export const instagramUrl = site.social.find((s) => s.icon === 'instagram')!.href;
 
-/** Full postal address on one line, e.g. for `title`/`aria-label`. */
-export const fullAddress = `${site.address.building}, ${site.address.street}, ${site.address.district}, ${site.address.city}/${site.address.state}`;
+/** Address as three lines: building / street / "district, city/state" (no trailing punctuation). */
+export const addressLines: string[] = [
+  site.address.building,
+  site.address.street,
+  `${site.address.district}, ${site.address.city}/${site.address.state}`,
+];
 
+/** Full postal address on one line, e.g. for `title`/`aria-label`. */
+export const fullAddress = addressLines.join(', ');
+
+
+/** `mailto:` link to the site e-mail with optional prefilled subject/body ('/' kept unescaped). */
+export function mailto(subject?: string, body?: string): string {
+  const enc = (v: string) => encodeURIComponent(v).replace(/%2F/g, '/');
+  const params = [subject !== undefined && `subject=${enc(subject)}`, body !== undefined && `body=${enc(body)}`].filter(Boolean);
+  return `mailto:${site.email}${params.length ? `?${params.join('&')}` : ''}`;
+}

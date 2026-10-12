@@ -1,4 +1,5 @@
 import type { ImageSource } from '@/lib/images';
+import { cx } from '@/lib/cx';
 import { Picture } from './Picture';
 import { linkAttrs, slugify } from './utils';
 
@@ -27,7 +28,7 @@ export interface LogoGridProps {
 
 export function LogoGrid({ items, label, className }: LogoGridProps) {
   return (
-    <ul className={['flj-logos', className].filter(Boolean).join(' ')} role="list" aria-label={label}>
+    <ul className={cx('flj-logos', className)} role="list" aria-label={label}>
       {items.map((item) => {
         const content = item.image ? (
           <Picture

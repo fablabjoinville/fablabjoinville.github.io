@@ -8,21 +8,16 @@
  * `{{endereco}}` placeholders in faq.yaml are filled here from src/data/site.ts.
  * Old Google Sites anchors (#h.xxxx) keep working via `legacyId`.
  */
-import { getEntry } from 'astro:content';
 import BaseLayout from '@/components/layout/BaseLayout.astro';
 import { Button } from '@/components/ui';
 import { CtaBand, PageHeader, QaList, Section, faqJsonLd, type QaItem } from '@/components/sections';
 import { getSorted } from '@/lib/content-guard';
-import { img } from '@/lib/images';
-import { site, fullAddress } from '@/data/site';
+import { loadPage } from '@/lib/page';
+import { linkAttrs } from '@/components/sections/utils';
+import { site, fullAddress, mailto } from '@/data/site';
 
-const page = await getEntry('pages', 'faq');
-if (!page) throw new Error('Missing src/content/pages/faq.md');
-const { title, description, eyebrow, lead, headerImage, headerImageAlt } = page.data;
-
-const headerImg = headerImage
-  ? await img(headerImage, { sizes: '(min-width: 60em) 36rem, 100vw' })
-  : undefined;
+const [{ data, headerImg }, entries] = await Promise.all([loadPage('faq'), getSorted('faq')]);
+const { title, description, eyebrow, lead, headerImage, headerImageAlt } = data;
 
 const escapeHtml = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -39,7 +34,6 @@ function fillPlaceholders(html: string): string {
     .replace(/\{\{endereco\}\}/g, escapeHtml(fullAddress));
 }
 
-const entries = await getSorted('faq');
 const items: QaItem[] = entries.map((entry) => ({
   id: entry.id,
   question: entry.data.question,
@@ -80,14 +74,12 @@ const jsonLd = faqJsonLd(
       <Button
         variant="accent"
         iconRight="arrow-right"
-        href={site.links.visitBooking}
-        target="_blank"
-        rel="noopener noreferrer"
+        {...linkAttrs(site.links.visitBooking)}
         data-track="visit-booking"
       >
         Agende a sua visita
       </Button>
-      <Button variant="inverse" icon="mail" href={`mailto:${site.email}`} data-track="mailto-contact">
+      <Button variant="inverse" icon="mail" href={mailto()} data-track="mailto-contact">
         Enviar e-mail
       </Button>
     </Fragment>
