@@ -136,7 +136,7 @@ in `withIslandBoundary` so React errors are reported to Sentry. Prefer CSS/nativ
   scheduled deploy keeps it fresh. In CI a failed fetch fails the build instead of publishing an
   empty feed.
 - **Sentry** — `@sentry/astro` (client only; the site is static). Config in
-  `sentry.client.config.ts`; project `projetoresgate-thinktank/fablabjoinville-website`.
+  `sentry.client.config.ts`; project `fab-lab-joinville/fablabjoinville-website`.
   Source maps are uploaded in CI (`SENTRY_AUTH_TOKEN` repository secret) and deleted from `dist/`.
   Use `/sentry-test` on a build/preview to send a test error, log and metric.
   For local builds with source-map upload, put the token in `.env.sentry-build-plugin` (git-ignored).

@@ -62,12 +62,17 @@ import { SentryTestIsland } from '@/components/islands/SentryTestIsland';
   });
 
   document.getElementById('sentry-log')?.addEventListener('click', () => {
-    Sentry.logger.info('sentry_test_log', { page: 'sentry-test' });
+    // Structured logging: a stable message plus queryable attributes (no PII).
+    Sentry.logger.info('sentry_test_log', { page: 'sentry-test', log_source: 'sentry_test' });
+    Sentry.logger.warn('sentry_test_log_warn', { page: 'sentry-test', reason: 'example' });
+    Sentry.logger.error('sentry_test_log_error', { page: 'sentry-test', reason: 'example' });
     say('Log enviado.');
   });
 
   document.getElementById('sentry-metric')?.addEventListener('click', () => {
     Sentry.metrics.count('sentry_test_click', 1);
+    Sentry.metrics.gauge('sentry_test_gauge', 150, { unit: 'millisecond' });
+    Sentry.metrics.distribution('sentry_test_distribution', 200, { unit: 'millisecond' });
     say('Métrica enviada.');
   });
 </script>

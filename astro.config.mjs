@@ -26,7 +26,7 @@ export default defineConfig({
     partytown({ config: { forward: ['dataLayer.push', 'gtag'] } }),
     pagefind(),
     sentry({
-      org: 'projetoresgate-thinktank',
+      org: 'fab-lab-joinville',
       project: 'fablabjoinville-website',
       authToken: process.env.SENTRY_AUTH_TOKEN,
       // Static output: there is no server runtime on GitHub Pages.

@@ -352,3 +352,14 @@ pre {
     scroll-behavior: auto !important;
   }
 }
+
+/* ---------- Sentry feedback widget (shadow DOM host): hard offset shadow, square corners ---------- */
+#sentry-feedback {
+  --actor-border-radius: var(--radius-0);
+  --actor-border: var(--border-w) solid var(--flj-navy-900);
+  --actor-box-shadow: var(--shadow-offset-sm);
+  --actor-background: var(--flj-white);
+  --actor-hover-background: var(--surface-page);
+  --box-shadow: var(--shadow-offset-sm);
+  --font-family: var(--font-body);
+}
