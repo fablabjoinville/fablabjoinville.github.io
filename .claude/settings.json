@@ -1,6 +1,9 @@
 {
   "enabledPlugins": {
     "a11y-enforcer-wcag-accessibility-checker@anthropic-plugin-directory": true,
-    "frontend-design@anthropic-plugin-directory": true
+    "frontend-design@anthropic-plugin-directory": true,
+    "sentry@anthropic-plugin-directory": true,
+    "chrome-devtools-mcp@claude-plugins-official": true,
+    "context7@anthropic-plugin-directory": true
   }
 }
