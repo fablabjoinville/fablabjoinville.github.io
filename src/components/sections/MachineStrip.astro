@@ -14,6 +14,8 @@ import printersSrc from '@/assets/old-site/estrutura/recurso-impressoras-3d.jpg'
 import electronicsSrc from '@/assets/old-site/estrutura/recurso-laboratorio-eletronica.jpg';
 import workshopSrc from '@/assets/old-site/estrutura/recurso-oficina.jpg';
 
+import { slugify } from './utils';
+
 export interface Props {
   eyebrow?: string;
   id?: string;
@@ -68,7 +70,7 @@ const machines = [
       {
         machines.map((m) => (
           <li class="machines__item">
-            <a class="machines__card" href="/estrutura#recursos" data-track={`machine-${m.title.toLowerCase().replace(/\s+/g, '-')}`}>
+            <a class="machines__card" href="/estrutura#recursos" data-track={`machine-${slugify(m.title)}`}>
               <span class="machines__frame">
                 <Image
                   src={m.image}

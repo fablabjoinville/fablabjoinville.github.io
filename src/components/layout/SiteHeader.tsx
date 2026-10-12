@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Button } from '@/components/ui';
-import { site, isActivePath } from '@/data/site';
+import { site } from '@/data/site';
+import { isActivePath } from '@/data/paths';
 import { brandMark } from '@/data/brand';
 
 const logo = brandMark('marca-azul.svg');

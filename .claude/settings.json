@@ -1,0 +1,6 @@
+{
+  "enabledPlugins": {
+    "a11y-enforcer-wcag-accessibility-checker@anthropic-plugin-directory": true,
+    "frontend-design@anthropic-plugin-directory": true
+  }
+}

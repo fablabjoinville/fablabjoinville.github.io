@@ -10,7 +10,6 @@
  *   import hero from '@/assets/old-site/home/hero.jpg';
  *   const heroImg = await img(hero, { sizes: '(min-width: 60em) 50vw, 100vw' });
  *   const photos = await imgs({ a: photoA, b: photoB });          // record
- *   const list = await imgs([photoA, photoB], { widths: [480, 800] }); // array
  *   ---
  *   <PageHeader title="Sobre" image={heroImg} imageAlt="..." />
  *
@@ -58,7 +57,7 @@ export interface ImgOptions {
   format?: 'webp' | 'avif';
 }
 
-export const DEFAULT_WIDTHS = [480, 800, 1200, 1600] as const;
+const DEFAULT_WIDTHS = [480, 800, 1200, 1600] as const;
 const DEFAULT_SIZES = '100vw';
 const PASSTHROUGH_FORMATS = new Set(['svg', 'gif']);
 
@@ -99,22 +98,12 @@ export async function img(src: ImageMetadata, opts: ImgOptions = {}): Promise<Re
   };
 }
 
-export function imgs<T extends Record<string, ImageMetadata>>(
+export async function imgs<T extends Record<string, ImageMetadata>>(
   record: T,
   opts?: ImgOptions,
-): Promise<{ [K in keyof T]: ResponsiveImage }>;
-export function imgs(list: readonly ImageMetadata[], opts?: ImgOptions): Promise<ResponsiveImage[]>;
-export async function imgs(
-  input: Record<string, ImageMetadata> | readonly ImageMetadata[],
-  opts?: ImgOptions,
-): Promise<Record<string, ResponsiveImage> | ResponsiveImage[]> {
-  if (Array.isArray(input)) {
-    return Promise.all(input.map((src) => img(src, opts)));
-  }
+): Promise<{ [K in keyof T]: ResponsiveImage }> {
   const entries = await Promise.all(
-    Object.entries(input as Record<string, ImageMetadata>).map(
-      async ([key, src]) => [key, await img(src, opts)] as const,
-    ),
+    Object.entries(record).map(async ([key, src]) => [key, await img(src, opts)] as const),
   );
-  return Object.fromEntries(entries);
+  return Object.fromEntries(entries) as { [K in keyof T]: ResponsiveImage };
 }

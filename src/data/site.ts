@@ -146,7 +146,9 @@ export const site = data;
 export type NavItem = (typeof site.nav)[number];
 export type SocialLink = (typeof site.social)[number];
 
+/** Instagram profile URL (single source for pages that link to it). */
+export const instagramUrl = site.social.find((s) => s.icon === 'instagram')!.href;
+
 /** Full postal address on one line, e.g. for `title`/`aria-label`. */
 export const fullAddress = `${site.address.building}, ${site.address.street}, ${site.address.district}, ${site.address.city}/${site.address.state}`;
 
-export { isActivePath } from './paths';

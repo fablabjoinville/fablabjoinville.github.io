@@ -65,61 +65,48 @@ function normalizeTimestamp(ts: unknown): unknown {
   return typeof ts === 'string' ? ts.replace(/([+-]\d{2})(\d{2})$/, '$1:$2') : ts;
 }
 
-export interface BeholdLoaderOptions {
-  /** Behold feed id. Default: `site.beholdFeedId`. */
-  feedId?: string;
-  /** Max posts kept (newest first). Default 12. */
-  limit?: number;
-  /** Request timeout in ms. Default 15000. */
-  timeoutMs?: number;
-}
+/** Max posts kept (newest first). */
+const LIMIT = 12;
+const TIMEOUT_MS = 15_000;
+const url = `https://feeds.behold.so/${site.beholdFeedId}`;
 
-export function createBeholdLoader(options: BeholdLoaderOptions = {}): Loader {
-  const feedId = options.feedId ?? site.beholdFeedId;
-  const limit = options.limit ?? 12;
-  const timeoutMs = options.timeoutMs ?? 15_000;
-  const url = `https://feeds.behold.so/${feedId}`;
+/** Loader for the `instagram` collection (feed id from src/data/site.ts). */
+export const beholdLoader: Loader = {
+  name: 'behold-instagram-loader',
+  schema: instagramPostSchema,
+  load: async ({ store, logger, parseData, generateDigest, meta }) => {
+    let posts: Record<string, unknown>[];
+    try {
+      const res = await fetch(url, { signal: AbortSignal.timeout(TIMEOUT_MS) });
+      if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
+      posts = feedSchema.parse(await res.json()).posts;
+    } catch (error) {
+      const message = `Behold feed ${url} could not be loaded: ${error instanceof Error ? error.message : String(error)}`;
+      if (process.env.CI) {
+        throw new Error(`${message}. Failing the CI build so an empty Instagram feed is never deployed.`);
+      }
+      logger.warn(`${message}. Keeping the cached posts (${store.keys().length}).`);
+      return;
+    }
 
-  return {
-    name: 'behold-instagram-loader',
-    schema: instagramPostSchema,
-    load: async ({ store, logger, parseData, generateDigest, meta }) => {
-      let posts: Record<string, unknown>[];
+    const sorted = posts
+      .map((p): Record<string, unknown> => ({ ...p, timestamp: normalizeTimestamp(p.timestamp) }))
+      .filter((p) => p.visibility === undefined || p.visibility === 'visible')
+      .sort((a, b) => String(b.timestamp).localeCompare(String(a.timestamp)))
+      .slice(0, LIMIT);
+
+    store.clear();
+    for (const raw of sorted) {
+      const id = String(raw.id ?? '');
+      if (!id) continue;
       try {
-        const res = await fetch(url, { signal: AbortSignal.timeout(timeoutMs) });
-        if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
-        posts = feedSchema.parse(await res.json()).posts;
+        const data = await parseData({ id, data: raw });
+        store.set({ id, data, digest: generateDigest(data) });
       } catch (error) {
-        const message = `Behold feed ${url} could not be loaded: ${error instanceof Error ? error.message : String(error)}`;
-        if (process.env.CI) {
-          throw new Error(`${message}. Failing the CI build so an empty Instagram feed is never deployed.`);
-        }
-        logger.warn(`${message}. Keeping the cached posts (${store.keys().length}).`);
-        return;
+        logger.warn(`Skipping Instagram post ${id}: ${error instanceof Error ? error.message : String(error)}`);
       }
-
-      const sorted = posts
-        .map((p): Record<string, unknown> => ({ ...p, timestamp: normalizeTimestamp(p.timestamp) }))
-        .filter((p) => p.visibility === undefined || p.visibility === 'visible')
-        .sort((a, b) => String(b.timestamp).localeCompare(String(a.timestamp)))
-        .slice(0, limit);
-
-      store.clear();
-      for (const raw of sorted) {
-        const id = String(raw.id ?? '');
-        if (!id) continue;
-        try {
-          const data = await parseData({ id, data: raw });
-          store.set({ id, data, digest: generateDigest(data) });
-        } catch (error) {
-          logger.warn(`Skipping Instagram post ${id}: ${error instanceof Error ? error.message : String(error)}`);
-        }
-      }
-      meta.set('lastFetched', new Date().toISOString());
-      logger.info(`Loaded ${store.keys().length} Instagram posts from Behold.`);
-    },
-  };
-}
-
-/** Default loader for the `instagram` collection (feed id from src/data/site.ts). */
-export const beholdLoader: Loader = createBeholdLoader();
+    }
+    meta.set('lastFetched', new Date().toISOString());
+    logger.info(`Loaded ${store.keys().length} Instagram posts from Behold.`);
+  },
+};

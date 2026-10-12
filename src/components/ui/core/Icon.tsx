@@ -8,7 +8,7 @@ import './core.css';
  * give the surrounding control an accessible name.
  *
  * Unknown names throw, so a typo fails the static build instead of rendering
- * an empty box. Registered names live in ./icons.ts (`iconNames`).
+ * an empty box. Registered names live in ./icons.ts (`IconName`).
  */
 export interface IconProps {
   /** Icon name, kebab-case, e.g. "arrow-right", "instagram". */

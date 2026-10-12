@@ -177,9 +177,6 @@ for (const [name, icon] of Object.entries(BRAND_SOURCES)) {
   REGISTRY.set(name, { kind: 'fill', path: icon.path });
 }
 
-/** All registered icon names (kebab-case). */
-export const iconNames: readonly IconName[] = [...REGISTRY.keys()] as IconName[];
-
 /** Look up an icon definition; returns undefined for unknown names. */
 export function getIcon(name: string): IconDef | undefined {
   return REGISTRY.get(name);

@@ -24,7 +24,7 @@ import {
 } from '@/components/sections';
 import { imgs } from '@/lib/images';
 import { assertCounts } from '@/lib/content-guard';
-import { site } from '@/data/site';
+import { site, instagramUrl } from '@/data/site';
 import sobreSrc from '@/assets/old-site/sobre/banner.jpg';
 import facaParteSrc from '@/assets/old-site/faca-parte/lab-maker.jpg';
 import estruturaSrc from '@/assets/old-site/estrutura/banner.jpg';
@@ -55,8 +55,6 @@ const photos = await imgs(
 );
 
 const posts = (await getCollection('instagram')).map((entry) => entry.data);
-const instagramHref =
-  site.social.find((s) => s.name === 'Instagram')?.href ?? 'https://www.instagram.com/fablabjoinville';
 
 const explore = [
   {
@@ -141,7 +139,7 @@ const explore = [
         <Fragment slot="action">
           <Button
             variant="secondary"
-            href={instagramHref}
+            href={instagramUrl}
             target="_blank"
             iconRight="arrow-up-right"
             data-track="instagram"

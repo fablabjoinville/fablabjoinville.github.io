@@ -21,7 +21,7 @@ import { CardGrid, CtaBand, FeatureCard, PageHeader, PricingCard, Section } from
 import { Carousel } from '@/components/islands/Carousel';
 import { getSorted } from '@/lib/content-guard';
 import { img } from '@/lib/images';
-import { site } from '@/data/site';
+import { site, instagramUrl } from '@/data/site';
 
 const page = await getEntry('pages', 'faca-parte');
 if (!page) throw new Error('Missing src/content/pages/faca-parte.md');
@@ -67,8 +67,6 @@ const fazerAcontecerHref = `mailto:${site.email}?subject=Fazer%20Acontecer&body=
 
 // "Fale com a gente!" — old link went through google.com/url to Instagram
 // (with an ?igsh= share parameter, dropped); use the profile from site.ts.
-const instagram = site.social.find((s) => s.icon === 'instagram');
-const instagramHref = instagram?.href ?? 'https://www.instagram.com/fablabjoinville';
 
 const contribua = [
   {
@@ -155,7 +153,7 @@ const contribua = [
         size="lg"
         icon="instagram"
         iconRight="arrow-up-right"
-        href={instagramHref}
+        href={instagramUrl}
         target="_blank"
         rel="noopener noreferrer"
         data-track="instagram"
