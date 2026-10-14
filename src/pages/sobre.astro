@@ -7,7 +7,7 @@
  * Intentional drops: scripts/migration/parity-exclusions/sobre.json.
  */
 import BaseLayout from '@/components/layout/BaseLayout.astro';
-import { CardGrid, LogoGrid, PageHeader, PersonCard, Photo, Picture, Prose, Section } from '@/components/sections';
+import { CardGrid, LogoGrid, PageHeader, PersonCard, Photo, Prose, Section } from '@/components/sections';
 import { Button } from '@/components/ui';
 import { site } from '@/data/site';
 import { getSorted } from '@/lib/content-guard';
@@ -16,16 +16,14 @@ import { getEntry } from 'astro:content';
 import mapaSrc from '@/assets/old-site/sobre/rede-fablabs-mapa.jpg';
 import associacao1Src from '@/assets/old-site/sobre/associacao-1.jpg';
 import associacao2Src from '@/assets/old-site/sobre/associacao-2.jpg';
-import simboloSrc from '@/assets/old-site/sobre/marca-simbolo-3d.png';
 
 const PERSON_SIZES = '(min-width: 75em) 17rem, (min-width: 60em) 30vw, (min-width: 40em) 50vw, 100vw';
 
-const [page, mapa, associacao1, associacao2, simbolo, team, sponsors] = await Promise.all([
+const [page, mapa, associacao1, associacao2, team, sponsors] = await Promise.all([
   getEntry('pages', 'sobre'),
   img(mapaSrc, { sizes: SIZES.half }),
   img(associacao1Src, { sizes: SIZES.half }),
   img(associacao2Src, { sizes: SIZES.half }),
-  img(simboloSrc, { widths: [240, 480], sizes: '(min-width: 60em) 18rem, 50vw' }),
   getSorted('team').then((entries) =>
     Promise.all(
       entries.map(async ({ data }) => ({
@@ -49,8 +47,8 @@ const { title, description, eyebrow, lead, headerImage, headerImageAlt } = page.
 
 const banner = headerImage ? await img(headerImage, { sizes: SIZES.half }) : undefined;
 const equipe = team.filter((p) => p.group === 'equipe');
-const diretivo = team.filter((p) => p.group === 'diretivo');
-const fiscal = team.filter((p) => p.group === 'fiscal');
+// Board first, then the fiscal council, in one grid.
+const conselhos = [...team.filter((p) => p.group === 'diretivo'), ...team.filter((p) => p.group === 'fiscal')];
 
 const principios = [
   'Autonomia (liberdade + responsabilidade)',
@@ -90,7 +88,7 @@ const jsonLd = {
     {/* TODO(old-site): botão "Projeto Joinville Fab Lab" (Google Doc 1Co9vjY1pBjMiAjQ-_GWoRedeoqgRNtLmYtBkqF-ZGSs) — documento excluído (HTTP 410); pedir substituto ao dono. */}
   </PageHeader>
 
-  <Section id="rede" eyebrow="Rede mundial" title="Uma rede de laboratórios">
+  <Section id="rede" title="Uma rede de laboratórios">
     <div class="sobre-split">
       <div class="sobre-split__text">
         <Prose>
@@ -137,7 +135,7 @@ const jsonLd = {
     </div>
   </Section>
 
-  <Section id="equipe" eyebrow="Quem faz acontecer" title="Nossa equipe" tone="paper">
+  <Section id="equipe" title="Nossa equipe" tone="paper">
     <CardGrid columns={4} as="ul">
       {
         equipe.map((p) => (
@@ -149,7 +147,7 @@ const jsonLd = {
     </CardGrid>
   </Section>
 
-  <Section id="associacao" eyebrow="Desde 2016" title="A associação">
+  <Section id="associacao" title="A associação">
     <div class="sobre-split">
       <div class="sobre-split__text">
         <Prose>
@@ -200,10 +198,10 @@ const jsonLd = {
     </div>
   </Section>
 
-  <Section id="conselho-diretivo" eyebrow="Governança" title="Conselho diretivo" tone="paper">
+  <Section id="conselhos" title="Conselho diretivo e fiscal" tone="paper">
     <CardGrid columns={4} as="ul">
       {
-        diretivo.map((p) => (
+        conselhos.map((p) => (
           <li>
             <PersonCard name={p.name} role={p.role} image={p.image} imageAlt={p.photoAlt} linkedin={p.linkedin} />
           </li>
@@ -212,64 +210,13 @@ const jsonLd = {
     </CardGrid>
   </Section>
 
-  <Section id="conselho-fiscal" eyebrow="Governança" title="Conselho fiscal">
-    <CardGrid columns={4} as="ul">
-      {
-        fiscal.map((p) => (
-          <li>
-            <PersonCard name={p.name} role={p.role} image={p.image} imageAlt={p.photoAlt} linkedin={p.linkedin} />
-          </li>
-        ))
-      }
-    </CardGrid>
-  </Section>
-
-  <Section id="patrocinadores" eyebrow="Quem apoia" title="Patrocinadores" tone="paper">
+  <Section id="patrocinadores" title="Nossos parceiros">
     <div class="sobre-sponsors">
-      <LogoGrid items={sponsors} label="Patrocinadores" />
+      <LogoGrid items={sponsors} label="Nossos parceiros" />
     </div>
   </Section>
 
-  <Section id="marca" eyebrow="Identidade" title="Nossa marca">
-    <div class="sobre-brand">
-      <div class="sobre-brand__mark">
-        <Picture
-          image={simbolo}
-          alt="Símbolo do Fab Lab Joinville: as letras F, L e J em azul-marinho, sobrepostas em camadas deslocadas com efeito 3D."
-          className="sobre-brand__img"
-        />
-      </div>
-      <div class="sobre-brand__body">
-        <dl class="sobre-brand__list">
-          <div class="sobre-brand__item">
-            <dt>O que somos</dt>
-            <dd>
-              O Fab Lab é um ambiente aberto e acolhedor para grupos de conhecimento diversos se reunirem e trabalharem
-              de forma colaborativa em projetos relevantes para a comunidade.
-            </dd>
-          </div>
-          <div class="sobre-brand__item">
-            <dt>Para quem somos</dt>
-            <dd>
-              O Fab Lab é para todas as pessoas, para pessoas curiosas e insatisfeitas com o ordinário, pessoas que
-              ativamente compartilham conhecimento e resolvem problemas de forma colaborativa e inclusiva.
-            </dd>
-          </div>
-          <div class="sobre-brand__item">
-            <dt>Cultura</dt>
-            <dd>
-              O Fab Lab preza pela atitude e iniciativa individual de fazer, aprender e compartilhar o conhecimento
-              adquirido. Nós não nos rendemos as barreiras encontradas no caminho e acreditamos que todo desafio pode
-              ser uma oportunidade para ir ainda mais longe.
-            </dd>
-          </div>
-        </dl>
-        <p class="sobre-brand__manifesto">Nós somos inevitáveis, nós somos imparáveis, nós somos makers.</p>
-      </div>
-    </div>
-  </Section>
-
-  <Section id="principios" eyebrow="No que acreditamos" title="Nossos princípios!" tone="inverse">
+  <Section id="principios" title="Nossos princípios!" tone="inverse">
     <div class="sobre-principles">
       <div class="sobre-principles__text">
         <p>
@@ -328,74 +275,14 @@ const jsonLd = {
     outline-offset: var(--space-2);
   }
 
+  /* Short enough for one line; lift the default 24ch title measure. */
+  :global(#conselhos .flj-section__title) {
+    max-width: none;
+  }
+
   .sobre-photos {
     display: grid;
     gap: var(--space-7);
-  }
-
-  /* Nossa marca */
-  .sobre-brand {
-    display: grid;
-    gap: var(--space-7);
-    align-items: start;
-  }
-
-  @media (min-width: 60em) {
-    .sobre-brand {
-      grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
-      gap: var(--space-9);
-    }
-  }
-
-  .sobre-brand__mark {
-    max-width: 12rem;
-  }
-
-  @media (min-width: 60em) {
-    .sobre-brand__mark {
-      max-width: none;
-    }
-  }
-
-  .sobre-brand__mark :global(.sobre-brand__img) {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-
-  .sobre-brand__list {
-    display: grid;
-    gap: var(--space-6);
-    margin: 0;
-  }
-
-  .sobre-brand__item {
-    padding-top: var(--space-5);
-    border-top: var(--border-w) solid var(--border-default);
-  }
-
-  .sobre-brand__item dt {
-    font: var(--type-h3);
-    color: var(--text-strong);
-  }
-
-  .sobre-brand__item dd {
-    max-width: 62ch;
-    margin: var(--space-3) 0 0;
-    font: var(--type-body-lg);
-    color: var(--text-body);
-  }
-
-  .sobre-brand__manifesto {
-    margin-top: var(--space-7);
-    padding: var(--space-5) var(--space-6);
-    font: var(--type-h2);
-    font-size: var(--fs-24);
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-    color: var(--text-inverse);
-    background: var(--surface-inverse);
-    box-shadow: var(--shadow-offset-accent);
   }
 
   /* Nossos princípios (navy band) */

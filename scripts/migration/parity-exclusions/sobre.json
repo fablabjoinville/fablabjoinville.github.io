@@ -3,5 +3,45 @@
     "text": "Projeto Joinville Fab Lab",
     "reason": "dead-link",
     "note": "Hero button to Google Doc 1Co9vjY1pBjMiAjQ-_GWoRedeoqgRNtLmYtBkqF-ZGSs returns HTTP 410 (deleted). Dropped with a TODO(old-site) comment in src/pages/sobre.astro; ask the owner for a replacement."
+  },
+  {
+    "text": "Para quem somos",
+    "reason": "other",
+    "note": "Section \"Nossa marca\" (brand symbol, O que somos / Para quem somos / Cultura, manifesto) removed at the owner's request (2026-10-14)."
+  },
+  {
+    "text": "O Fab Lab é um ambiente aberto e acolhedor para grupos de conhecimento diversos se reunirem e trabalharem de forma colaborativa em projetos relevantes para a comunidade",
+    "reason": "other",
+    "note": "Section \"Nossa marca\" (brand symbol, O que somos / Para quem somos / Cultura, manifesto) removed at the owner's request (2026-10-14)."
+  },
+  {
+    "text": "O Fab Lab é para todas as pessoas, para pessoas curiosas e insatisfeitas com o ordinário, pessoas que ativamente compartilham conhecimento e resolvem problemas de forma colaborativa e inclusiva",
+    "reason": "other",
+    "note": "Section \"Nossa marca\" (brand symbol, O que somos / Para quem somos / Cultura, manifesto) removed at the owner's request (2026-10-14)."
+  },
+  {
+    "text": "O Fab Lab preza pela atitude e iniciativa individual de fazer, aprender e compartilhar o conhecimento adquirido",
+    "reason": "other",
+    "note": "Section \"Nossa marca\" (brand symbol, O que somos / Para quem somos / Cultura, manifesto) removed at the owner's request (2026-10-14)."
+  },
+  {
+    "text": "Nós não nos rendemos as barreiras encontradas no caminho e acreditamos que todo desafio pode ser uma oportunidade para ir ainda mais longe",
+    "reason": "other",
+    "note": "Section \"Nossa marca\" (brand symbol, O que somos / Para quem somos / Cultura, manifesto) removed at the owner's request (2026-10-14)."
+  },
+  {
+    "text": "Nós somos inevitáveis, nós somos imparáveis, nós somos makers",
+    "reason": "other",
+    "note": "Section \"Nossa marca\" (brand symbol, O que somos / Para quem somos / Cultura, manifesto) removed at the owner's request (2026-10-14)."
+  },
+  {
+    "text": "Patrocinadores",
+    "reason": "other",
+    "note": "Heading renamed to \"Nossos parceiros\" at the owner's request (2026-10-14)."
+  },
+  {
+    "text": "CONSELHO FISCAL",
+    "reason": "other",
+    "note": "\"Conselho diretivo\" and \"Conselho fiscal\" merged into one section, \"Conselho diretivo e fiscal\", at the owner's request (2026-10-14)."
   }
 ]

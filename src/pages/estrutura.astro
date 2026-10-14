@@ -1,8 +1,10 @@
 ---
 /**
- * /estrutura — "Nossa estrutura" (migrated from the old Google Sites page).
+ * /estrutura — "Infraestrutura" (migrated from the old Google Sites page).
  *
- * Copy: header + intro in src/content/pages/estrutura.md, the six resources in
+ * Order: resources, testimonial, closing CTA. The old intro ("Associação sem fins
+ * lucrativos") was removed at the owner's request.
+ * Copy: header in src/content/pages/estrutura.md, the six resources in
  * src/content/resources.yaml, testimonial and closing CTA below (all verbatim
  * pt-BR from scripts/migration/old-site.json). Intentional edits are listed in
  * scripts/migration/parity-exclusions/estrutura.json.
@@ -16,7 +18,7 @@ import { loadPage } from '@/lib/page';
 import ctaPhoto from '@/assets/old-site/estrutura/cta-criancas-construindo.jpg';
 import joaoPhoto from '@/assets/old-site/estrutura/depoimento-joao-pedro-golynski.jpg';
 
-const [{ entry: page, data, headerImg }, joaoImg, ctaImg, resources] = await Promise.all([
+const [{ data, headerImg }, joaoImg, ctaImg, resources] = await Promise.all([
   loadPage('estrutura'),
   img(joaoPhoto, { widths: [160, 320], sizes: '5rem' }),
   img(ctaPhoto, { sizes: SIZES.full }),
@@ -48,20 +50,7 @@ const testimonialHtml = [
 <BaseLayout title={title} description={description} image={headerImage} imageAlt={headerImageAlt}>
   <PageHeader eyebrow={eyebrow} title={title} lead={lead} image={headerImg} imageAlt={headerImageAlt} />
 
-  <Section id="proposito" eyebrow="Associação sem fins lucrativos" narrow>
-    <Prose html={page.rendered?.html ?? ''} />
-  </Section>
-
-  <Section id="depoimento" eyebrow="Quem constrói com a gente" title="Depoimento: João Pedro Golynski" tone="muted">
-    <Testimonial
-      html={testimonialHtml}
-      name="João Pedro Golynski"
-      image={joaoImg}
-      imageAlt="Retrato de João Pedro Golynski"
-    />
-  </Section>
-
-  <Section id="recursos" eyebrow="Recursos" title="Temos uma estrutura para viabilizar suas ideias!" tone="paper">
+  <Section id="recursos" eyebrow="Recursos" title="Temos os equipamentos para tirar suas ideias do papel!" tone="paper">
     <CardGrid as="ul" columns={3}>
       {
         resources.map((r) => (
@@ -73,6 +62,15 @@ const testimonialHtml = [
         ))
       }
     </CardGrid>
+  </Section>
+
+  <Section id="depoimento" eyebrow="Quem constrói com a gente" title="Depoimento: João Pedro Golynski" tone="muted">
+    <Testimonial
+      html={testimonialHtml}
+      name="João Pedro Golynski"
+      image={joaoImg}
+      imageAlt="Retrato de João Pedro Golynski"
+    />
   </Section>
 
   <Section
@@ -98,6 +96,18 @@ const testimonialHtml = [
 </BaseLayout>
 
 <style is:global>
+  /* The resources title is long; let it run the full width so it fits on one line on desktop. */
+  #recursos .flj-section__heading,
+  #recursos .flj-section__title {
+    max-width: none;
+  }
+
+  @media (min-width: 75em) {
+    #recursos .flj-section__title {
+      font-size: var(--fs-32);
+    }
+  }
+
   /* Resource bodies use the card's own text style (Prose defaults to body-lg). */
   .flj-prose.estrutura-recurso__text {
     max-width: none;

@@ -4,8 +4,7 @@
  *
  * A full-bleed, flat (no overlay) lab photo sits right under the site header; a
  * white panel with a chamfered corner and a hard navy offset shadow overlaps it
- * bottom-left with the h1, lead and CTAs. A ruled "visit" strip (hours, place,
- * social links from site.ts) fills the space to the right on desktop. Below
+ * bottom-left with the h1, lead, CTAs and the social links from site.ts. Below
  * 64em the photo stacks above the panel. Static, no client JS.
  *
  * Props
@@ -33,8 +32,6 @@ export interface Props {
 }
 
 const { image, imageAlt, caption, imagePosition = '55% 40%', lead, id = 'hero-titulo' } = Astro.props;
-const hours = site.hours[0];
-const place = site.address.building.split(',')[0];
 ---
 
 <section class="photohero photohero-hero" aria-labelledby={id}>
@@ -63,44 +60,25 @@ const place = site.address.building.split(',')[0];
               <slot name="actions" />
             </div>
           )}
+          <ul class="photohero-social" role="list" aria-label="Redes sociais">
+            {
+              site.social.map((s) => (
+                <li>
+                  <IconButton
+                    icon={s.icon}
+                    label={s.label}
+                    variant="secondary"
+                    href={s.href}
+                    target="_blank"
+                    data-track={`hero-${s.name.toLowerCase()}`}
+                  />
+                </li>
+              ))
+            }
+          </ul>
         </div>
       </div>
     </div>
-
-    <aside class="photohero-meta" aria-label="Visite o Fab Lab">
-      <dl class="photohero-facts">
-        <div class="photohero-fact">
-          <dt class="photohero-fact__label">Horário</dt>
-          <dd class="photohero-fact__value">
-            <a href="#contato">
-              {hours.days} · <span class="photohero-mono">{hours.time}</span>
-            </a>
-          </dd>
-        </div>
-        <div class="photohero-fact">
-          <dt class="photohero-fact__label">Onde</dt>
-          <dd class="photohero-fact__value">
-            <a href="#contato">{place} · {site.address.city}/{site.address.state}</a>
-          </dd>
-        </div>
-      </dl>
-      <ul class="photohero-social" role="list" aria-label="Redes sociais">
-        {
-          site.social.map((s) => (
-            <li>
-              <IconButton
-                icon={s.icon}
-                label={s.label}
-                variant="secondary"
-                href={s.href}
-                target="_blank"
-                data-track={`hero-${s.name.toLowerCase()}`}
-              />
-            </li>
-          ))
-        }
-      </ul>
-    </aside>
   </div>
 </section>
 
@@ -159,12 +137,10 @@ const place = site.address.building.split(',')[0];
     color: var(--text-accent);
   }
 
-  /* ---------- Stage: panel + info strip ---------- */
+  /* ---------- Stage: panel overlapping the photo ---------- */
   .photohero-stage {
     position: relative;
     z-index: 1;
-    display: grid;
-    gap: var(--space-7);
     margin-top: calc(-1 * var(--photohero-overlap));
   }
 
@@ -249,64 +225,11 @@ const place = site.address.building.split(',')[0];
     flex: 1 1 auto;
   }
 
-  /* Info strip: ruled "bench" rows + social links. */
-  .photohero-meta {
-    display: grid;
-    gap: var(--space-5);
-  }
-
-  .photohero-facts {
-    display: grid;
-    margin: 0;
-  }
-
-  .photohero-fact {
-    display: grid;
-    gap: var(--space-1);
-    padding: var(--space-3) 0;
-    border-top: var(--border-w) solid var(--border-default);
-  }
-
-  .photohero-fact:last-child {
-    border-bottom: var(--border-w) solid var(--border-default);
-  }
-
-  .photohero-fact__label {
-    font: var(--type-label);
-    letter-spacing: var(--ls-label);
-    text-transform: uppercase;
-    color: var(--text-subtle);
-  }
-
-  .photohero-fact__label::before {
-    content: '// ';
-  }
-
-  .photohero-fact__value a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .photohero-fact__value a:hover {
-    color: var(--brand-accent-hover);
-  }
-
-  .photohero-fact__value {
-    margin: 0;
-    font: var(--type-body);
-    font-weight: var(--fw-medium);
-    color: var(--text-body);
-  }
-
-  .photohero-mono {
-    font-family: var(--font-mono);
-    font-size: var(--fs-14);
-  }
-
   .photohero-social {
     display: flex;
+    flex-wrap: wrap;
     gap: var(--space-2);
-    margin: 0;
+    margin: var(--space-6) 0 0;
     padding: 0;
     list-style: none;
   }
@@ -347,41 +270,6 @@ const place = site.address.building.split(',')[0];
     .photohero-caption {
       top: var(--space-6);
       right: max(var(--gutter), calc((100% - var(--container)) / 2 + var(--gutter)));
-    }
-
-    .photohero-stage {
-      grid-template-columns: minmax(0, 46rem) minmax(15rem, 1fr);
-      grid-template-rows: var(--photohero-overlap) auto;
-      column-gap: var(--space-7);
-      row-gap: 0;
-    }
-
-    /* Panel stretches to the bottom of the info column (hours/place/social). */
-    .photohero-panel {
-      grid-column: 1;
-      grid-row: 1 / span 2;
-      display: flex;
-      margin-right: 0;
-    }
-
-    .photohero-panel__frame {
-      display: flex;
-      flex: 1;
-    }
-
-    .photohero-panel__body {
-      display: flex;
-      flex: 1;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    /* Sits in the white band under the photo, right of the panel. */
-    .photohero-meta {
-      grid-column: 2;
-      grid-row: 2;
-      align-self: start;
-      padding-top: var(--space-6);
     }
   }
 </style>
