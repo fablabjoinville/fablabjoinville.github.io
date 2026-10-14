@@ -1,7 +1,7 @@
 # Fab Lab Joinville — website
 
-Source of **[fablabjoinville.github.io](https://fablabjoinville.github.io)**, the public website of the
-Fab Lab Joinville (future domain: www.fablabjoinville.com.br).
+Source of **[www.fablabjoinville.com.br](https://www.fablabjoinville.com.br)**, the public website of the
+Fab Lab Joinville, served by GitHub Pages from this repository.
 
 Static site built with [Astro](https://astro.build) + React islands, styled with the
 **Fab Lab Joinville Design System** (from Claude Design), deployed to GitHub Pages and monitored
@@ -152,11 +152,19 @@ sends a check-in to the Sentry cron monitor `site-daily-rebuild`; create that mo
 
 Repository settings: Pages source = **GitHub Actions**; secret `SENTRY_AUTH_TOKEN`.
 
-### Custom domain (pending)
+### Custom domain
 
-To serve www.fablabjoinville.com.br: point the `www` DNS record (Cloudflare) to
-`fablabjoinville.github.io`, set the custom domain in the repository Pages settings, and change
-`site` in `astro.config.mjs` and `url` in `src/data/site.ts` to the new domain.
+The site is served at www.fablabjoinville.com.br. The domain is registered at registro.br, but its
+DNS is managed in Cloudflare (nameservers `*.ns.cloudflare.com`). Records:
+
+- `www` CNAME `fablabjoinville.github.io`, DNS only (grey cloud).
+- Apex `@` A `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`, DNS only.
+  GitHub redirects the apex to `www`.
+- Keep the Google Workspace MX records and the `wiki` record (the `wiki` repo) as they are.
+
+The custom domain is set in the repository Pages settings (`public/CNAME` mirrors it; Actions
+deploys ignore that file). `site` in `astro.config.mjs` and `url` in `src/data/site.ts` must match it.
+If the Cloudflare proxy is turned on, use SSL mode Full (strict), never Flexible.
 
 ## Migration from the old site
 

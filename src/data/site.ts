@@ -67,8 +67,8 @@ const data = {
   siteTitle: 'FabLab Joinville',
   description:
     'Laboratório de fabricação digital aberto e sem fins lucrativos em Joinville/SC: impressão 3D, corte a laser, CNC, eletrônica e robótica. Oficinas, eventos e projetos.',
-  // Keep in sync with `site` in astro.config.mjs (switch at the DNS cutover).
-  url: 'https://fablabjoinville.github.io',
+  // Keep in sync with `site` in astro.config.mjs.
+  url: 'https://www.fablabjoinville.com.br',
   email: 'contato@fablabjoinville.com.br',
   address: {
     building: 'Ágora Tech Park, Prédio Ágora Uni, Térreo',

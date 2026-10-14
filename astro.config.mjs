@@ -10,8 +10,8 @@ import sentry from '@sentry/astro';
 // https://astro.build/config
 export default defineConfig({
   // Org user-site repo (<org>.github.io) is served at the root, so no `base`.
-  // Switch to https://www.fablabjoinville.com.br at the DNS cutover.
-  site: 'https://fablabjoinville.github.io',
+  // Custom domain is set in the repo Pages settings; public/CNAME mirrors it.
+  site: 'https://www.fablabjoinville.com.br',
   redirects: {
     '/home': '/',
     '/faça-parte': '/faca-parte',
